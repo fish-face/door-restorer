@@ -11,7 +11,7 @@ def load_level(game, filename):
     config = ConfigParser()
     try:
         config.read(filename)
-        raw = [line.rstrip('\n') for line in open(filename, 'r', encoding='utf-8')]
+        raw = [line.rstrip('\r\n') for line in open(filename, 'r', encoding='utf-8')]
     except IOError:
         return None
 
