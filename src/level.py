@@ -184,9 +184,6 @@ class Level:
         if location:
             self[location].append(obj)
             self[location].sort(key=lambda x: x.z)
-            for thing in self[location][::-1]:
-                if thing != obj and thing.arrived(obj):
-                    break
 
     def get_tile(self, x, y):
         """Return all the stuff at the given location"""

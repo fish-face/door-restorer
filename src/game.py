@@ -1,5 +1,10 @@
 ### The World knows about the map, terrain, objects, etc.
 
+STATE_NORMAL = 0
+STATE_PICK = 1
+
+UP, DOWN, LEFT, RIGHT = 0, 1, 2, 3
+
 import sys
 import pygame
 from collections import defaultdict
@@ -7,11 +12,6 @@ from collections import defaultdict
 from renderer import Renderer
 from levelloader import load_level
 from player import Player
-
-STATE_NORMAL = 0
-STATE_PICK = 1
-
-UP, DOWN, LEFT, RIGHT = 0, 1, 2, 3
 
 
 UP_KEYS = (pygame.K_UP, pygame.K_w, pygame.K_k)
@@ -52,8 +52,8 @@ class Game:
             return False
 
         if obj.flag('door'):
-            for thing in tile[:0:-1]:
-                if thing.flag('door'):
+            for thing in tile:
+                if thing.block_door:
                     return False
             return True
 
@@ -146,6 +146,16 @@ class Game:
                 newloc[1] += 1
             newloc = tuple(newloc)
 
+            if newloc != self.player.location:
+                if self.can_move_to(self.player, newloc):
+                    self.player.location = newloc
+                    took_turn = True
+                else:
+                    for thing in self.level[newloc]:
+                        if thing.bumped(self.player):
+                            took_turn = True
+                            break
+
             if e.key in PICKUP_KEYS:
                 for obj in self.get_objects_at(self.player.location):
                     if self.player.add(obj):
@@ -160,15 +170,6 @@ class Game:
             elif e.key in THROW_KEYS:
                 self.pick_direction(self.throw)
 
-            elif newloc != self.player.location:
-                if self.can_move_to(self.player, newloc):
-                    self.player.location = newloc
-                    took_turn = True
-                else:
-                    for thing in self.level[newloc]:
-                        if thing.bumped(self.player):
-                            took_turn = True
-                            break
         return took_turn
 
     def pick_direction(self, handler):
@@ -197,23 +198,7 @@ class Game:
         self.player_turn = True
 
         for obj in self.level.objects:
-            if obj.move_turns:
-                obj.move_turns -= 1
-
-                newloc = list(obj.location)
-                if obj.move_dir == UP:
-                    newloc[1] -= 1
-                elif obj.move_dir == DOWN:
-                    newloc[1] += 1
-                elif obj.move_dir == LEFT:
-                    newloc[0] -= 1
-                elif obj.move_dir == RIGHT:
-                    newloc[0] += 1
-
-                newloc = tuple(newloc)
-
-                if self.can_move_to(obj, newloc):
-                    obj.location = newloc
+            if obj.resolve_movement():
                 self.player_turn = False
 
         self.player.update_fov()

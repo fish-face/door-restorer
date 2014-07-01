@@ -1,4 +1,5 @@
 ### Contains definition of Game Objects
+from game import UP, DOWN, LEFT, RIGHT
 
 
 class GameObject(object):
@@ -20,10 +21,12 @@ class GameObject(object):
         self.char = char
         self.block_sight = False
         self.block_move = False
+        self.block_door = False
 
         self.mass = 1
         self.move_dir = None
         self.move_turns = 0
+        self.move_to = None
 
         self.moved_cbs = []
         self.added_cbs = []
@@ -53,6 +56,10 @@ class GameObject(object):
         self.level.move_object(self, value)
 
         self._location = value
+        if value:
+            for thing in self.level[value][::-1]:
+                if thing != self and thing.arrived(self):
+                    break
         self.on_moved()
 
     @property
@@ -109,6 +116,49 @@ class GameObject(object):
         """Something else arrived on the same square as us. Return False to let other objects be landed on."""
         return False
 
+    def resolve_movement(self):
+        """Resolves queued movement and return True if any happened"""
+        if self.move_to:
+            # Have to muck about in case moving ourselves also sets a move_to
+            _move_to = self.move_to
+            self.move_to = None
+            self.location = _move_to
+            return True
+        elif self.move_turns > 0:
+            self.move_turns -= 1
+
+            newloc = list(self.location)
+            if self.move_dir == UP:
+                newloc[1] -= 1
+            elif self.move_dir == DOWN:
+                newloc[1] += 1
+            elif self.move_dir == LEFT:
+                newloc[0] -= 1
+            elif self.move_dir == RIGHT:
+                newloc[0] += 1
+
+            newloc = tuple(newloc)
+
+            if self.game.can_move_to(self, newloc):
+                self.location = newloc
+
+            return True
+
+        return False
+
+    def shove(self, magnitude, direction):
+        newloc = list(self.location)
+        if direction == UP:
+            newloc[1] -= magnitude
+        elif direction == DOWN:
+            newloc[1] += magnitude
+        elif direction == LEFT:
+            newloc[0] -= magnitude
+        elif direction == RIGHT:
+            newloc[0] += magnitude
+
+        self.move_to = tuple(newloc)
+
     def impulse(self, magnitude, direction):
         self.move_dir = direction
         self.move_turns = magnitude / self.mass
@@ -155,6 +205,7 @@ class Door(GameObject):
 
         self.tileindex = (0,0)
         self.locked = False
+        self.block_door = True
         self.close()
         self.z = 5
 

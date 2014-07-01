@@ -11,7 +11,7 @@ def load_level(game, filename):
     config = ConfigParser()
     try:
         config.read(filename)
-        raw = [line.rstrip() for line in open(filename, 'r', encoding='utf-8')]
+        raw = [line.rstrip('\n') for line in open(filename, 'r', encoding='utf-8')]
     except IOError:
         return None
 
@@ -21,7 +21,7 @@ def load_level(game, filename):
         if started:
             if line:
                 terrain.append(line)
-        elif line == u'[Terrain]':
+        elif line == u'terrain = ':
             started = True
     if not started:
         print 'Level %s has no Terrain section' % filename
@@ -82,13 +82,14 @@ def load_level(game, filename):
 
 
 class Terrain:
-    def __init__(self, char, name, index, block_move, block_sight, **kwargs):
+    def __init__(self, char, name, index, block_move, block_sight, block_door=False, **kwargs):
         self.char = char
         self.name = name
         self.tiletype = 0
         self.tileindex = index
         self.block_move = block_move
         self.block_sight = block_sight
+        self.block_door = block_door
         self.z = 0
 
         for key in kwargs:
@@ -108,8 +109,10 @@ class Terrain:
 class PlayerConveyor(Terrain):
     def arrived(self, other):
         Terrain.arrived(self, other)
+        print other, other.location
         if not isinstance(other, Door):
-            other.impulse(1*other.mass, self.direction)
+            other.shove(1, self.direction)
+            #other.impulse(1*other.mass, self.direction)
 
 
 class Goal(Terrain):
@@ -125,6 +128,7 @@ UP, DOWN, LEFT, RIGHT = 0, 1, 2, 3
 
 wall = Terrain('#', 'wall', (0,0), True, True)
 floor = Terrain(u'.', 'floor', (1,0), False, False)
+space = Terrain(' ', 'space', (2,0), True, False, True)
 goal = Goal()
 walldown = PlayerConveyor('v', 'wall', (0,1), True, True, direction=DOWN)
 wallup = PlayerConveyor('^', 'wall', (0,1), True, True, direction=UP)
