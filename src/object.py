@@ -127,17 +127,7 @@ class GameObject(object):
         elif self.move_turns > 0:
             self.move_turns -= 1
 
-            newloc = list(self.location)
-            if self.move_dir == UP:
-                newloc[1] -= 1
-            elif self.move_dir == DOWN:
-                newloc[1] += 1
-            elif self.move_dir == LEFT:
-                newloc[0] -= 1
-            elif self.move_dir == RIGHT:
-                newloc[0] += 1
-
-            newloc = tuple(newloc)
+            newloc = self.game.coords_in_dir(self.location, self.move_dir, 1)
 
             if self.game.can_move_to(self, newloc):
                 self.location = newloc
@@ -147,17 +137,7 @@ class GameObject(object):
         return False
 
     def shove(self, magnitude, direction):
-        newloc = list(self.location)
-        if direction == UP:
-            newloc[1] -= magnitude
-        elif direction == DOWN:
-            newloc[1] += magnitude
-        elif direction == LEFT:
-            newloc[0] -= magnitude
-        elif direction == RIGHT:
-            newloc[0] += magnitude
-
-        self.move_to = tuple(newloc)
+        self.location = self.game.coords_in_dir(self.location, direction, magnitude)
 
     def impulse(self, magnitude, direction):
         self.move_dir = direction
@@ -237,17 +217,14 @@ class Door(GameObject):
                 if self.key and self.key in other:
                     #self.game.describe('%s unlocked %s' % (other.definite(), self.definite()))
                     self.locked = False
+                    return True
                 else:
                     pass
                     #self.game.describe('%s is locked' % (self.definite()))
-            else:
+            elif self.level[self.location][0].block_move:
                 #self.game.describe('%s opened %s' % (other.definite(), self.definite()))
-                self.block_move = False
-                self.block_sight = False
-                self.char = 'o'
-                self.tileindex = (1,0)
                 self.open()
-            return True
+                return True
 
         return False
 

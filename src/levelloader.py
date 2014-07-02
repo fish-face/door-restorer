@@ -90,6 +90,7 @@ class Terrain:
         self.block_move = block_move
         self.block_sight = block_sight
         self.block_door = block_door
+        self.pickup = False
         self.z = 0
 
         for key in kwargs:
@@ -109,11 +110,15 @@ class Terrain:
 class PlayerConveyor(Terrain):
     def arrived(self, other):
         Terrain.arrived(self, other)
-        print other, other.location
         if not isinstance(other, Door):
             other.shove(1, self.direction)
             #other.impulse(1*other.mass, self.direction)
 
+
+class Pickup(Terrain):
+    def __init__(self):
+        Terrain.__init__(self, u'·', 'pickup', (1,0), False, False)
+        self.pickup = True
 
 class Goal(Terrain):
     def __init__(self):
@@ -128,6 +133,7 @@ UP, DOWN, LEFT, RIGHT = 0, 1, 2, 3
 
 wall = Terrain('#', 'wall', (0,0), True, True)
 floor = Terrain(u'.', 'floor', (1,0), False, False)
+pickup = Pickup()
 space = Terrain(' ', 'space', (2,0), True, False, True)
 goal = Goal()
 walldown = PlayerConveyor('v', 'wall', (0,1), True, True, direction=DOWN)

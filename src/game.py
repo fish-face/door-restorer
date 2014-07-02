@@ -19,6 +19,9 @@ DOWN_KEYS = (pygame.K_DOWN, pygame.K_s, pygame.K_j)
 LEFT_KEYS = (pygame.K_LEFT, pygame.K_a, pygame.K_h)
 RIGHT_KEYS = (pygame.K_RIGHT, pygame.K_d, pygame.K_l)
 
+DIR_MAP = dict((k, d) for keys, d in ((UP_KEYS, UP), (DOWN_KEYS, DOWN), (LEFT_KEYS, LEFT), (RIGHT_KEYS, RIGHT)) for k in keys)
+
+CLOSE_KEYS = (pygame.K_c,)
 PICKUP_KEYS = (pygame.K_RETURN, pygame.K_e, pygame.K_COMMA)
 THROW_KEYS = (pygame.K_SPACE, pygame.K_f, pygame.K_t)
 
@@ -76,6 +79,19 @@ class Game:
         else:
             return [obj for obj in self.level[location][1:] if test(obj)]
 
+    @staticmethod
+    def coords_in_dir(loc, dir, dist):
+        loc = list(loc)
+        if dir == LEFT:
+            loc[0] -= dist
+        elif dir == RIGHT:
+            loc[0] += dist
+        elif dir == UP:
+            loc[1] -= dist
+        elif dir == DOWN:
+            loc[1] += dist
+        return tuple(loc)
+
     def win(self):
         #self.describe("You win!")
         self.quitting = True
@@ -115,52 +131,73 @@ class Game:
         if took_turn or not self.player_turn:
             self.update()
 
+    def pickup(self, direction):
+        #for obj in self.get_objects_at(self.player.location):
+        #    if obj.flag(door):
+        #        # Doors can only be picked up from adjacent tiles
+        #        continue
+        #    if self.player.add(obj):
+        #        return True
+        pickup_loc = self.coords_in_dir(self.player.location, direction, 1)
+
+        success = False
+        for obj in self.get_objects_at(pickup_loc):
+            if obj.flag('door'):
+                if not obj.block_move:
+                    continue
+                if self.level[pickup_loc][0].block_move and not self.level[self.player.location][0].pickup:
+                    continue
+            if self.player.add(obj):
+                success = True
+
+        return success
+
+    def close(self, direction):
+        close_loc = self.coords_in_dir(self.player.location, direction, 1)
+        for obj in self.get_objects_at(close_loc):
+            if obj.flag('door'):
+                obj.close()
+                return True
+
     def throw(self, direction):
+        success = False
         for obj in self.player.contained:
             self.player.remove(obj)
             obj.impulse(3, direction)
             self.player_turn = False
+            success = True
             #self.player.throw(obj, direction)
         self.state = STATE_NORMAL
+        return success
 
     def keypressed(self, e):
         took_turn = False
         if self.state == STATE_PICK:
-            if e.key in LEFT_KEYS:
-                self.pick_direction_done(LEFT)
-            elif e.key in RIGHT_KEYS:
-                self.pick_direction_done(RIGHT)
-            elif e.key in UP_KEYS:
-                self.pick_direction_done(UP)
-            elif e.key in DOWN_KEYS:
-                self.pick_direction_done(DOWN)
+            try:
+                took_turn = self.pick_direction_done(DIR_MAP[e.key])
+            except KeyError:
+                pass
         elif self.state == STATE_NORMAL:
-            newloc = list(self.player.location)
-            if e.key in LEFT_KEYS:
-                newloc[0] -= 1
-            elif e.key in RIGHT_KEYS:
-                newloc[0] += 1
-            elif e.key in UP_KEYS:
-                newloc[1] -= 1
-            elif e.key in DOWN_KEYS:
-                newloc[1] += 1
-            newloc = tuple(newloc)
-
-            if newloc != self.player.location:
-                if self.can_move_to(self.player, newloc):
-                    self.player.location = newloc
-                    took_turn = True
-                else:
-                    for thing in self.level[newloc]:
-                        if thing.bumped(self.player):
-                            took_turn = True
-                            break
+            try:
+                newloc = self.coords_in_dir(self.player.location, DIR_MAP[e.key], 1)
+            except KeyError:
+                pass
+            else:
+                if newloc != self.player.location:
+                    if self.can_move_to(self.player, newloc):
+                        self.player.location = newloc
+                        took_turn = True
+                    else:
+                        for thing in self.level[newloc]:
+                            if thing.bumped(self.player):
+                                took_turn = True
+                                break
 
             if e.key in PICKUP_KEYS:
-                for obj in self.get_objects_at(self.player.location):
-                    if self.player.add(obj):
-                        #self.describe('You pick up %s' % obj.indefinite())
-                        took_turn = True
+                self.pick_direction(self.pickup)
+
+            if e.key in CLOSE_KEYS:
+                self.pick_direction(self.close)
 
             #elif e.key == pygame.K_d:
             #    for obj in self.player.contained:
@@ -179,7 +216,7 @@ class Game:
 
     def pick_direction_done(self, direction):
         self.state = STATE_NORMAL
-        self.pick_handler(direction)
+        return self.pick_handler(direction)
 
     def clicked(self, e):
         if e.button == 1:
