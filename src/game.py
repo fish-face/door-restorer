@@ -24,6 +24,9 @@ DIR_MAP = dict((k, d) for keys, d in ((UP_KEYS, UP), (DOWN_KEYS, DOWN), (LEFT_KE
 CLOSE_KEYS = (pygame.K_c,)
 PICKUP_KEYS = (pygame.K_RETURN, pygame.K_e, pygame.K_COMMA)
 THROW_KEYS = (pygame.K_SPACE, pygame.K_f, pygame.K_t)
+RESTART_KEYS = (pygame.K_r,)
+UNDO_KEYS = (pygame.K_u,)
+
 
 class Game:
     def __init__(self, screen):
@@ -33,7 +36,7 @@ class Game:
         self.state = STATE_NORMAL
         self.player_turn = True
 
-        pygame.key.set_repeat(1, 200)
+        pygame.key.set_repeat(1, 100)
 
         self.quitting = False
         self.renderer = Renderer()
@@ -97,6 +100,7 @@ class Game:
         self.quitting = True
 
     def start(self):
+        self.turn = -1
         if not self.quitting:
             self.update()
         while not self.quitting:
@@ -109,8 +113,8 @@ class Game:
         framerate = sum(self.framerates)/50.0
         self.process_events()
         self.renderer.render(self, self.screen)
-        self.screen.blit(self.font.render('%d fps' % framerate, True, (255,255,255)),
-                    (1, 1))
+        #self.screen.blit(self.font.render('%d fps' % framerate, True, (255,255,255)),
+        #            (1, 1))
         pygame.display.flip()
 
     def process_events(self):
@@ -199,6 +203,9 @@ class Game:
             if e.key in CLOSE_KEYS:
                 self.pick_direction(self.close)
 
+            if e.key in UNDO_KEYS:
+                self.undo()
+
             #elif e.key == pygame.K_d:
             #    for obj in self.player.contained:
             #        #self.describe('You drop %s' % obj.indefinite())
@@ -238,6 +245,23 @@ class Game:
             if obj.resolve_movement():
                 self.player_turn = False
 
+        if self.player_turn:
+            self.turn += 1
+
+        for obj in self.level.objects:
+            obj.record_state(self.turn)
+
         self.player.update_fov()
         self.renderer.render_level(self)
 
+    def undo(self):
+        if self.turn == 0:
+            return False
+
+        self.turn -= 1
+
+        for obj in self.level.objects:
+            obj.restore_state(self.turn)
+
+        self.player.update_fov()
+        self.renderer.render_level(self)

@@ -14,6 +14,8 @@ class Player(GameObject):
         self.block_move = True
         self.z = 20
 
+        self.track_properties += ('hp',)
+
         self.flags['player'] = True
 
     @property

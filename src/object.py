@@ -23,6 +23,9 @@ class GameObject(object):
         self.block_move = False
         self.block_door = False
 
+        self.history = []
+        self.track_properties = ('_location', 'container', 'contained', 'destroyed', 'flags', 'tileindex', 'char', 'block_sight', 'block_move', 'block_door', 'move_dir', 'move_turns', 'move_to')
+
         self.mass = 1
         self.move_dir = None
         self.move_turns = 0
@@ -116,6 +119,19 @@ class GameObject(object):
         """Something else arrived on the same square as us. Return False to let other objects be landed on."""
         return False
 
+    def record_state(self, index):
+        state = dict((key, getattr(self, key)) for key in self.track_properties)
+        state['contained'] = self.contained[:]
+        self.history = self.history[:index]
+        self.history.append(state)
+
+    def restore_state(self, index):
+        state = self.history[index]
+        for key, value in state.items():
+            if key == '_location':
+                self.level.move_object(self, value)
+            setattr(self, key, value)
+
     def resolve_movement(self):
         """Resolves queued movement and return True if any happened"""
         if self.move_to:
@@ -188,6 +204,8 @@ class Door(GameObject):
         self.block_door = True
         self.close()
         self.z = 5
+
+        self.track_properties += ('locked',)
 
         self.flags['door'] = True
 

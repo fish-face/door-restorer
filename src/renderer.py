@@ -31,6 +31,8 @@ class Renderer:
         #                                   sidebar.get_height()/2 - MARGIN/2)
 
         main_surface.blit(self.level_surf, (0, 0))
+        main_surface.blit(self.title_font.render(str(game.turn), True, (255,255,255)),
+                          (1, 1))
 
         self.render_messages(sidebar, game.messages)
 
