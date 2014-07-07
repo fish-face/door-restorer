@@ -106,7 +106,9 @@ class Game:
         self.quitting = True
 
     def start(self):
-        self.turn = -1
+        self.turn = 0
+        for obj in self.level.objects:
+            obj.record_state(self.turn)
         if not self.quitting:
             self.update()
         while not self.quitting:
@@ -135,8 +137,13 @@ class Game:
                     took_turn = self.keypressed(e)
                 elif e.type == pygame.MOUSEBUTTONUP:
                     took_turn = self.clicked(e)
-            else:
-                took_turn = True
+            #else:
+            #    took_turn = True
+
+        if took_turn:
+            self.turn += 1
+            for obj in self.level.objects:
+                obj.record_state(self.turn)
 
         if took_turn or not self.player_turn:
             self.update()
@@ -250,12 +257,6 @@ class Game:
         for obj in self.level.objects:
             if obj.resolve_movement():
                 self.player_turn = False
-
-        if self.player_turn:
-            self.turn += 1
-
-        for obj in self.level.objects:
-            obj.record_state(self.turn)
 
         self.player.update_fov()
         self.renderer.render_level(self)

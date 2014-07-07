@@ -131,6 +131,7 @@ class GameObject(object):
             if key == '_location':
                 self.level.move_object(self, value)
             setattr(self, key, value)
+        self.contained = state['contained'][:]
 
     def resolve_movement(self):
         """Resolves queued movement and return True if any happened"""
