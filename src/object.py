@@ -148,6 +148,9 @@ class GameObject(object):
 
             if self.game.can_move_to(self, newloc):
                 self.location = newloc
+            else:
+                self.move_turns = 0
+                self.location = self.location
 
             return True
 
