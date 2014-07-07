@@ -78,6 +78,4 @@ class Player(GameObject):
         return True
 
     def destroy(self):
-        # Override default behaviour; the player should never actually be destroyed
-        pass
-
+        GameObject.destroy(self)

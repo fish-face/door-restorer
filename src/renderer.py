@@ -47,8 +47,12 @@ class Renderer:
         h = surface.get_height()
         tw = self.tiles.tile_width
         th = self.tiles.tile_height
-        player_x = player.location[0]
-        player_y = player.location[1]
+        if player.destroyed:
+            player_x = 0
+            player_y = 0
+        else:
+            player_x = player.location[0]
+            player_y = player.location[1]
 
         player_view = pygame.Rect(0, 0, self.view_w * w, self.view_w * h)
         player_view.center = (player_x * tw, player_y * th)

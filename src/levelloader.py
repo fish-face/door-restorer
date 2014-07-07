@@ -115,6 +115,19 @@ class PlayerConveyor(Terrain):
             #other.impulse(1*other.mass, self.direction)
 
 
+class Pit(Terrain):
+    char = '_'
+    def __init__(self):
+        Terrain.__init__(self, ' ', 'pit', (1,0), False, False)
+        self.bgcolor = (10, 10, 10)
+        self.block_door = False
+
+    def arrived(self, other):
+        if other.move_turns > 0 or other.move_to:
+            return False
+
+        other.destroy()
+
 class Pickup(Terrain):
     char = ','
     def __init__(self):
@@ -137,6 +150,7 @@ wall = Terrain('#', 'wall', (0,0), True, True)
 floor = Terrain(u'.', 'floor', (1,0), False, False)
 pickup = Pickup()
 space = Terrain(' ', 'space', (2,0), True, False, True)
+pit = Pit()
 goal = Goal()
 walldown = PlayerConveyor('v', 'wall', (0,1), True, True, direction=DOWN)
 wallup = PlayerConveyor('^', 'wall', (0,1), True, True, direction=UP)

@@ -186,7 +186,8 @@ class GameObject(object):
         self.destroyed = True
 
         self.on_destroyed()
-        self.level.remove_object(self)
+        self.location = None
+        #self.level.remove_object(self)
 
     def __contains__(self, other):
         return other in self.contained

@@ -67,6 +67,9 @@ class Game:
             # If the terrain blocks movement, then, if there is a door in the tile, use its state
             for thing in tile[:0:-1]:
                 if thing.flag('door'):
+                    if obj.flag('player'):
+                        for c in obj.contained:
+                            if c.flag('door'): return False
                     return not thing.block_move
             return False
         else:
