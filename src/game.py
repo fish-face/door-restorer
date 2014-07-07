@@ -87,6 +87,9 @@ class Game:
 
     @staticmethod
     def coords_in_dir(loc, dir, dist):
+        if loc is None:
+            return None
+
         loc = list(loc)
         if dir == LEFT:
             loc[0] -= dist
