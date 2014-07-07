@@ -119,7 +119,7 @@ class Pit(Terrain):
     char = '_'
     def __init__(self):
         Terrain.__init__(self, ' ', 'pit', (1,0), False, False)
-        self.bgcolor = (10, 10, 10)
+        self.bgcolour = (40, 40, 40)
         self.block_door = False
 
     def arrived(self, other):
