@@ -209,6 +209,13 @@ class Door(GameObject):
 
         self.flags['door'] = True
 
+    @property
+    def colour(self):
+        if self.level[self.location][0].block_move:
+            return (255, 255, 0)
+        else:
+            return (255, 255, 255)
+
     def close(self):
         self.block_move = True
         self.block_sight = True

@@ -241,12 +241,15 @@ class AsciiTiles(Tileset):
 
     def __getitem__(self, thing):
         char = getattr(thing, 'char', '?')
-        if char not in self.cache:
-            rendered = self.font.render(char, True, (255,255,0))
-            self.cache[char] = pygame.surface.Surface((self.tile_width, self.tile_height))
-            self.cache[char].fill((64, 64, 64))
-            self.cache[char].blit(rendered, ((self.tile_width-rendered.get_width())/2,
+        colour = getattr(thing, 'colour', (255,255,255))
+        bgcolour = getattr(thing, 'bgcolour', (64,64,64))
+        key = (char, colour, bgcolour)
+        if key not in self.cache:
+            rendered = self.font.render(char, True, colour)
+            self.cache[key] = pygame.surface.Surface((self.tile_width, self.tile_height))
+            self.cache[key].fill(bgcolour)
+            self.cache[key].blit(rendered, ((self.tile_width-rendered.get_width())/2,
                                              (self.tile_height-rendered.get_height())/2))
-            #pygame.draw.rect(self.cache[char], (32,32,32), (0,0,self.tile_width, self.tile_height+1), 1)
+            #pygame.draw.rect(self.cache[key], (32,32,32), (0,0,self.tile_width, self.tile_height+1), 1)
 
-        return self.cache[char]
+        return self.cache[key]

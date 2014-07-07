@@ -116,8 +116,10 @@ class PlayerConveyor(Terrain):
 
 
 class Pickup(Terrain):
+    char = ','
     def __init__(self):
-        Terrain.__init__(self, u'·', 'pickup', (1,0), False, False)
+        Terrain.__init__(self, '.', 'pickup', (1,0), False, False)
+        self.bgcolour = (80, 80, 80)
         self.pickup = True
 
 class Goal(Terrain):
@@ -150,7 +152,10 @@ name = None
 obj = None
 for name, obj in locals().items():
     if isinstance(obj, Terrain):
-        TERRAINS[unicode(obj.char)] = obj
+        try:
+            TERRAINS[unicode(obj.__class__.char)] = obj
+        except AttributeError:
+            TERRAINS[unicode(obj.char)] = obj
     elif isinstance(obj, type) and issubclass(obj, GameObject) and obj is not GameObject:
         OBJECTS[name.lower()] = obj
 
