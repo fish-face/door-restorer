@@ -38,7 +38,6 @@ class Renderer:
 
     def render_level(self, game):
         # Calculate viewport
-        #TODO: receive surface in init?
         surface = self.level_surf
         level = game.level
         player = game.player
@@ -48,8 +47,8 @@ class Renderer:
         tw = self.tiles.tile_width
         th = self.tiles.tile_height
         if player.destroyed:
-            player_x = 0
-            player_y = 0
+            player_x = self.level.width/2.0
+            player_y = self.level.height/2.0
         else:
             player_x = player.location[0]
             player_y = player.location[1]
@@ -58,6 +57,7 @@ class Renderer:
         player_view.center = (player_x * tw, player_y * th)
 
         if not self.centre:
+            player_view.clamp_ip(0, 0, level.width * tw, level.height * th)
             self.centre = player_view.center
 
         view = pygame.Rect(0, 0, w, h)
@@ -69,6 +69,7 @@ class Renderer:
             view.right = max(view.right, player_view.right)
             view.top = min(view.top, player_view.top)
             view.bottom = max(view.bottom, player_view.bottom)
+            view.clamp_ip(0, 0, level.width * tw, level.height * th)
 
             self.centre = view.center
 
