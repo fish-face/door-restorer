@@ -19,6 +19,7 @@ class Renderer:
         self.font = pygame.font.SysFont('Deja Vu Sans Mono', 12)
         self.title_font = pygame.font.SysFont('Deja Vu Sans Mono', 18)
         self.centre = ()
+        self.view = None
 
     def render(self, game, surface):
         surface.fill((0, 0, 0))
@@ -47,31 +48,32 @@ class Renderer:
         tw = self.tiles.tile_width
         th = self.tiles.tile_height
         if player.destroyed:
-            player_x = self.level.width/2.0
-            player_y = self.level.height/2.0
+            player_x = level.width/2.0
+            player_y = level.height/2.0
         else:
             player_x = player.location[0]
             player_y = player.location[1]
 
-        player_view = pygame.Rect(0, 0, self.view_w * w, self.view_w * h)
+        player_view = pygame.Rect(0, 0, w * self.view_w, h * self.view_w)
         player_view.center = (player_x * tw, player_y * th)
+        player_view.clamp_ip(0, 0, level.width * tw, level.height * th)
+        #view = pygame.Rect(-player_view.left, -player_view.top, player_view.width, player_view.height)
+        if not self.view:
+            self.view = pygame.Rect(0, 0, w, h)
+            self.view.center = player_view.center
+            self.view.clamp_ip(0, 0, level.width * tw, level.height * th)
 
-        if not self.centre:
-            player_view.clamp_ip(0, 0, level.width * tw, level.height * th)
-            self.centre = player_view.center
+        if player_view.right > self.view.right:
+            self.view.right = player_view.right
+        elif player_view.left < self.view.left:
+            self.view.left = player_view.left
 
-        view = pygame.Rect(0, 0, w, h)
-        view.center = self.centre
+        if player_view.bottom > self.view.bottom:
+            self.view.bottom = player_view.bottom
+        elif player_view.top < self.view.top:
+            self.view.top = player_view.top
 
-        # Centre view on player
-        if not view.contains(player_view):
-            view.left = min(view.left, player_view.left)
-            view.right = max(view.right, player_view.right)
-            view.top = min(view.top, player_view.top)
-            view.bottom = max(view.bottom, player_view.bottom)
-            view.clamp_ip(0, 0, level.width * tw, level.height * th)
-
-            self.centre = view.center
+        view = self.view
 
         surface.fill((0,0,0))
         # Calculate visible tiles
