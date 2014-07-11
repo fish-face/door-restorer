@@ -65,7 +65,7 @@ class Player(GameObject):
         if other == self:
             return False
 
-        if self.contained:
+        if self.contained or self.game.get_objects_at(self.location, lambda x: x.block_door):
             return False
 
         other.removeself()
