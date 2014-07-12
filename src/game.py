@@ -21,9 +21,7 @@ RIGHT_KEYS = (pygame.K_RIGHT, pygame.K_d, pygame.K_l)
 
 DIR_MAP = dict((k, d) for keys, d in ((UP_KEYS, UP), (DOWN_KEYS, DOWN), (LEFT_KEYS, LEFT), (RIGHT_KEYS, RIGHT)) for k in keys)
 
-CLOSE_KEYS = (pygame.K_c,)
-PICKUP_KEYS = (pygame.K_RETURN, pygame.K_e, pygame.K_COMMA)
-THROW_KEYS = (pygame.K_SPACE, pygame.K_f, pygame.K_t)
+ACTION_KEYS = (pygame.K_SPACE, pygame.K_e, pygame.K_RETURN)
 RESTART_KEYS = (pygame.K_r,)
 UNDO_KEYS = (pygame.K_u,)
 
@@ -148,6 +146,18 @@ class Game:
         if took_turn or not self.player_turn:
             self.update()
 
+    def action(self, direction):
+        if self.player.contained:
+            self.throw(direction)
+        elif self.close(direction):
+            pass
+        elif self.pickup(direction):
+            pass
+        else:
+            # Took no action
+            return False
+        return True
+
     def pickup(self, direction):
         #for obj in self.get_objects_at(self.player.location):
         #    if obj.flag(door):
@@ -172,7 +182,7 @@ class Game:
     def close(self, direction):
         close_loc = self.coords_in_dir(self.player.location, direction, 1)
         for obj in self.get_objects_at(close_loc):
-            if obj.flag('door'):
+            if obj.flag('door') and not obj.block_move:
                 obj.close()
                 return True
 
@@ -183,8 +193,6 @@ class Game:
             obj.impulse(3, direction)
             self.player_turn = False
             success = True
-            #self.player.throw(obj, direction)
-        self.state = STATE_NORMAL
         return success
 
     def keypressed(self, e):
@@ -210,22 +218,12 @@ class Game:
                                 took_turn = True
                                 break
 
-            if e.key in PICKUP_KEYS:
-                self.pick_direction(self.pickup)
-
-            if e.key in CLOSE_KEYS:
-                self.pick_direction(self.close)
-
             if e.key in UNDO_KEYS:
                 self.undo()
 
-            #elif e.key == pygame.K_d:
-            #    for obj in self.player.contained:
-            #        #self.describe('You drop %s' % obj.indefinite())
-            #        took_turn = True
-
-            elif e.key in THROW_KEYS:
-                self.pick_direction(self.throw)
+            elif e.key in ACTION_KEYS:
+                self.pick_direction(self.action)
+                #self.pick_direction(self.throw)
 
         return took_turn
 
