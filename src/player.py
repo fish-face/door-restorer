@@ -19,6 +19,10 @@ class Player(GameObject):
         self.flags['player'] = True
 
     @property
+    def colour(self):
+        return (255, 255, 255) if not self.contained else (255, 255, 0)
+
+    @property
     def level(self):
         return self._level
 
