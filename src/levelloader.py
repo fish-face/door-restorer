@@ -128,12 +128,14 @@ class Pit(Terrain):
 
         other.destroy()
 
+
 class Pickup(Terrain):
     char = ','
     def __init__(self):
         Terrain.__init__(self, '.', 'pickup', (1,0), False, False)
         self.bgcolour = (80, 80, 80)
         self.pickup = True
+
 
 class Goal(Terrain):
     def __init__(self):
