@@ -8,6 +8,7 @@ import cProfile
 import pstats
 
 sys.path.append(os.path.join('.', 'src'))
+sys.path.insert(0, os.path.join('.', 'PyTMX'))
 
 import game
 

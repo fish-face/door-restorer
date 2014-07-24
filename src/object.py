@@ -15,16 +15,15 @@ class GameObject(object):
         self.flags = {}
         #TODO: There should probably be a better way of doing flags
 
-        self.tiletype = 1
-        self.tileindex = (0,0)
         self.z = 10
         self.char = char
         self.block_sight = False
         self.block_move = False
         self.block_door = False
+        self.state = 'default'
 
         self.history = []
-        self.track_properties = ('_location', 'container', 'contained', 'destroyed', 'flags', 'tileindex', 'char', 'block_sight', 'block_move', 'block_door', 'move_dir', 'move_turns', 'move_to')
+        self.track_properties = ('_location', 'container', 'contained', 'destroyed', 'flags', 'char', 'block_sight', 'block_move', 'block_door', 'move_dir', 'move_turns', 'move_to')
 
         self.mass = 1
         self.move_dir = None
@@ -77,6 +76,10 @@ class GameObject(object):
         if self._level:
             self.game = self._level.game
             self._level.add_object(self)
+
+    @property
+    def image(self):
+        return self.state_images[self.state]
 
     def indefinite(self):
         """Name of the object with indefinite article"""
@@ -224,14 +227,14 @@ class Door(GameObject):
     def close(self):
         self.block_move = True
         self.block_sight = True
-        self.tileindex = (0,0)
+        self.state = 'default'
         self.char = '+'
 
     def open(self):
         self.block_move = False
         self.block_sight = False
         self.char = 'o'
-        self.tileindex = (1,0)
+        self.state = 'open'
 
     def on_added(self):
         GameObject.on_added(self)

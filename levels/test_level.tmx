@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="25" height="25" tilewidth="32" tileheight="32">
+ <properties>
+  <property name="name" value="Test Level"/>
+ </properties>
+ <tileset firstgid="1" name="Terrain" tilewidth="32" tileheight="32">
+  <image source="../graphics/tiles-large-terrain.png" width="256" height="32"/>
+  <tile id="0">
+   <properties>
+    <property name="name" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="name" value="floor"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="name" value="pit"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="name" value="pickup"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="name" value="goal"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="9" name="Objects" tilewidth="32" tileheight="32">
+  <image source="../graphics/tiles-large-object.png" width="256" height="32"/>
+  <tile id="0">
+   <properties>
+    <property name="name" value="player"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="name" value="door"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="name" value="door"/>
+    <property name="state" value="open"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Terrain" width="25" height="25">
+  <data encoding="base64" compression="zlib">
+   eJztVNEKwCAINGv//8tj0CAOMzdUeig4SAvOO61CRCUI73r2DMCcdEfL8+Fw52hKvMrvpCODY4YKcYYOz37M4O2VdIe7fwgrB3cvVj3HWi6BwwovHVLdZ650r/C/injnVq+sHF9n6q+O0ZsaoAPPd+Owzm4UMtcNzdIDsQ==
+  </data>
+ </layer>
+ <layer name="Objects" width="25" height="25">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFowA/4BpoB4xgQO2wH0xxSWu3gMznpJM9QxGgu3uw+4OLYfC7cRSMAnoDAEYuAHg=
+  </data>
+ </layer>
+</map>

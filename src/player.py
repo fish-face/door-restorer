@@ -3,7 +3,7 @@
 from object import GameObject
 
 class Player(GameObject):
-    def __init__(self, name, description='', location=None, *args, **kwargs):
+    def __init__(self, name='Dora', description='', location=None, *args, **kwargs):
         self.map_memory = {}
 
         GameObject.__init__(self, name=name, description=description, location=location, *args, **kwargs)

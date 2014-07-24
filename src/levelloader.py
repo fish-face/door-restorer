@@ -1,13 +1,15 @@
 #encoding=utf8
 from codecs import open
 from ConfigParser import ConfigParser
+from collections import defaultdict
+import pytmx
 
 from level import Level
 from object import GameObject
 from player import Player
 
 
-def load_level(game, filename):
+def _load_level(game, filename):
     config = ConfigParser()
     try:
         config.read(filename)
@@ -81,6 +83,64 @@ def load_level(game, filename):
     return level
 
 
+def load_level(game, filename):
+    try:
+        #tmx_data = pytmx.TiledMap(filename)
+        tmx_data = pytmx.load_pygame(filename, pixelalpha=True)
+    except:
+        print 'Level %s could not be read as a TMX file.' % (filename)
+    #print tmx_data.tilelayers[0][0]
+
+    try:
+        name = tmx_data.name
+    except AttributeError:
+        print 'Level %s has no name: invalid level file.' % (filename)
+
+    width = tmx_data.width
+    height = tmx_data.height
+
+    state_images = defaultdict(dict)
+
+    for tile_id, properties in tmx_data.tile_properties.items():
+        image = tmx_data.getTileImageByGid(tile_id)
+        try:
+            name = properties['name']
+        except KeyError:
+            continue
+
+        state = properties.get('state', 'default')
+
+        if state == 'default' and name in TERRAINS:
+            TERRAINS[name].image = image
+
+        if name in TERRAINS:
+            TERRAINS[name].state_images[state] = image
+        elif name in OBJECTS:
+            state_images[name][state] = image
+
+    level = Level(game, name, width, height)
+    for (x, y, tile) in tmx_data.tilelayers[0]:
+        if tile == 0:
+            continue
+        name = tmx_data.tile_properties[tile]['name']
+        terrain = TERRAINS[name]
+        level.set_terrain((x, y), terrain)
+
+    for layer in tmx_data.tilelayers[1:]:
+        for (x, y, tile) in layer:
+            if tile == 0:
+                continue
+            name = tmx_data.tile_properties[tile]['name']
+            state = tmx_data.tile_properties[tile].get('state', 'default')
+            objtype = OBJECTS[name]
+            obj = objtype(level=level, location=(x, y))
+            obj.state = state
+            obj.state_images = state_images[name]
+            if isinstance(obj, Player):
+                level.player = obj
+
+    return level
+
 class Terrain:
     def __init__(self, char, name, index, block_move, block_sight, block_door=False, **kwargs):
         self.char = char
@@ -92,6 +152,8 @@ class Terrain:
         self.block_door = block_door
         self.pickup = False
         self.z = 0
+        self.image = None
+        self.state_images = {}
 
         for key in kwargs:
             setattr(self, key, kwargs[key])
@@ -168,12 +230,17 @@ name = None
 obj = None
 for name, obj in locals().items():
     if isinstance(obj, Terrain):
-        try:
-            TERRAINS[unicode(obj.__class__.char)] = obj
-        except AttributeError:
-            TERRAINS[unicode(obj.char)] = obj
+        TERRAINS[name.lower()] = obj
     elif isinstance(obj, type) and issubclass(obj, GameObject) and obj is not GameObject:
         OBJECTS[name.lower()] = obj
+#for name, obj in locals().items():
+#    if isinstance(obj, Terrain):
+#        try:
+#            TERRAINS[unicode(obj.__class__.char)] = obj
+#        except AttributeError:
+#            TERRAINS[unicode(obj.char)] = obj
+#    elif isinstance(obj, type) and issubclass(obj, GameObject) and obj is not GameObject:
+#        OBJECTS[name.lower()] = obj
 
 
 #TERRAINS = {'#' : wall,

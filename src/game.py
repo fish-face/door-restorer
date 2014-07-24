@@ -43,7 +43,7 @@ class Game:
 
         self.font = pygame.font.SysFont('Sans', 18)
 
-        self.level = load_level(self, 'levels/test_level.txt')
+        self.level = load_level(self, 'levels/test_level.tmx')
         if not self.level:
             self.quitting = True
 
