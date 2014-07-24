@@ -1,0 +1,3 @@
+[submodule "PyTMX"]
+	path = PyTMX
+	url = https://github.com/bitcraft/PyTMX.git
