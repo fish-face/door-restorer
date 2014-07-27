@@ -201,7 +201,7 @@ class Game:
             try:
                 took_turn = self.pick_direction_done(DIR_MAP[e.key])
             except KeyError:
-                pass
+                self.state = STATE_NORMAL
         elif self.state == STATE_NORMAL:
             try:
                 newloc = self.coords_in_dir(self.player.location, DIR_MAP[e.key], 1)
