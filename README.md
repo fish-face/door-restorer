@@ -10,14 +10,14 @@ Reach the pedestal by cunningly placing doors to move through the level. Be care
 Keys
 ---
 
-Movement: Arrow keys/WASD/HJKL.
+**Movement**: Arrow keys/WASD/HJKL.
 Walking into a door on a wall will open the door, but if the door is not on a wall, you can't open it. You cannot fit a door through another door!
 
-Interact: Space/Return/E, followed by direction.
+**Interact**: Space/Return/E, followed by direction.
 When you are holding a door, this throws the door.
 When used on an open door, this closes the door.
 When used on a closed door, this picks up the door.
 
-Undo: U. Useful if you fall into a pit, or get stuck.
+**Undo**: U. Useful if you fall into a pit, or get stuck.
 
-Reset: R.
+**Reset**: R.
