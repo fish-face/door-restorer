@@ -23,7 +23,7 @@ class GameObject(object):
         self.state = 'default'
 
         self.history = []
-        self.track_properties = ('_location', 'container', 'contained', 'destroyed', 'flags', 'char', 'block_sight', 'block_move', 'block_door', 'move_dir', 'move_turns', 'move_to')
+        self.track_properties = ('_location', 'container', 'contained', 'destroyed', 'flags', 'char', 'block_sight', 'block_move', 'block_door', 'state', 'move_dir', 'move_turns', 'move_to')
 
         self.mass = 1
         self.move_dir = None
