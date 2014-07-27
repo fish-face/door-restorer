@@ -220,7 +220,8 @@ class Game:
 
             if e.key in UNDO_KEYS:
                 self.undo()
-
+            elif e.key in RESTART_KEYS:
+                self.restart()
             elif e.key in ACTION_KEYS:
                 self.pick_direction(self.action)
                 #self.pick_direction(self.throw)
@@ -255,6 +256,15 @@ class Game:
         for obj in self.level.objects:
             if obj.resolve_movement():
                 self.player_turn = False
+
+        self.player.update_fov()
+        self.renderer.render_level(self)
+
+    def restart(self):
+        self.turn = 0
+
+        for obj in self.level.objects:
+            obj.restore_state(self.turn)
 
         self.player.update_fov()
         self.renderer.render_level(self)
