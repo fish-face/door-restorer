@@ -79,7 +79,10 @@ class GameObject(object):
 
     @property
     def image(self):
-        return self.state_images[self.state]
+        try:
+            return self.state_images[self.state]
+        except KeyError:
+            return self.state_images['default']
 
     def indefinite(self):
         """Name of the object with indefinite article"""
