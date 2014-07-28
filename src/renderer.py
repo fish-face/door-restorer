@@ -2,11 +2,11 @@
 
 import pygame
 
-WIN_W = 800
+WIN_W = 600
 WIN_H = 600
-VIEW_W = 512
-VIEW_H = 512
 MARGIN = 8
+VIEW_W = WIN_W - 2 * MARGIN
+VIEW_H = WIN_H - 2 * MARGIN
 
 class Renderer:
     def __init__(self):
@@ -25,8 +25,8 @@ class Renderer:
         surface.fill((0, 0, 0))
         # Set up areas to render to
         main_surface = surface.subsurface(MARGIN, MARGIN, VIEW_W, VIEW_H)
-        sidebar = surface.subsurface(VIEW_W+MARGIN*2, MARGIN,
-                                     (WIN_W-VIEW_W-(MARGIN*3)), VIEW_H)
+        #sidebar = surface.subsurface(VIEW_W+MARGIN*2, MARGIN,
+        #                             (WIN_W-VIEW_W-(MARGIN*3)), VIEW_H)
         #messages_surf = sidebar.subsurface(0, sidebar.get_height()/2 + MARGIN/2,
         #                                   sidebar.get_width(),
         #                                   sidebar.get_height()/2 - MARGIN/2)
@@ -35,7 +35,7 @@ class Renderer:
         main_surface.blit(self.title_font.render(str(game.turn), True, (255,255,255)),
                           (1, 1))
 
-        self.render_messages(sidebar, game.messages)
+        #self.render_messages(sidebar, game.messages)
 
     def render_level(self, game):
         # Calculate viewport
