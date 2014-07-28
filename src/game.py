@@ -24,6 +24,7 @@ DIR_MAP = dict((k, d) for keys, d in ((UP_KEYS, UP), (DOWN_KEYS, DOWN), (LEFT_KE
 ACTION_KEYS = (pygame.K_SPACE, pygame.K_e, pygame.K_RETURN)
 RESTART_KEYS = (pygame.K_r,)
 UNDO_KEYS = (pygame.K_u,)
+CHEAT_KEYS = (pygame.K_c,)
 
 
 class Game:
@@ -32,6 +33,7 @@ class Game:
         self.objectives = []
         self.messages = []
         self.state = STATE_NORMAL
+        self.cheating = False
         self.player_turn = True
 
         pygame.key.set_repeat(1, 100)
@@ -54,6 +56,9 @@ class Game:
         tile = self.level[location]
         if not tile:
             return False
+
+        if obj.flag('player') and self.cheating:
+            return True
 
         if obj.flag('door'):
             for thing in tile:
@@ -225,6 +230,8 @@ class Game:
             elif e.key in ACTION_KEYS:
                 self.pick_direction(self.action)
                 #self.pick_direction(self.throw)
+            elif e.key in CHEAT_KEYS:
+                self.cheating = not self.cheating
 
         return took_turn
 
