@@ -52,12 +52,12 @@
  </tileset>
  <layer name="Terrain" width="25" height="25">
   <data encoding="base64" compression="zlib">
-   eJztVdEKwCAINGv//8tj0GAc6tymsoeCgzThusuqEVFLwjmOOQMwJ9VYeV4c4RzDiO/yf9JRwaGhQ1yhI/I8NER7JdXw9A/h5eDpBdYMqMG9bAKHF1E6pH2vvrK9wvcq4557vfJyPO2ptzqu3vQEHbgucWj/RyTH197NQuXYAdWGA7Q=
+   eJztVe0KwCAINGvv/8ojaDCcH4Um+5FwkCLceUkVACib8EQ/IwGtcT1aHQ9HOEdTcqv+pzkyOCRUkmfMEXkfEqK94npw+Ecxy4HDC6uHarkYjllEzcHpPnule0XfK4Sv5h1eeTg8WJnjrbEaeptQX/GK45D+j0gO7+7uQmbcz4YDsw==
   </data>
  </layer>
  <layer name="Objects" width="25" height="25">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFowA/4BpoB4xgQO2wH0xxSWu3gMznpJM9QxGgu3uw+4OLYfC7cRSMAnoDAEYuAHg=
+   eJxjYBgFowA/4BpoB4wCqoHBFJe0dgvIfE462TMUwVBzNxfD0HPzKBgFtAYA44cAZA==
   </data>
  </layer>
 </map>
