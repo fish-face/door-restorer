@@ -89,11 +89,14 @@ class GameObject(object):
             return self.state_images['default']
 
     def animated_position(self):
-        dx = (self._location[0] - self.old_location[0]) * (1 - self.amount_moved)
-        dy = (self._location[1] - self.old_location[1]) * (1 - self.amount_moved)
-        if self.amount_moved < 1.0:
-            self.amount_moved += 1/4.0
-        return dx, dy
+        if self._location and self.old_location:
+            dx = (self._location[0] - self.old_location[0]) * (1 - self.amount_moved)
+            dy = (self._location[1] - self.old_location[1]) * (1 - self.amount_moved)
+            if self.amount_moved < 1.0:
+                self.amount_moved += 1/4.0
+            return dx, dy
+        else:
+            return 0, 0
 
     def indefinite(self):
         """Name of the object with indefinite article"""
