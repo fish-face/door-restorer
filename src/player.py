@@ -1,6 +1,7 @@
 ### Base class for the player and NPCs
 
 from object import GameObject
+from game import STATE_PICK
 
 class Player(GameObject):
     def __init__(self, name='Dora', description='', location=None, *args, **kwargs):
@@ -35,6 +36,8 @@ class Player(GameObject):
     def state(self):
         if self.contained:
             return 'holding-door'
+        elif self.level.game.state == STATE_PICK:
+            return 'awaiting-input'
         else:
             return 'default'
 
