@@ -21,9 +21,9 @@ RIGHT_KEYS = (pygame.K_RIGHT, pygame.K_d, pygame.K_l)
 
 DIR_MAP = dict((k, d) for keys, d in ((UP_KEYS, UP), (DOWN_KEYS, DOWN), (LEFT_KEYS, LEFT), (RIGHT_KEYS, RIGHT)) for k in keys)
 
-ACTION_KEYS = (pygame.K_SPACE, pygame.K_e, pygame.K_RETURN)
+ACTION_KEYS = (pygame.K_SPACE, pygame.K_e, pygame.K_RETURN, pygame.K_x)
 RESTART_KEYS = (pygame.K_r,)
-UNDO_KEYS = (pygame.K_u,)
+UNDO_KEYS = (pygame.K_u, pygame.K_z)
 CHEAT_KEYS = (pygame.K_c,)
 
 
