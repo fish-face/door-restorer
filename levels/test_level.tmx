@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="25" height="25" tilewidth="32" tileheight="32">
+<map version="1.0" orientation="orthogonal" width="25" height="25" tilewidth="24" tileheight="24">
  <properties>
   <property name="name" value="Test Level"/>
  </properties>
- <tileset firstgid="1" name="Terrain" tilewidth="32" tileheight="32">
-  <image source="../graphics/tiles-large-terrain.png" width="256" height="32"/>
+ <tileset firstgid="1" name="Terrain" tilewidth="24" tileheight="24">
+  <image source="../graphics/tiles-terrain.png" width="240" height="24"/>
   <tile id="0">
    <properties>
     <property name="name" value="wall"/>
@@ -31,8 +31,8 @@
    </properties>
   </tile>
  </tileset>
- <tileset firstgid="9" name="Objects" tilewidth="32" tileheight="32">
-  <image source="../graphics/tiles-large-object.png" width="256" height="32"/>
+ <tileset firstgid="11" name="Objects" tilewidth="24" tileheight="24">
+  <image source="../graphics/tiles-object.png" width="240" height="24"/>
   <tile id="0">
    <properties>
     <property name="name" value="player"/>
@@ -49,15 +49,21 @@
     <property name="state" value="open"/>
    </properties>
   </tile>
+  <tile id="3">
+   <properties>
+    <property name="name" value="player"/>
+    <property name="state" value="holding-door"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="Terrain" width="25" height="25">
   <data encoding="base64" compression="zlib">
-   eJztVe0KwCAINGvv/8ojaDCcH4Um+5FwkCLceUkVACib8EQ/IwGtcT1aHQ9HOEdTcqv+pzkyOCRUkmfMEXkfEqK94npw+Ecxy4HDC6uHarkYjllEzcHpPnule0XfK4Sv5h1eeTg8WJnjrbEaeptQX/GK45D+j0gO7+7uQmbcz4YDsw==
+   eJztVe0KwCAINKv3f+UxaDCcH4Ua+1FwkCLceUoVAChJeM59RwKa42q0PB6OcI6mxFY+s4/+Q68kVBLvmHnkPCREe8XV4PCPYpYDhxdWDdXSGY5ZRPXB6T57pXtF3yuEr+YMrzwcHqz08dZYDb1NyK94xXFI/0ckh3d3s7DzXOTmA7Y=
   </data>
  </layer>
  <layer name="Objects" width="25" height="25">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFowA/4BpoB4wCqoHBFJe0dgvIfE462TMUwVBzNxfD0HPzKBgFtAYA44cAZA==
+   eJxjYBgFowA/4BloB4wCqoHBFJe0dgvIfG462TMUwVBzNw/D0HPzKBgFtAYAQ04AeA==
   </data>
  </layer>
 </map>

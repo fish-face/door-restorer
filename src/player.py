@@ -31,6 +31,17 @@ class Player(GameObject):
         self.init_map_memory(value)
         GameObject.level.fset(self, value)
 
+    @property
+    def state(self):
+        if self.contained:
+            return 'holding-door'
+        else:
+            return 'default'
+
+    @state.setter
+    def state(self, value):
+        pass
+
     def init_map_memory(self, level):
         if level and level not in self.map_memory:
             self.map_memory[level] = [None] * level.height

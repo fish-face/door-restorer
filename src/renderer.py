@@ -14,8 +14,10 @@ class Renderer:
         self.level_surf = pygame.Surface((VIEW_W, VIEW_H))
         self.view_w = 0.75
         self.view_h = 0.75
+        self.tw = 24
+        self.th = 24
         #self.tiles = AsciiTiles('Deja Vu Sans Mono')
-        self.tiles = Tileset('graphics/bad%s.png', 32, 32)
+        #self.tiles = Tileset('graphics/bad%s.png', 24, 24)
         self.font = pygame.font.SysFont('Deja Vu Sans Mono', 12)
         self.title_font = pygame.font.SysFont('Deja Vu Sans Mono', 18)
         self.centre = ()
@@ -45,8 +47,8 @@ class Renderer:
 
         w = surface.get_width()
         h = surface.get_height()
-        tw = self.tiles.tile_width
-        th = self.tiles.tile_height
+        tw = self.tw
+        th = self.th
         if player.destroyed:
             player_x = level.width/2.0
             player_y = level.height/2.0
@@ -82,8 +84,6 @@ class Renderer:
         x2 = min(level.width, 1+int(view.right / tw))
         y2 = min(level.height, 1+int(view.bottom / th))
 
-        # TODO: Render order!
-        radius2 = 20.0 ** 2
         map_memory = player.map_memory[level]
         # NOTE: 1.5x speedup available here by iterating directly
         #for (x, y, tile) in level.get_tiles(x1, y1, x2, y2):
@@ -92,21 +92,8 @@ class Renderer:
             for x in xrange(x1, x2):
                 if row[x]:
                     tile = row[x]
-                    if (x, y) in player.fov:
-                        for thing in tile:
-                            surface.blit(self.tiles[thing], (x*tw - view.left, y*th - view.top))
-                        #dist2 = max(1,(x - player_x)**2 + (y - player_y)**2)
-                        self.tiles.dim_overlay.set_alpha(64 * player.fov[(x,y)]/radius2)
-                        #self.tiles.dim_overlay.set_alpha(0)
-                        surface.blit(self.tiles.dim_overlay,
-                                    (x*tw - view.left, y*th - view.top))
-                    else:
-                        # First tile is terrain (at the moment...)
-                        surface.blit(self.tiles[tile[0]], (x*tw - view.left,
-                                                        y*th - view.top))
-                        self.tiles.dim_overlay.set_alpha(64)
-                        surface.blit(self.tiles.dim_overlay,
-                                    (x*tw - view.left, y*th - view.top))
+                    for thing in tile:
+                        surface.blit(thing.image, (x*tw - view.left, y*th - view.top))
 
     def render_messages(self, surface, messages):
         surface.fill((25, 25, 25))
