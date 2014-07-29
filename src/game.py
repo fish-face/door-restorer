@@ -36,7 +36,7 @@ class Game:
         self.cheating = False
         self.player_turn = True
 
-        pygame.key.set_repeat(1, 100)
+        pygame.key.set_repeat(1, 200)
 
         self.quitting = False
         self.renderer = Renderer()
