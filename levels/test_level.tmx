@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="25" height="25" tilewidth="24" tileheight="24">
+<map version="1.0" orientation="orthogonal" width="23" height="24" tilewidth="24" tileheight="24">
  <properties>
   <property name="name" value="Test Level"/>
  </properties>
@@ -56,14 +56,14 @@
    </properties>
   </tile>
  </tileset>
- <layer name="Terrain" width="25" height="25">
+ <layer name="Terrain" width="23" height="24">
   <data encoding="base64" compression="zlib">
-   eJztVe0KwCAINKv3f+UxaDCcH4Ua+1FwkCLceUoVAChJeM59RwKa42q0PB6OcI6mxFY+s4/+Q68kVBLvmHnkPCREe8XV4PCPYpYDhxdWDdXSGY5ZRPXB6T57pXtF3yuEr+YMrzwcHqz08dZYDb1NyK94xXFI/0ckh3d3s7DzXOTmA7Y=
+   eJztVEEOwCAIQ3D///IuLjEMhCFcth16oMGmNEgDgFYIZOCc1LPi8dd+rN0XtcW/NRMNxOpK3xl5e/9dNBPtLQmwtHHMbPVwD4cxa4VvyefX9+TKhN8ThLvHzEwi2jvw+J49keGvK7wnE0lbu98Z2tEdrMIJ7J0Dsw==
   </data>
  </layer>
- <layer name="Objects" width="25" height="25">
+ <layer name="Objects" width="23" height="24">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFowA/4BloB4wCqoHBFJe0dgvIfG462TMUwVBzNw/D0HPzKBgFtAYAQ04AeA==
+   eJxjYBgFIxXwDLQDRgFBMBjiiFZuAJnLTWPzhwIY7O7kYRj8bhwFwxMAAOh/AHg=
   </data>
  </layer>
 </map>

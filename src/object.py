@@ -9,6 +9,8 @@ class GameObject(object):
         self.name = name
         self.description = description
         self._location = location
+        self.old_location = location
+        self.amount_moved = 1.0
         self.container = None
         self.contained = []
         self.destroyed = False
@@ -23,7 +25,7 @@ class GameObject(object):
         self.state = 'default'
 
         self.history = []
-        self.track_properties = ('_location', 'container', 'contained', 'destroyed', 'flags', 'char', 'block_sight', 'block_move', 'block_door', 'state', 'move_dir', 'move_turns', 'move_to')
+        self.track_properties = ('_location', 'old_location', 'container', 'contained', 'destroyed', 'flags', 'char', 'block_sight', 'block_move', 'block_door', 'state', 'move_dir', 'move_turns', 'move_to')
 
         self.mass = 1
         self.move_dir = None
@@ -57,6 +59,8 @@ class GameObject(object):
     def location(self, value):
         self.level.move_object(self, value)
 
+        self.old_location = self._location
+        self.amount_moved = 0.0
         self._location = value
         if value:
             for thing in self.level[value][::-1]:
@@ -83,6 +87,13 @@ class GameObject(object):
             return self.state_images[self.state]
         except KeyError:
             return self.state_images['default']
+
+    def animated_position(self):
+        dx = (self._location[0] - self.old_location[0]) * (1 - self.amount_moved)
+        dy = (self._location[1] - self.old_location[1]) * (1 - self.amount_moved)
+        if self.amount_moved < 1.0:
+            self.amount_moved += 1/4.0
+        return dx, dy
 
     def indefinite(self):
         """Name of the object with indefinite article"""
@@ -138,6 +149,7 @@ class GameObject(object):
                 self.level.move_object(self, value)
             setattr(self, key, value)
         self.contained = state['contained'][:]
+        self.amount_moved = 1.0
 
     def resolve_movement(self):
         """Resolves queued movement and return True if any happened"""

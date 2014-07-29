@@ -118,7 +118,7 @@ class Game:
             self.main_loop()
 
     def main_loop(self):
-        delay = self.clock.tick(30)
+        delay = self.clock.tick(60)
         self.framerates.insert(0, 1000.0/delay)
         self.framerates = self.framerates[:50]
         framerate = sum(self.framerates)/50.0
@@ -249,10 +249,8 @@ class Game:
             pass
         if e.button == 4:
             self.renderer.tiles.scale *= 1.1
-            self.renderer.render_level(self)
         elif e.button == 5:
             self.renderer.tiles.scale *= 0.9
-            self.renderer.render_level(self)
 
         return False
 
@@ -265,7 +263,6 @@ class Game:
                 self.player_turn = False
 
         self.player.update_fov()
-        self.renderer.render_level(self)
 
     def restart(self):
         self.turn = 0
@@ -274,7 +271,6 @@ class Game:
             obj.restore_state(self.turn)
 
         self.player.update_fov()
-        self.renderer.render_level(self)
 
     def undo(self):
         if self.turn == 0:
@@ -286,4 +282,3 @@ class Game:
             obj.restore_state(self.turn)
 
         self.player.update_fov()
-        self.renderer.render_level(self)

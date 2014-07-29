@@ -198,6 +198,16 @@ class Level:
             for x in xrange(x1, x2):
                 yield (x, y, self.map[y][x])
 
+    def get_terrain(self):
+        for y in xrange(self.height):
+            for x in xrange(self.width):
+                yield (x, y, self.map[y][x][0])
+
+    def get_objects(self):
+        for obj in sorted(self.objects, key=lambda x: x.z):
+            if obj.location:
+                yield obj.location[0], obj.location[1], obj
+
     def __getitem__(self, location):
         return self.get_tile(location[0], location[1]) if location else None
 

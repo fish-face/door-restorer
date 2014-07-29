@@ -11,6 +11,7 @@ VIEW_H = WIN_H - 2 * MARGIN
 class Renderer:
     def __init__(self):
         #self.tiles = Tileset("/home/fish/Pictures/M_BISON_YESSSSSSS.jpg", 24, 24)
+        self.terrain_surf = None
         self.level_surf = pygame.Surface((VIEW_W, VIEW_H))
         self.view_w = 0.75
         self.view_h = 0.75
@@ -24,6 +25,7 @@ class Renderer:
         self.view = None
 
     def render(self, game, surface):
+        self.render_level(game)
         surface.fill((0, 0, 0))
         # Set up areas to render to
         main_surface = surface.subsurface(MARGIN, MARGIN, VIEW_W, VIEW_H)
@@ -49,6 +51,13 @@ class Renderer:
         h = surface.get_height()
         tw = self.tw
         th = self.th
+
+        if not self.terrain_surf:
+            self.terrain_surf = pygame.Surface((level.width * tw, level.height * th))
+
+            for x, y, terrain in level.get_terrain():
+                self.terrain_surf.blit(terrain.image, (x*tw, y*th))
+
         if player.destroyed:
             player_x = level.width/2.0
             player_y = level.height/2.0
@@ -59,7 +68,6 @@ class Renderer:
         player_view = pygame.Rect(0, 0, w * self.view_w, h * self.view_w)
         player_view.center = (player_x * tw, player_y * th)
         player_view.clamp_ip(0, 0, level.width * tw, level.height * th)
-        #view = pygame.Rect(-player_view.left, -player_view.top, player_view.width, player_view.height)
         if not self.view:
             self.view = pygame.Rect(0, 0, w, h)
             self.view.center = player_view.center
@@ -77,23 +85,11 @@ class Renderer:
 
         view = self.view
 
-        surface.fill((0,0,0))
-        # Calculate visible tiles
-        x1 = max(0, int(view.left / tw))
-        y1 = max(0, int(view.top / th))
-        x2 = min(level.width, 1+int(view.right / tw))
-        y2 = min(level.height, 1+int(view.bottom / th))
+        surface.blit(self.terrain_surf, (-view.left, -view.top))
 
-        map_memory = player.map_memory[level]
-        # NOTE: 1.5x speedup available here by iterating directly
-        #for (x, y, tile) in level.get_tiles(x1, y1, x2, y2):
-        for y in xrange(y1, y2):
-            row = map_memory[y]
-            for x in xrange(x1, x2):
-                if row[x]:
-                    tile = row[x]
-                    for thing in tile:
-                        surface.blit(thing.image, (x*tw - view.left, y*th - view.top))
+        for x, y, obj in level.get_objects():
+            dx, dy = obj.animated_position()
+            surface.blit(obj.image, ((x-dx)*tw - view.left, (y-dy)*th - view.top))
 
     def render_messages(self, surface, messages):
         surface.fill((25, 25, 25))
