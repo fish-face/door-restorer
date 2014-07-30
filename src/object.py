@@ -25,7 +25,7 @@ class GameObject(object):
         self.state = 'default'
 
         self.history = []
-        self.track_properties = ('_location', 'old_location', 'container', 'contained', 'destroyed', 'flags', 'char', 'block_sight', 'block_move', 'block_door', 'state', 'move_dir', 'move_turns', 'move_to')
+        self.track_properties = ('_location', 'container', 'contained', 'destroyed', 'flags', 'char', 'block_sight', 'block_move', 'block_door', 'state', 'move_dir', 'move_turns', 'move_to')
 
         self.mass = 1
         self.move_dir = None
@@ -149,10 +149,11 @@ class GameObject(object):
         state = self.history[index]
         for key, value in state.items():
             if key == '_location':
+                self.old_location = self._location
+                self.amount_moved = 0.0
                 self.level.move_object(self, value)
             setattr(self, key, value)
         self.contained = state['contained'][:]
-        self.amount_moved = 1.0
 
     def resolve_movement(self):
         """Resolves queued movement and return True if any happened"""
