@@ -1,11 +1,11 @@
 Dora Roara the Door Restorer
 ===
 
-A puzzle game where you pick up doors to make paths through walls. Try and reach the X!
+A puzzle game where you pick up doors to make paths through walls. Try and reach the stairs!
 
 Gameplay
 ---
-Reach the pedestal by cunningly placing doors to move through the level. Be careful, because you can only pick doors up when standing on certain squares. You can throw doors up to three tiles away, and sometimes you'll need to throw doors over pits in order to proceed. If you get stuck, you can always undo or restart.
+Reach the stairs down by cunningly placing doors to move through the level. Be careful, because you can only remove doors from walls again from the marked squares. You can throw doors up to three tiles away, and sometimes you'll need to throw doors over pits in order to proceed. If you get stuck, you can always undo or restart.
 
 Keys
 ---
