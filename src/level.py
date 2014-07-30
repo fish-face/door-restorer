@@ -65,6 +65,9 @@ class Level:
         else:
             self.map[y][x] = [terrain]
 
+        terrain.level = self
+        terrain.location = p
+
         # TODO: Nothing specifies that there must be exactly one terrain
         #       per tile, or even where it is in the tile's list.
 

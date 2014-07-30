@@ -3,6 +3,7 @@ from codecs import open
 from ConfigParser import ConfigParser
 from collections import defaultdict
 import pytmx
+import pygame
 
 from level import Level
 from object import GameObject
@@ -85,11 +86,9 @@ def _load_level(game, filename):
 
 def load_level(game, filename):
     try:
-        #tmx_data = pytmx.TiledMap(filename)
         tmx_data = pytmx.load_pygame(filename, pixelalpha=True)
     except:
         print 'Level %s could not be read as a TMX file.' % (filename)
-    #print tmx_data.tilelayers[0][0]
 
     try:
         name = tmx_data.name
@@ -109,22 +108,17 @@ def load_level(game, filename):
             continue
 
         state = properties.get('state', 'default')
-
-        if state == 'default' and name in TERRAINS:
-            TERRAINS[name].image = image
-
-        if name in TERRAINS:
-            TERRAINS[name].state_images[state] = image
-        elif name in OBJECTS:
-            state_images[name][state] = image
+        state_images[name][state] = image
 
     level = Level(game, name, width, height)
     for (x, y, tile) in tmx_data.tilelayers[0]:
         if tile == 0:
             continue
         name = tmx_data.tile_properties[tile]['name']
-        terrain = TERRAINS[name]
+        terrain = TERRAINS[name]()
         level.set_terrain((x, y), terrain)
+        terrain.state_images = state_images[name]
+        terrain.image = state_images[name]['default']
 
     for layer in tmx_data.tilelayers[1:]:
         for (x, y, tile) in layer:
@@ -141,7 +135,8 @@ def load_level(game, filename):
 
     return level
 
-class Terrain:
+
+class Terrain(object):
     def __init__(self, char, name, index, block_move, block_sight, block_door=False, **kwargs):
         self.char = char
         self.name = name
@@ -152,7 +147,6 @@ class Terrain:
         self.block_door = block_door
         self.pickup = False
         self.z = 0
-        self.image = None
         self.state_images = {}
 
         for key in kwargs:
@@ -167,6 +161,16 @@ class Terrain:
     def arrived(self, other):
         if self.block_move:
             other.move_turns = 0
+
+
+class Wall(Terrain):
+    def __init__(self):
+        Terrain.__init__(self, '#', 'wall', (0,0), True, True)
+
+
+class Floor(Terrain):
+    def __init__(self):
+        Terrain.__init__(self, u'.', 'floor', (1,0), False, False)
 
 
 class PlayerConveyor(Terrain):
@@ -191,12 +195,39 @@ class Pit(Terrain):
         other.destroy()
 
 
+PICKUP_STATES = ('wall-left', 'wall-up', 'wall-right', 'wall-down')
+PICKUP_STATE_COMBOS = ['{:04b}'.format(x) for x in range(2**4)]
 class Pickup(Terrain):
     char = ','
     def __init__(self):
         Terrain.__init__(self, '.', 'pickup', (1,0), False, False)
         self.bgcolour = (80, 80, 80)
         self.pickup = True
+
+    @property
+    def image(self):
+        adjacents = ((self.location[0] - 1, self.location[1]),
+                     (self.location[0],     self.location[1] - 1),
+                     (self.location[0] + 1, self.location[1]),
+                     (self.location[0],     self.location[1] + 1))
+        blocking = ['1' if self.level[adjacents[i]][0].block_move else '0' for i in range(4)]
+        #states = [PICKUP_STATES[i] for i in range(4) if blocking[i]]
+
+        return self.state_images['wall-%s' % (''.join(blocking))]
+        #return self.state_images['default']
+
+    @image.setter
+    def image(self, value):
+        for combo in PICKUP_STATE_COMBOS:
+            surf = pygame.Surface(self.state_images['default'].get_size())
+            surf.blit(self.state_images['default'], (0, 0))
+            for i, state in enumerate(combo):
+                if state == '0':
+                    continue
+                name = PICKUP_STATES[int(i)]
+                surf.blit(self.state_images[name], (0, 0))
+
+            self.state_images['wall-%s' % (combo)] = surf
 
 
 class Goal(Terrain):
@@ -210,17 +241,6 @@ class Goal(Terrain):
 
 UP, DOWN, LEFT, RIGHT = 0, 1, 2, 3
 
-wall = Terrain('#', 'wall', (0,0), True, True)
-floor = Terrain(u'.', 'floor', (1,0), False, False)
-pickup = Pickup()
-space = Terrain(' ', 'space', (2,0), True, False, True)
-pit = Pit()
-goal = Goal()
-walldown = PlayerConveyor('v', 'wall', (0,1), True, True, direction=DOWN)
-wallup = PlayerConveyor('^', 'wall', (0,1), True, True, direction=UP)
-wallleft = PlayerConveyor('<', 'wall', (0,1), True, True, direction=LEFT)
-wallright = PlayerConveyor('>', 'wall', (0,1), True, True, direction=RIGHT)
-
 from object import Door
 
 TERRAINS = {}
@@ -229,27 +249,7 @@ OBJECTS = {}
 name = None
 obj = None
 for name, obj in locals().items():
-    if isinstance(obj, Terrain):
+    if isinstance(obj, type) and issubclass(obj, Terrain) and obj is not Terrain:
         TERRAINS[name.lower()] = obj
     elif isinstance(obj, type) and issubclass(obj, GameObject) and obj is not GameObject:
         OBJECTS[name.lower()] = obj
-#for name, obj in locals().items():
-#    if isinstance(obj, Terrain):
-#        try:
-#            TERRAINS[unicode(obj.__class__.char)] = obj
-#        except AttributeError:
-#            TERRAINS[unicode(obj.char)] = obj
-#    elif isinstance(obj, type) and issubclass(obj, GameObject) and obj is not GameObject:
-#        OBJECTS[name.lower()] = obj
-
-
-#TERRAINS = {'#' : wall,
-#            '.' : floor,
-#            'X' : goal,
-#            'v' : walldown,
-#            '^' : wallup,
-#            '<' : wallleft,
-#            '>' : wallright,
-#            '+' : Door}
-#
-

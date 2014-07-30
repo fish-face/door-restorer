@@ -48,9 +48,6 @@ class GameObject(object):
 
         self.facts = []
 
-    #TODO: something something locations vs containers
-    #TODO: No, really???
-
     @property
     def location(self):
         return self._location

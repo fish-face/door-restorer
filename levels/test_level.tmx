@@ -30,6 +30,36 @@
     <property name="name" value="goal"/>
    </properties>
   </tile>
+  <tile id="5">
+   <properties>
+    <property name="name" value="pickup"/>
+    <property name="state" value="wall-up"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="name" value="pickup"/>
+    <property name="state" value="wall-right"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="name" value="pickup"/>
+    <property name="state" value="wall-down"/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="name" value="pickup"/>
+    <property name="state" value="wall-left"/>
+   </properties>
+  </tile>
+  <tile id="9">
+   <properties>
+    <property name="name" value="pickup"/>
+    <property name="state" value="null"/>
+   </properties>
+  </tile>
  </tileset>
  <tileset firstgid="11" name="Objects" tilewidth="24" tileheight="24">
   <image source="../graphics/tiles-object.png" width="240" height="24"/>
@@ -64,7 +94,7 @@
  </tileset>
  <layer name="Terrain" width="23" height="24">
   <data encoding="base64" compression="zlib">
-   eJztVEEOwCAIQ3D///IuLjEMhCFcth16oMGmNEgDgFYIZOCc1LPi8dd+rN0XtcW/NRMNxOpK3xl5e/9dNBPtLQmwtHHMbPVwD4cxa4VvyefX9+TKhN8ThLvHzEwi2jvw+J49keGvK7wnE0lbu98Z2tEdrMIJ7J0Dsw==
+   eJztVEEOwCAIQ8gu/v/Bu7jEMBCGcNl26IEGm9IgDQBaIZCBc1LPisdf+7F2X9QW/9ZMNBCrK31n5O39d9FMtLckwNLGMbPVwz0cxqwVviWfX9+TKxN+TxDuHjMziWjvwON79kSGv67wnkwkbe1+Z2hHd7AKJxMbBA0=
   </data>
  </layer>
  <layer name="Objects" width="23" height="24">
