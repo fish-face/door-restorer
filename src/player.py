@@ -35,7 +35,10 @@ class Player(GameObject):
     @property
     def state(self):
         if self.contained:
-            return 'holding-door'
+            if self.level.game.state == STATE_PICK:
+                return 'awaiting-throw'
+            else:
+                return 'holding-door'
         elif self.level.game.state == STATE_PICK:
             return 'awaiting-input'
         else:

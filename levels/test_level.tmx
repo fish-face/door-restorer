@@ -91,6 +91,12 @@
     <property name="state" value="awaiting-input"/>
    </properties>
   </tile>
+  <tile id="5">
+   <properties>
+    <property name="name" value="player"/>
+    <property name="state" value="awaiting-throw"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="Terrain" width="23" height="24">
   <data encoding="base64" compression="zlib">
