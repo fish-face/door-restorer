@@ -5,6 +5,11 @@ STATE_PICK = 1
 
 UP, DOWN, LEFT, RIGHT = 0, 1, 2, 3
 
+FRAME_RATE = 60
+FRAME_DELAY = 1000.0/FRAME_RATE
+ANIM_DELAY = 1000.0/30
+
+
 import sys
 import pygame
 from collections import defaultdict
@@ -35,6 +40,7 @@ class Game:
         self.state = STATE_NORMAL
         self.cheating = False
         self.player_turn = True
+        self.next_update = 0
 
         pygame.key.set_repeat(1, 200)
 
@@ -118,14 +124,12 @@ class Game:
             self.main_loop()
 
     def main_loop(self):
-        delay = self.clock.tick(60)
-        self.framerates.insert(0, 1000.0/delay)
-        self.framerates = self.framerates[:50]
-        framerate = sum(self.framerates)/50.0
-        self.process_events()
+        delay = self.clock.tick(FRAME_RATE)
+        took_turn = self.process_events()
+        if took_turn or (not self.player_turn and pygame.time.get_ticks() > self.next_update):
+            self.update()
+
         self.renderer.render(self, self.screen)
-        #self.screen.blit(self.font.render('%d fps' % framerate, True, (255,255,255)),
-        #            (1, 1))
         pygame.display.flip()
 
     def process_events(self):
@@ -148,8 +152,7 @@ class Game:
             for obj in self.level.objects:
                 obj.record_state(self.turn)
 
-        if took_turn or not self.player_turn:
-            self.update()
+        return took_turn
 
     def action(self, direction):
         if self.player.contained:
@@ -196,6 +199,7 @@ class Game:
         for obj in self.player.contained:
             self.player.remove(obj)
             obj.impulse(3, direction)
+            self.schedule_update()
             self.player_turn = False
             success = True
         return success
@@ -250,13 +254,17 @@ class Game:
 
         return False
 
+    def schedule_update(self):
+        self.player_turn = False
+        self.next_update = pygame.time.get_ticks() + ANIM_DELAY
+
     def update(self):
         # level.objects is a set, so the order of evaluation is undefined
         self.player_turn = True
 
         for obj in self.level.objects:
             if obj.resolve_movement():
-                self.player_turn = False
+                self.schedule_update()
 
     def restart(self):
         self.turn = 0

@@ -1,5 +1,5 @@
 ### Contains definition of Game Objects
-from game import UP, DOWN, LEFT, RIGHT
+from game import UP, DOWN, LEFT, RIGHT, FRAME_DELAY, ANIM_DELAY
 
 
 class GameObject(object):
@@ -90,7 +90,7 @@ class GameObject(object):
             dx = (self._location[0] - self.old_location[0]) * (1 - self.amount_moved)
             dy = (self._location[1] - self.old_location[1]) * (1 - self.amount_moved)
             if self.amount_moved < 1.0:
-                self.amount_moved += 1/4.0
+                self.amount_moved = min(1.0, self.amount_moved + FRAME_DELAY / ANIM_DELAY)
             return dx, dy
         else:
             return 0, 0
