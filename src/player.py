@@ -54,32 +54,11 @@ class Player(GameObject):
             for y in xrange(level.height):
                 self.map_memory[level][y] = [None] * level.width
 
-    def update_fov(self):
-        """I moved/level updated and I need to recalculate what I can see"""
-        #self.fov = self.level.get_fov(self.location)
-        class DummyFov:
-            def __contains__(self, _):
-                return True
-            def __getitem__(self, _):
-                return 1
-
-        self.fov = DummyFov()
-        #for p in self.fov:
-        mm = self.map_memory[self.level]
-        for y in range(self.level.height):
-            row = mm[y]
-            for x in range(self.level.width):
-                row[x] = self.level[(x,y)]
-
     def definite(self):
         return self.name
 
     def indefinite(self):
         return self.name
-
-    def on_moved(self):
-        if self.location:
-            self.update_fov()
 
     def add(self, other):
         """Put other inside me, if possible."""

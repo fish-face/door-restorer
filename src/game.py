@@ -258,15 +258,11 @@ class Game:
             if obj.resolve_movement():
                 self.player_turn = False
 
-        self.player.update_fov()
-
     def restart(self):
         self.turn = 0
 
         for obj in self.level.objects:
             obj.restore_state(self.turn)
-
-        self.player.update_fov()
 
     def undo(self):
         if self.turn == 0:
@@ -277,4 +273,3 @@ class Game:
         for obj in self.level.objects:
             obj.restore_state(self.turn)
 
-        self.player.update_fov()
