@@ -247,10 +247,6 @@ class Game:
     def clicked(self, e):
         if e.button == 1:
             pass
-        if e.button == 4:
-            self.renderer.tiles.scale *= 1.1
-        elif e.button == 5:
-            self.renderer.tiles.scale *= 0.9
 
         return False
 
