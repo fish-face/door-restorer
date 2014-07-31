@@ -264,6 +264,7 @@ class Game:
 
         for obj in self.level.objects:
             if obj.resolve_movement():
+                obj.record_state(self.turn)
                 self.schedule_update()
 
     def restart(self):
