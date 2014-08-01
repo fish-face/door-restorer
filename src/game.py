@@ -51,7 +51,7 @@ class Game:
 
         self.font = pygame.font.SysFont('Sans', 18)
 
-        self.level = load_level(self, 'levels/test_level.tmx')
+        self.level = load_level(self, 'levels/test_level-3.tmx')
         if not self.level:
             self.quitting = True
 
@@ -112,7 +112,8 @@ class Game:
 
     def win(self):
         #self.describe("You win!")
-        self.quitting = True
+        #self.quitting = True
+        self.player.animate('descending')
 
     def start(self):
         self.turn = 0

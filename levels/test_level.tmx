@@ -4,7 +4,7 @@
   <property name="name" value="Test Level"/>
  </properties>
  <tileset firstgid="1" source="Terrain.tsx"/>
- <tileset firstgid="101" source="Objects.tsx"/>
+ <tileset firstgid="101" source="Objects.tsx" />
  <layer name="Terrain" width="23" height="24">
   <data encoding="csv">
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
