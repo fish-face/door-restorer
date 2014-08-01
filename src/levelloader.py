@@ -201,7 +201,6 @@ class PlayerConveyor(Terrain):
         Terrain.arrived(self, other)
         if not isinstance(other, Door):
             other.shove(1, self.direction)
-            #other.impulse(1*other.mass, self.direction)
 
 
 class Pit(Terrain):
@@ -234,10 +233,8 @@ class Pickup(Terrain):
                      (self.location[0] + 1, self.location[1]),
                      (self.location[0],     self.location[1] + 1))
         blocking = ['1' if self.level[adjacents[i]][0].block_move else '0' for i in range(4)]
-        #states = [PICKUP_STATES[i] for i in range(4) if blocking[i]]
 
         return self.state_images['wall-%s' % (''.join(blocking))]
-        #return self.state_images['default']
 
     @image.setter
     def image(self, value):

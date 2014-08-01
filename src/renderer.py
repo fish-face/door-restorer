@@ -10,15 +10,12 @@ VIEW_H = WIN_H - 2 * MARGIN
 
 class Renderer:
     def __init__(self):
-        #self.tiles = Tileset("/home/fish/Pictures/M_BISON_YESSSSSSS.jpg", 24, 24)
         self.terrain_surf = None
         self.level_surf = pygame.Surface((VIEW_W, VIEW_H))
         self.view_w = 0.75
         self.view_h = 0.75
         self.tw = 24
         self.th = 24
-        #self.tiles = AsciiTiles('Deja Vu Sans Mono')
-        #self.tiles = Tileset('graphics/bad%s.png', 24, 24)
         self.font = pygame.font.SysFont('Deja Vu Sans Mono', 12)
         self.title_font = pygame.font.SysFont('Deja Vu Sans Mono', 18)
         self.centre = ()
@@ -28,17 +25,10 @@ class Renderer:
         self.render_level(game)
         # Set up areas to render to
         main_surface = surface.subsurface(MARGIN, MARGIN, VIEW_W, VIEW_H)
-        #sidebar = surface.subsurface(VIEW_W+MARGIN*2, MARGIN,
-        #                             (WIN_W-VIEW_W-(MARGIN*3)), VIEW_H)
-        #messages_surf = sidebar.subsurface(0, sidebar.get_height()/2 + MARGIN/2,
-        #                                   sidebar.get_width(),
-        #                                   sidebar.get_height()/2 - MARGIN/2)
 
         main_surface.blit(self.level_surf, (0, 0))
         main_surface.blit(self.title_font.render(str(game.turn), True, (255,255,255)),
                           (1, 1))
-
-        #self.render_messages(sidebar, game.messages)
 
     def render_level(self, game):
         # Calculate viewport

@@ -1,5 +1,3 @@
-### The World knows about the map, terrain, objects, etc.
-
 STATE_NORMAL = 0
 STATE_PICK = 1
 
@@ -10,13 +8,10 @@ FRAME_DELAY = 1000.0/FRAME_RATE
 ANIM_DELAY = 1000.0/30
 
 
-import sys
 import pygame
-from collections import defaultdict
 
 from renderer import Renderer
 from levelloader import load_level
-from player import Player
 
 
 UP_KEYS = (pygame.K_UP, pygame.K_w, pygame.K_k)
@@ -56,7 +51,6 @@ class Game:
             self.quitting = True
 
         self.player = self.level.player
-        #self.player = Player(location=(1, 1), name='you', level=self.level, description='The Player')
 
     def can_move_to(self, obj, location):
         tile = self.level[location]
@@ -111,7 +105,6 @@ class Game:
         return tuple(loc)
 
     def win(self):
-        #self.describe("You win!")
         #self.quitting = True
         self.player.animate('descending')
 
@@ -145,8 +138,6 @@ class Game:
                     took_turn = self.keypressed(e)
                 elif e.type == pygame.MOUSEBUTTONUP:
                     took_turn = self.clicked(e)
-            #else:
-            #    took_turn = True
 
         if took_turn:
             self.turn += 1
@@ -168,12 +159,6 @@ class Game:
         return True
 
     def pickup(self, direction):
-        #for obj in self.get_objects_at(self.player.location):
-        #    if obj.flag(door):
-        #        # Doors can only be picked up from adjacent tiles
-        #        continue
-        #    if self.player.add(obj):
-        #        return True
         pickup_loc = self.coords_in_dir(self.player.location, direction, 1)
 
         success = False
@@ -234,7 +219,6 @@ class Game:
                 self.restart()
             elif e.key in ACTION_KEYS:
                 self.pick_direction(self.action)
-                #self.pick_direction(self.throw)
             elif e.key in CHEAT_KEYS:
                 self.cheating = not self.cheating
 

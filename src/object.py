@@ -1,5 +1,5 @@
 ### Contains definition of Game Objects
-from game import UP, DOWN, LEFT, RIGHT, FRAME_DELAY, ANIM_DELAY
+from game import FRAME_DELAY, ANIM_DELAY
 
 
 class GameObject(object):
@@ -15,7 +15,6 @@ class GameObject(object):
         self.contained = []
         self.destroyed = False
         self.flags = {}
-        #TODO: There should probably be a better way of doing flags
 
         self.z = 10
         self.char = char
@@ -215,7 +214,6 @@ class GameObject(object):
             self.container.remove(self)
 
     def destroy(self):
-        #TODO if we get deleted, will there be references to us hanging around?
         self.removeself()
         for obj in self.contained:
             self.remove(obj)
@@ -223,7 +221,6 @@ class GameObject(object):
 
         self.on_destroyed()
         self.location = None
-        #self.level.remove_object(self)
 
     def __contains__(self, other):
         return other in self.contained
@@ -277,14 +274,11 @@ class Door(GameObject):
         if self.block_move:
             if self.locked:
                 if self.key and self.key in other:
-                    #self.game.describe('%s unlocked %s' % (other.definite(), self.definite()))
                     self.locked = False
                     return True
                 else:
                     pass
-                    #self.game.describe('%s is locked' % (self.definite()))
             elif self.level[self.location][0].block_move:
-                #self.game.describe('%s opened %s' % (other.definite(), self.definite()))
                 self.open()
                 return True
 
