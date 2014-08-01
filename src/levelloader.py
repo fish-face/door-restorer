@@ -219,7 +219,7 @@ class Pit(Terrain):
 
 
 PICKUP_STATES = ('wall-left', 'wall-up', 'wall-right', 'wall-down')
-PICKUP_STATE_COMBOS = ['{:04b}'.format(x) for x in range(2**4)]
+PICKUP_STATE_COMBOS = ['{0:04b}'.format(x) for x in range(2**4)]
 class Pickup(Terrain):
     char = ','
     def __init__(self):
