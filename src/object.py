@@ -23,6 +23,7 @@ class GameObject(object):
         self.block_move = False
         self.block_door = False
         self.state = 'default'
+        self.animation = None
 
         self.history = []
         self.track_properties = ('_location', 'container', 'contained', 'destroyed', 'flags', 'char', 'block_sight', 'block_move', 'block_door', 'state', 'move_dir', 'move_turns', 'move_to')
@@ -80,10 +81,22 @@ class GameObject(object):
 
     @property
     def image(self):
+        if self.animation:
+            image = self.animations[self.animation].get_frame()
+            if image:
+                return image
+            else:
+                self.animation = None
+                self.animation_done()
+                return None
         try:
             return self.state_images[self.state]
         except KeyError:
             return self.state_images['default']
+
+    def animate(self, name, callback=lambda x: x):
+        self.animation = name
+        self.animation_done = callback
 
     def animated_position(self):
         if self._location and self.old_location:

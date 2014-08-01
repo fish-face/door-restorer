@@ -8,6 +8,7 @@ import pygame
 from level import Level
 from object import GameObject
 from player import Player
+from animation import Animation
 
 
 def _load_level(game, filename):
@@ -99,6 +100,7 @@ def load_level(game, filename):
     height = tmx_data.height
 
     state_images = defaultdict(dict)
+    animations = defaultdict(lambda: defaultdict(Animation))
 
     for tile_id, properties in tmx_data.tile_properties.items():
         image = tmx_data.getTileImageByGid(tile_id)
@@ -108,7 +110,26 @@ def load_level(game, filename):
             continue
 
         state = properties.get('state', 'default')
-        state_images[name][state] = image
+        frame = properties.get('frame', None)
+        if frame:
+            delay = properties.get('frame-delay', '4')
+            try:
+                delay = int(delay)
+            except ValueError:
+                print "Level %s has invalid frame delay of %s for frame %s/%s/%s" % (filename, delay, name, state, frame)
+
+            try:
+                frame = int(frame)
+            except ValueError:
+                print "Level %s has invalid frame: %s/%s/%s" % (filename, name, state, frame)
+
+            animations[name][state].add_frame(frame, image, delay)
+        else:
+            state_images[name][state] = image
+
+    for state in animations.values():
+        for animation in state.values():
+            animation.finalise()
 
     level = Level(game, name, width, height)
     for (x, y, tile) in tmx_data.tilelayers[0]:
@@ -130,6 +151,8 @@ def load_level(game, filename):
             obj = objtype(level=level, location=(x, y))
             obj.state = state
             obj.state_images = state_images[name]
+
+            obj.animations = animations[name]
             if isinstance(obj, Player):
                 level.player = obj
 

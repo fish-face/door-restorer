@@ -3,109 +3,62 @@
  <properties>
   <property name="name" value="Test Level"/>
  </properties>
- <tileset firstgid="1" name="Terrain" tilewidth="24" tileheight="24">
-  <image source="../graphics/tiles-terrain.png" width="240" height="24"/>
-  <tile id="0">
-   <properties>
-    <property name="name" value="wall"/>
-   </properties>
-  </tile>
-  <tile id="1">
-   <properties>
-    <property name="name" value="floor"/>
-   </properties>
-  </tile>
-  <tile id="2">
-   <properties>
-    <property name="name" value="pit"/>
-   </properties>
-  </tile>
-  <tile id="3">
-   <properties>
-    <property name="name" value="pickup"/>
-   </properties>
-  </tile>
-  <tile id="4">
-   <properties>
-    <property name="name" value="goal"/>
-   </properties>
-  </tile>
-  <tile id="5">
-   <properties>
-    <property name="name" value="pickup"/>
-    <property name="state" value="wall-up"/>
-   </properties>
-  </tile>
-  <tile id="6">
-   <properties>
-    <property name="name" value="pickup"/>
-    <property name="state" value="wall-right"/>
-   </properties>
-  </tile>
-  <tile id="7">
-   <properties>
-    <property name="name" value="pickup"/>
-    <property name="state" value="wall-down"/>
-   </properties>
-  </tile>
-  <tile id="8">
-   <properties>
-    <property name="name" value="pickup"/>
-    <property name="state" value="wall-left"/>
-   </properties>
-  </tile>
-  <tile id="9">
-   <properties>
-    <property name="name" value="pickup"/>
-    <property name="state" value="null"/>
-   </properties>
-  </tile>
- </tileset>
- <tileset firstgid="11" name="Objects" tilewidth="24" tileheight="24">
-  <image source="../graphics/tiles-object.png" width="240" height="24"/>
-  <tile id="0">
-   <properties>
-    <property name="name" value="player"/>
-   </properties>
-  </tile>
-  <tile id="1">
-   <properties>
-    <property name="name" value="door"/>
-   </properties>
-  </tile>
-  <tile id="2">
-   <properties>
-    <property name="name" value="door"/>
-    <property name="state" value="open"/>
-   </properties>
-  </tile>
-  <tile id="3">
-   <properties>
-    <property name="name" value="player"/>
-    <property name="state" value="holding-door"/>
-   </properties>
-  </tile>
-  <tile id="4">
-   <properties>
-    <property name="name" value="player"/>
-    <property name="state" value="awaiting-input"/>
-   </properties>
-  </tile>
-  <tile id="5">
-   <properties>
-    <property name="name" value="player"/>
-    <property name="state" value="awaiting-throw"/>
-   </properties>
-  </tile>
- </tileset>
+ <tileset firstgid="1" source="Terrain.tsx"/>
+ <tileset firstgid="101" source="Objects.tsx"/>
  <layer name="Terrain" width="23" height="24">
-  <data encoding="base64" compression="zlib">
-   eJztVEEOwCAIQ8gu/v/Bu7jEMBCGcNl26IEGm9IgDQBaIZCBc1LPisdf+7F2X9QW/9ZMNBCrK31n5O39d9FMtLckwNLGMbPVwz0cxqwVviWfX9+TKxN+TxDuHjMziWjvwON79kSGv67wnkwkbe1+Z2hHd7AKJxMbBA0=
-  </data>
+  <data encoding="csv">
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,2,2,2,2,1,2,2,2,1,2,2,2,2,2,1,2,2,2,2,2,2,1,
+1,2,2,2,2,1,2,2,2,1,2,2,2,2,2,1,2,2,2,2,2,2,1,
+1,2,2,2,2,1,2,2,2,1,2,2,2,2,2,1,2,2,2,2,2,2,1,
+1,2,2,2,2,1,2,2,2,1,2,2,2,2,2,1,2,2,2,2,2,2,1,
+1,2,2,2,2,1,4,2,2,1,4,2,2,2,2,1,4,2,2,2,2,2,1,
+1,2,2,2,2,1,2,2,2,1,2,2,2,2,2,1,2,2,2,2,2,2,1,
+1,2,2,2,2,1,2,2,2,1,2,2,2,2,2,1,2,2,2,2,2,2,1,
+1,2,2,2,2,1,1,1,1,1,1,1,3,1,1,1,2,2,2,2,2,2,1,
+1,2,2,2,2,1,2,2,2,1,2,2,2,2,2,1,4,2,2,2,2,2,1,
+1,2,2,2,2,1,2,2,2,1,1,1,1,1,1,1,2,2,2,2,2,2,1,
+1,2,2,2,2,1,1,1,1,1,1,2,2,2,1,1,2,3,3,3,3,3,1,
+1,2,2,2,2,1,1,2,4,1,2,2,2,2,1,1,2,1,1,1,1,5,1,
+1,1,1,1,1,1,1,1,1,1,1,2,2,2,1,1,2,3,3,3,3,3,1,
+1,2,2,2,4,1,2,2,2,1,1,1,3,1,1,1,2,2,2,2,2,2,1,
+1,2,2,2,2,1,2,2,2,1,2,2,2,2,2,1,4,2,2,2,2,2,1,
+1,2,2,2,2,1,2,2,2,1,1,1,1,1,1,1,2,2,2,2,2,2,1,
+1,2,2,2,4,1,4,2,2,1,2,4,2,2,2,1,2,2,2,2,2,2,1,
+1,2,2,2,2,1,2,2,2,1,2,4,2,2,2,1,2,2,2,2,2,2,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,1,
+1,2,4,2,2,3,2,2,2,1,2,2,2,4,2,1,2,2,2,2,2,2,1,
+1,2,2,2,2,3,2,2,2,1,4,2,2,2,2,1,2,2,2,2,2,2,1,
+1,2,2,2,2,3,2,2,2,1,2,2,2,2,2,1,4,2,2,2,2,2,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+</data>
  </layer>
  <layer name="Objects" width="23" height="24">
-  <data encoding="base64" compression="zlib">
-   eJxjYBgFIxXwDLQDRgFBMBjiiFZuAJnLTWPzhwIY7O7kYRj8bhwFwxMAAOh/AHg=
-  </data>
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,102,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,102,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,102,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,102,101,102,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,102,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,102,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,102,102,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
  </layer>
 </map>

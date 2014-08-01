@@ -78,4 +78,4 @@ class Player(GameObject):
         return True
 
     def destroy(self):
-        GameObject.destroy(self)
+        self.animate('falling', lambda: GameObject.destroy(self))

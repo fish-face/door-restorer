@@ -88,7 +88,10 @@ class Renderer:
 
         for x, y, obj in level.get_objects():
             dx, dy = obj.animated_position()
-            surface.blit(obj.image, ((x-dx)*tw - view.left, (y-dy)*th - view.top))
+            try:
+                surface.blit(obj.image, ((x-dx)*tw - view.left, (y-dy)*th - view.top))
+            except TypeError:
+                pass
 
     def render_messages(self, surface, messages):
         surface.fill((25, 25, 25))
