@@ -25,28 +25,18 @@ ACTION_KEYS = (pygame.K_SPACE, pygame.K_e, pygame.K_RETURN, pygame.K_x)
 RESTART_KEYS = (pygame.K_r,)
 UNDO_KEYS = (pygame.K_u, pygame.K_z)
 CHEAT_KEYS = (pygame.K_c,)
+QUIT_KEYS = (pygame.K_q,)
 
 
 class Game:
     def __init__(self, screen):
         self.screen = screen
-        self.objectives = []
-        self.messages = []
-        self.state = STATE_NORMAL
-        self.cheating = False
-        self.player_turn = True
-        self.next_update = 0
-
-        pygame.key.set_repeat(1, 200)
-
-        self.quitting = False
-        self.renderer = Renderer()
-        self.clock = pygame.time.Clock()
         self.framerates = []
 
         #self.font = pygame.font.SysFont('Sans', 18)
 
-        self.level = load_level(self, 'levels/test_level-3.tmx')
+    def load_level(self, filename):
+        self.level = load_level(self, filename)
         if not self.level:
             self.quitting = True
 
@@ -106,19 +96,30 @@ class Game:
 
     def win(self):
         #self.quitting = True
-        self.player.animate('descending')
+        self.player.animate('descending', self.end)
+
+    def end(self):
+        self.quitting = True
 
     def start(self):
         self.turn = 0
+        self.messages = []
+        self.state = STATE_NORMAL
+        self.cheating = False
+        self.player_turn = True
+        self.next_update = 0
+
+        self.quitting = False
+        self.renderer = Renderer()
+
         for obj in self.level.objects:
             obj.record_state(self.turn)
         if not self.quitting:
             self.update()
-        while not self.quitting:
-            self.main_loop()
+        #while not self.quitting:
+        #    self.main_loop()
 
     def main_loop(self):
-        delay = self.clock.tick(FRAME_RATE)
         took_turn = self.process_events()
         if took_turn or (not self.player_turn and pygame.time.get_ticks() > self.next_update):
             self.update()
@@ -221,6 +222,8 @@ class Game:
                 self.pick_direction(self.action)
             elif e.key in CHEAT_KEYS:
                 self.cheating = not self.cheating
+            elif e.key in QUIT_KEYS:
+                self.quitting = True
 
         return took_turn
 
