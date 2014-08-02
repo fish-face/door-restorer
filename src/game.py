@@ -44,7 +44,7 @@ class Game:
         self.clock = pygame.time.Clock()
         self.framerates = []
 
-        self.font = pygame.font.SysFont('Sans', 18)
+        #self.font = pygame.font.SysFont('Sans', 18)
 
         self.level = load_level(self, 'levels/test_level-3.tmx')
         if not self.level:
