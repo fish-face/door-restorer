@@ -71,7 +71,7 @@ class BuildExe:
         self.icon_file = None
 
         #Extra files/dirs copied to game
-        self.extra_datas = ['levels', 'graphics']
+        self.extra_datas = ['levels', 'graphics', 'DejaVuSansMono.ttf']
 
         #Extra/excludes python modules
         self.extra_modules = []
