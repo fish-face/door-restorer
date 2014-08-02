@@ -78,4 +78,9 @@ class Player(GameObject):
         return True
 
     def destroy(self):
-        self.animate('falling', lambda: GameObject.destroy(self))
+        self.animate('falling', self.really_destroy)
+        self.game.block()
+
+    def really_destroy(self):
+        self.game.unblock()
+        GameObject.destroy(self)

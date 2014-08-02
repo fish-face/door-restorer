@@ -1,5 +1,6 @@
 STATE_NORMAL = 0
 STATE_PICK = 1
+STATE_LOCKED = 2
 
 UP, DOWN, LEFT, RIGHT = 0, 1, 2, 3
 
@@ -97,6 +98,7 @@ class Game:
     def win(self):
         #self.quitting = True
         self.player.animate('descending', self.end)
+        self.block()
 
     def end(self):
         self.quitting = True
@@ -238,9 +240,15 @@ class Game:
 
         return False
 
-    def schedule_update(self):
+    def block(self):
+        self.state = STATE_LOCKED
+
+    def unblock(self):
+        self.state = STATE_NORMAL
+
+    def schedule_update(self, time=ANIM_DELAY):
         self.player_turn = False
-        self.next_update = pygame.time.get_ticks() + ANIM_DELAY
+        self.next_update = pygame.time.get_ticks() + time
 
     def update(self):
         # level.objects is a set, so the order of evaluation is undefined
