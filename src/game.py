@@ -129,11 +129,7 @@ class Game:
 
     def process_events(self):
         took_turn = False
-        for e in pygame.event.get():
-            if e.type == pygame.QUIT:
-                self.quitting = True
-                return
-
+        for e in pygame.event.get((pygame.KEYDOWN, pygame.MOUSEBUTTONUP)):
             if self.player_turn:
                 if e.type == pygame.KEYDOWN:
                     took_turn = self.keypressed(e)
