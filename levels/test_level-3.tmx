@@ -7,7 +7,7 @@
  <tileset firstgid="101" source="Objects.tsx"/>
  <layer name="Terrain" width="15" height="15">
   <data encoding="base64" compression="zlib">
-   eJylklEKACEIRE3d+195WVCQaayWPgbKfKZTQ0TGhTz0rRViKQvVXGSdsBoc5rIeWLz2YxB3mXtn/dx48ndexq9YLTqpVz2prDW5uVeZZ0zOyFkqz9Fb5pXCPVi3m2vnf/ce+FeRxX/Xsc9i/lO9Yp0B6g==
+   eJylkuEKACEIg2127//Kx4GBrFkd/RiU+ckcNTNrF+qh7wyqDXko9zLbBYvguFd5UPXsx6nebfau/Nxk8ndfxa9YJPE8L1gINve6YGHzjhC9rPHO2Z5kxXOrTHb5892JrXLmf+cF+yz2P9ULYmUB7A==
   </data>
  </layer>
  <layer name="Objects" width="15" height="15">
