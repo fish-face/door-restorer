@@ -70,9 +70,11 @@ class Launcher(object):
             self.clock.tick(game.FRAME_RATE)
             if self.mode == MODE_PLAYING:
                 self.game.main_loop()
-                if self.game.quitting:
+                if self.game.stopping:
                     self.mode = MODE_MAIN_MENU
                     self.draw()
+                elif self.game.quitting:
+                    self.quitting = True
 
             if not self.process_events():
                 continue
@@ -113,14 +115,17 @@ class Launcher(object):
             menu_top += max_height + margin
 
     def process_events(self):
-        if pygame.event.peek(pygame.QUIT):
-            self.quitting = True
-            return False
+        #if pygame.event.peek(pygame.QUIT):
+        #    self.quitting = True
+        #    return False
 
         if self.mode == MODE_PLAYING:
             return False
 
         for e in pygame.event.get():
+            if e.type == pygame.QUIT:
+                self.quitting = True
+                return False
             if e.type == pygame.KEYDOWN:
                 if e.key in game.UP_KEYS:
                     self.current_menu_item -= 1

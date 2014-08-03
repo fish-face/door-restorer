@@ -39,7 +39,7 @@ class Game:
     def load_level(self, filename):
         self.level = load_level(self, filename)
         if not self.level:
-            self.quitting = True
+            self.stopping = True
 
         self.player = self.level.player
 
@@ -101,7 +101,7 @@ class Game:
         self.block()
 
     def end(self):
-        self.quitting = True
+        self.stopping = True
 
     def start(self):
         self.turn = 0
@@ -111,6 +111,7 @@ class Game:
         self.player_turn = True
         self.next_update = 0
 
+        self.stopping = False
         self.quitting = False
         self.renderer = Renderer()
 
@@ -131,8 +132,11 @@ class Game:
 
     def process_events(self):
         took_turn = False
-        for e in pygame.event.get((pygame.KEYDOWN, pygame.MOUSEBUTTONUP)):
-            if self.player_turn:
+        for e in pygame.event.get():
+            if e.type == pygame.QUIT:
+                self.quitting = True
+                return False
+            elif self.player_turn:
                 if e.type == pygame.KEYDOWN:
                     took_turn = self.keypressed(e)
                 elif e.type == pygame.MOUSEBUTTONUP:
@@ -221,7 +225,7 @@ class Game:
             elif e.key in CHEAT_KEYS:
                 self.cheating = not self.cheating
             elif e.key in QUIT_KEYS:
-                self.quitting = True
+                self.stopping = True
 
         return took_turn
 
