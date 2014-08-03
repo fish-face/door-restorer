@@ -12,6 +12,7 @@ ANIM_DELAY = 1000.0/30
 import pygame
 
 from renderer import Renderer
+from sound import SoundPlayer
 from levelloader import load_level
 
 
@@ -33,6 +34,7 @@ class Game:
     def __init__(self, screen):
         self.screen = screen
         self.framerates = []
+        self.sound = SoundPlayer()
 
         #self.font = pygame.font.SysFont('Sans', 18)
 
@@ -174,6 +176,9 @@ class Game:
             if self.player.add(obj):
                 success = True
 
+        if success:
+            self.sound.pickup()
+
         return success
 
     def close(self, direction):
@@ -191,6 +196,8 @@ class Game:
             self.schedule_update()
             self.player_turn = False
             success = True
+        if success:
+            self.sound.throw()
         return success
 
     def keypressed(self, e):
@@ -199,6 +206,7 @@ class Game:
             try:
                 took_turn = self.pick_direction_done(DIR_MAP[e.key])
             except KeyError:
+                self.sound.cancel()
                 self.state = STATE_NORMAL
         elif self.state == STATE_NORMAL:
             try:
@@ -209,6 +217,7 @@ class Game:
                 if newloc != self.player.location:
                     if self.can_move_to(self.player, newloc):
                         self.player.location = newloc
+                        self.sound.step()
                         took_turn = True
                     else:
                         for thing in self.level[newloc]:
@@ -235,6 +244,7 @@ class Game:
         """Enter targeting mode"""
         self.state = STATE_PICK
         self.pick_handler = handler
+        self.sound.action()
 
     def pick_direction_done(self, direction):
         self.state = STATE_NORMAL

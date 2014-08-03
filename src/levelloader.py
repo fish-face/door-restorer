@@ -190,6 +190,11 @@ class Wall(Terrain):
     def __init__(self):
         Terrain.__init__(self, '#', 'wall', (0,0), True, True)
 
+    def arrived(self, other):
+        Terrain.arrived(self, other)
+        if other.flag('door'):
+            self.level.game.sound.land()
+
 
 class Floor(Terrain):
     def __init__(self):
@@ -214,6 +219,7 @@ class Pit(Terrain):
         if other.move_turns > 0 or other.move_to:
             return False
 
+        self.level.game.sound.fall()
         other.destroy()
 
 

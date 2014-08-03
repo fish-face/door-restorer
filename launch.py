@@ -141,6 +141,7 @@ class Launcher(object):
 
 
 if __name__ == '__main__':
+    pygame.mixer.pre_init(44100)
     pygame.init()
     screen = pygame.display.set_mode((600, 600))
 

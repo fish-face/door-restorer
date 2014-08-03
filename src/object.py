@@ -238,7 +238,10 @@ class Door(GameObject):
         self.tileindex = (0,0)
         self.locked = False
         self.block_door = True
-        self.close()
+        self.block_move = True
+        self.block_sight = True
+        self.state = 'default'
+        self.char = '+'
         self.z = 5
 
         self.track_properties += ('locked',)
@@ -257,12 +260,14 @@ class Door(GameObject):
         self.block_sight = True
         self.state = 'default'
         self.char = '+'
+        self.game.sound.close()
 
     def open(self):
         self.block_move = False
         self.block_sight = False
         self.char = 'o'
         self.state = 'open'
+        self.game.sound.open()
 
     def on_added(self):
         GameObject.on_added(self)
