@@ -3,7 +3,7 @@ class Animation(object):
         """poo"""
         self.images = {}
         self.delays = {}
-        self.frames = self.frame_generator()
+        self.start()
 
     def add_frame(self, index, image, delay):
         self.images[index] = image
@@ -21,11 +21,14 @@ class Animation(object):
         self.images = image_list
         self.delays = delays_list
 
+    def start(self):
+        self.frames = self.frame_generator()
+
     def get_frame(self):
         try:
             return self.frames.next()
         except StopIteration:
-            self.frames = self.frame_generator()
+            self.start()
             return None
 
     def frame_generator(self):

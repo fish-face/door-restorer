@@ -23,9 +23,10 @@ class GameObject(object):
         self.block_door = False
         self.state = 'default'
         self.animation = None
+        self.animation_callback = lambda: None
 
         self.history = []
-        self.track_properties = ('_location', 'container', 'contained', 'destroyed', 'flags', 'char', 'block_sight', 'block_move', 'block_door', 'state', 'move_dir', 'move_turns', 'move_to')
+        self.track_properties = ('_location', 'container', 'contained', 'destroyed', 'flags', 'char', 'block_sight', 'block_move', 'block_door', 'state', 'animation', 'animation_callback', 'move_dir', 'move_turns', 'move_to')
 
         self.mass = 1
         self.move_dir = None
@@ -93,7 +94,8 @@ class GameObject(object):
         except KeyError:
             return self.state_images['default']
 
-    def animate(self, name, callback=lambda x: x):
+    def animate(self, name, callback=lambda: None):
+        self.animations[name].start()
         self.animation = name
         self.animation_done = callback
 
