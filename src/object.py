@@ -295,3 +295,5 @@ class Door(GameObject):
         # Don't allow lower objects to be arrived upon
         return True
 
+    def destroy(self):
+        self.animate('falling', lambda: GameObject.destroy(self))

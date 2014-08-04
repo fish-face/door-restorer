@@ -134,4 +134,39 @@
    <property name="state" value="falling"/>
   </properties>
  </tile>
+ <tile id="21">
+  <properties>
+   <property name="name" value="door"/>
+   <property name="state" value="falling"/>
+   <property name="frame" value="0"/>
+  </properties>
+ </tile>
+ <tile id="31">
+  <properties>
+   <property name="name" value="door"/>
+   <property name="state" value="falling"/>
+   <property name="frame" value="1"/>
+  </properties>
+ </tile>
+ <tile id="41">
+  <properties>
+   <property name="name" value="door"/>
+   <property name="state" value="falling"/>
+   <property name="frame" value="2"/>
+  </properties>
+ </tile>
+ <tile id="61">
+  <properties>
+   <property name="name" value="door"/>
+   <property name="state" value="falling"/>
+   <property name="frame" value="3"/>
+  </properties>
+ </tile>
+ <tile id="71">
+  <properties>
+   <property name="name" value="door"/>
+   <property name="state" value="falling"/>
+   <property name="frame" value="4"/>
+  </properties>
+ </tile>
 </tileset>
