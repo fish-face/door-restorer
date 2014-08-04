@@ -39,6 +39,7 @@ class Game:
         #self.font = pygame.font.SysFont('Sans', 18)
 
     def load_level(self, filename):
+        self.level_file = filename
         self.level = load_level(self, filename)
         if not self.level:
             self.stopping = True
@@ -276,10 +277,12 @@ class Game:
                 self.schedule_update()
 
     def restart(self):
-        self.turn = 0
+        self.load_level(self.level_file)
+        self.start()
+        #self.turn = 0
 
-        for obj in self.level.objects:
-            obj.restore_state(self.turn)
+        #for obj in self.level.objects:
+        #    obj.restore_state(self.turn)
 
     def undo(self):
         if self.turn == 0:
