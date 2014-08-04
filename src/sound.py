@@ -8,6 +8,7 @@ sounds = {'throw': 'sounds/Throw.wav',
           'pickup': 'sounds/Pickup.wav',
           'fall': 'sounds/Fall.wav',
           'step': 'sounds/Step.wav',
+          'undo': 'sounds/Undo.wav',
           'open': 'sounds/Open.wav'}
 
 class SoundPlayer(object):

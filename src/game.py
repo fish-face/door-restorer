@@ -237,6 +237,7 @@ class Game:
         if self.state == STATE_NORMAL or self.state == STATE_LOCKED:
             if e.key in UNDO_KEYS:
                 self.undo()
+                self.sound.undo()
                 self.state = STATE_NORMAL
 
         return took_turn
