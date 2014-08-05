@@ -2,6 +2,7 @@ Features
 ---
 
 * Progression & saving
+	* Error handling
 * Big doors, keys, teleporters, ...
 * More characters, switching?
 

@@ -102,6 +102,7 @@ class Game:
         #self.quitting = True
         self.player.animate('descending', self.end)
         self.block()
+        self.won = True
 
     def end(self):
         self.stopping = True
@@ -113,6 +114,7 @@ class Game:
         self.cheating = False
         self.player_turn = True
         self.next_update = 0
+        self.won = False
 
         self.stopping = False
         self.quitting = False

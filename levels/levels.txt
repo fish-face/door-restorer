@@ -1,4 +1,5 @@
-Level 1	levels/test_level.tmx
-Level 2	levels/test_level-2.tmx
-Level 3	levels/test_level-3.tmx
-Level 4	levels/test_level-3.tmx
+Test Levels
+0	Level 1	levels/test_level.tmx
+1	Level 2	levels/test_level-2.tmx
+2	Level 3	levels/test_level-3.tmx
+3	Level 4	levels/test_level-3.tmx
