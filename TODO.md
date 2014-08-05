@@ -3,6 +3,12 @@ Features
 
 * Progression & saving
 * Big doors, keys, teleporters, ...
+* More characters, switching?
+
+Refactors
+---
+
+* Make terrains into objects, unify everything
 
 Content
 ---
@@ -23,7 +29,7 @@ Appeal
 * Menu graphics
 * Auto-tiling walls etc
 * More varied/better tiles
-* More animations (door falling, walking)
+* More animations (walking, ...?)
 * Proper sound
 * Music
 
