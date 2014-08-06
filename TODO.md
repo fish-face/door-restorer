@@ -1,8 +1,7 @@
 Features
 ---
 
-* Progression & saving
-	* Error handling
+* Error handling (especially in save/load)
 * Big doors, keys, teleporters, ...
 * More characters, switching?
 
@@ -33,8 +32,10 @@ Appeal
 * More animations (walking, ...?)
 * Proper sound
 * Music
+* Fiddle with pickup indicators (Invert logic? Display on wall tile?)
 
 Dreams
 ---
 
 * Mobile version
+* Dynamic music
