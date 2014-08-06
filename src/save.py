@@ -9,6 +9,12 @@ class SaveGame(object):
         else:
             self.load()
 
+    def completed(self, levelset, id):
+        return id in self.data[levelset]['completed']
+
+    def available(self, levelset, id):
+        return self.completed(levelset, id) or id == 0 or self.completed(levelset, id - 1)
+
     def from_data(self, data={}):
         self.load()
         self.update(self.data, data)
@@ -18,6 +24,8 @@ class SaveGame(object):
             if isinstance(value, dict):
                 r = self.update(a.get(key, {}), value)
                 a[key] = r
+            elif isinstance(value, list):
+                a[key] = list(set(a.get(key, [])) | set(value))
             else:
                 a[key] = b[key]
 
@@ -56,4 +64,3 @@ class SaveGame(object):
             return os.path.expanduser('~/Libraries/Application Support/Dora/save.txt')
 
         NotImplemented('Unfortunately, your operating system is not supported.')
-
