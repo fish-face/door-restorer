@@ -2,6 +2,7 @@
 from codecs import open
 from ConfigParser import ConfigParser
 from collections import defaultdict
+import os
 import pytmx
 import pygame
 
@@ -86,10 +87,12 @@ def _load_level(game, filename):
 
 
 def load_level(game, filename):
+    filename = os.path.join('levels', filename)
     try:
         tmx_data = pytmx.load_pygame(filename, pixelalpha=True)
     except:
         print 'Level %s could not be read as a TMX file.' % (filename)
+        raise
 
     try:
         name = tmx_data.name

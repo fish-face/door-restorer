@@ -10,10 +10,10 @@ class SaveGame(object):
             self.load()
 
     def completed(self, levelset, id):
-        return id in self.data[levelset]['completed']
+        return levelset in self.data and id in self.data[levelset]['completed']
 
     def available(self, levelset, id):
-        return self.completed(levelset, id) or id == 0 or self.completed(levelset, id - 1)
+        return self.completed(levelset, id) or id == 1 or self.completed(levelset, id - 1)
 
     def from_data(self, data={}):
         self.load()

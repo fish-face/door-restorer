@@ -20,8 +20,9 @@ PROFILE = False
 WINDOW_W, WINDOW_H = 600, 600
 
 MODE_MAIN_MENU = 0
-MODE_SELECT_LEVEL = 1
-MODE_PLAYING = 2
+MODE_SELECT_WORLD = 1
+MODE_SELECT_LEVEL = 2
+MODE_PLAYING = 3
 
 class Launcher(object):
     def __init__(self, screen):
@@ -31,8 +32,11 @@ class Launcher(object):
         self.small_font = pygame.font.SysFont('Sawasdee', 12, True)
         self.quitting = False
         self.clock = pygame.time.Clock()
-        #self.menu_options = (('Play', None), ('Help', None), ('Quit', None))
-        self.menu_options = (Label('Play'), Label('Help'), Label('Quit'))
+        self.menu_options = (Label('Play'),
+                             Label('Select Level'),
+                             Label('Help'),
+                             Label('Credits'),
+                             Label('Quit'))
         self.mode = MODE_MAIN_MENU
         self.game = game.Game(screen)
 
@@ -47,10 +51,21 @@ class Launcher(object):
         if value == MODE_SELECT_LEVEL:
             self.current_menu_item = 0
             self.save = SaveGame()
-            with open(os.path.join('levels', 'levels.txt')) as fd:
-                self.levelset_name = fd.readline()
+            with open(self.world) as fd:
+                fd.readline()
                 levels = [LevelDescription(*row) for row in csv.reader(fd, delimiter='\t')]
             self.select_list = levels
+        elif value == MODE_SELECT_WORLD:
+            self.current_menu_item = 0
+            worlds = glob(os.path.join('levels', '*.txt'))
+            names = []
+            for world in worlds:
+                try:
+                    with open(world) as fd:
+                        names.append(Label(fd.readline().strip(), world))
+                except IOError:
+                    continue
+            self.select_list = names
         elif value == MODE_MAIN_MENU:
             self.current_menu_item = 0
             self.select_list = self.menu_options
@@ -61,14 +76,18 @@ class Launcher(object):
         option = self.select_list[self.current_menu_item]
         if self.mode == MODE_MAIN_MENU:
             name = option.name
-            if name == 'Play':
-                self.mode = MODE_SELECT_LEVEL
+            if name == 'Select Level':
+                self.mode = MODE_SELECT_WORLD
             elif name == 'Help':
                 pass
             elif name == 'Quit':
                 self.quitting = True
+        elif self.mode == MODE_SELECT_WORLD:
+            self.world = option.value
+            self.world_name = option.name
+            self.mode = MODE_SELECT_LEVEL
         elif self.mode == MODE_SELECT_LEVEL:
-            if self.save.available(self.levelset_name, option.id):
+            if self.save.available(self.world_name, option.id):
                 self.sound.throw()
                 self.mode = MODE_PLAYING
                 self.level_id = option.id
@@ -76,6 +95,14 @@ class Launcher(object):
                 self.game.start()
             else:
                 self.sound.land()
+
+    def back(self):
+        if self.mode == MODE_MAIN_MENU:
+            self.quitting = True
+        elif self.mode == MODE_SELECT_WORLD:
+            self.mode = MODE_MAIN_MENU
+        elif self.mode == MODE_SELECT_LEVEL:
+            self.mode = MODE_SELECT_WORLD
 
     def start(self):
         self.draw()
@@ -85,7 +112,7 @@ class Launcher(object):
                 self.game.main_loop()
                 if self.game.stopping:
                     if self.game.won:
-                        saver = SaveGame({self.levelset_name: {'completed': [self.level_id]}})
+                        saver = SaveGame({self.world_name: {'completed': [self.level_id]}})
                         saver.save()
                     self.mode = MODE_MAIN_MENU
                     self.draw()
@@ -99,7 +126,7 @@ class Launcher(object):
 
     def draw(self):
         self.screen.fill((0, 0, 0))
-        if self.mode == MODE_MAIN_MENU:
+        if self.mode == MODE_MAIN_MENU or self.mode == MODE_SELECT_WORLD:
             self.draw_select_list()
         elif self.mode == MODE_SELECT_LEVEL:
             self.draw_level_list()
@@ -118,8 +145,8 @@ class Launcher(object):
             x += margin + w
             thickness = 4 if i == self.current_menu_item else 1
 
-            completed = self.save.completed(self.levelset_name, item.id)
-            available = self.save.available(self.levelset_name, item.id)
+            completed = self.save.completed(self.world_name, item.id)
+            available = self.save.available(self.world_name, item.id)
 
             colour = (172, 172, 172) if available else (64, 64, 64)
             if i == self.current_menu_item:
@@ -187,10 +214,6 @@ class Launcher(object):
             menu_top += max_height + margin
 
     def process_events(self):
-        #if pygame.event.peek(pygame.QUIT):
-        #    self.quitting = True
-        #    return False
-
         if self.mode == MODE_PLAYING:
             return False
 
@@ -210,18 +233,22 @@ class Launcher(object):
                 if e.key in game.ACTION_KEYS:
                     self.select_menu()
                     return True
+                if e.key in game.QUIT_KEYS:
+                    self.back()
+                    return True
 
 
 class LevelDescription(object):
-    def __init__(self, *args):
-        self.id, self.name, self.value = args
-        self.id = int(self.id)
+    def __init__(self, id, name, value):
+        self.id = int(id)
+        self.name = name
+        self.value = value
 
 
 class Label(object):
-    def __init__(self, name):
+    def __init__(self, name, value=''):
         self.name = name
-
+        self.value = value
 
 if __name__ == '__main__':
     pygame.mixer.pre_init(44100)
