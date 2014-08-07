@@ -135,7 +135,7 @@ class Launcher(object):
 
     def draw_level_list(self):
         margin = 8
-        columns = 8
+        columns = 6
         w = (WINDOW_W - margin) / columns
         h = (WINDOW_H - margin) / columns
         y = -h
@@ -251,6 +251,7 @@ class Label(object):
         self.name = name
         self.value = value
 
+
 if __name__ == '__main__':
     pygame.mixer.pre_init(44100)
     pygame.init()
@@ -258,7 +259,7 @@ if __name__ == '__main__':
 
     launcher = Launcher(screen)
     if len(sys.argv) > 1:
-        level = sys.argv[1]
+        level = os.path.basename(sys.argv[1])
         launcher.mode = MODE_PLAYING
         launcher.game.load_level(level)
         launcher.game.start()
