@@ -9,6 +9,7 @@ import cProfile
 import pstats
 import csv
 
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(os.path.join('.', 'src'))
 sys.path.insert(0, os.path.join('.', 'PyTMX'))
 
