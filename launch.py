@@ -256,7 +256,11 @@ if __name__ == '__main__':
     screen = pygame.display.set_mode((600, 600))
 
     launcher = Launcher(screen)
-    #game = game.Game(screen)
+    if len(sys.argv) > 1:
+        level = sys.argv[1]
+        launcher.mode = MODE_PLAYING
+        launcher.game.load_level(level)
+        launcher.game.start()
     if PROFILE:
         cProfile.run('launcher.start()', 'profiledump')
         p = pstats.Stats('profiledump')
