@@ -16,8 +16,8 @@ class Renderer:
         self.view_h = 0.75
         self.tw = 24
         self.th = 24
-        self.font = pygame.font.Font('DejaVuSansMono.ttf', 12)
-        self.title_font = pygame.font.Font('DejaVuSansMono.ttf', 18)
+        self.font = pygame.font.Font('fonts/DejaVuSansMono.ttf', 12)
+        self.title_font = pygame.font.Font('fonts/DejaVuSansMono.ttf', 18)
         self.centre = ()
         self.view = None
 

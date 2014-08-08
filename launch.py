@@ -33,8 +33,8 @@ class Launcher(object):
         self.screen = screen
         self.save = SaveGame()
         self.sound = SoundPlayer()
-        self.menu_font = pygame.font.SysFont('Sawasdee', 30, True)
-        self.small_font = pygame.font.SysFont('Sawasdee', 12, True)
+        self.menu_font = pygame.font.Font('fonts/DAYPBL__.TTF', 36)
+        self.small_font = pygame.font.Font('fonts/C&C Red Alert [INET].ttf', 13)
         self.quitting = False
         self.clock = pygame.time.Clock()
         self.menu_options = (Label('Play'),
@@ -179,7 +179,7 @@ class Launcher(object):
             id_pos = id_text.get_rect()
             id_pos.y = y + margin/2
             id_pos.centerx = x + w/2
-            name_text = self.small_font.render(item.name, True, (0, 0, 0))
+            name_text = self.small_font.render(item.name, False, (0, 0, 0))
             name_pos = name_text.get_rect()
             name_pos.bottom = y + h - margin/2
             name_pos.centerx = x + w/2
@@ -196,8 +196,9 @@ class Launcher(object):
             menu_height += height
             max_height = max(height, max_height)
 
-        margin = 8
+        margin = 2
         menu_top = WINDOW_H / 2 - menu_height / 2
+        triangle_offset = 28
         for i, item in enumerate(rendered_items):
             x = WINDOW_W / 2 - item.get_width() / 2
             self.screen.blit(item, (x, menu_top))
@@ -205,28 +206,28 @@ class Launcher(object):
                 x -= 8
                 pygame.draw.polygon(self.screen,
                                     (196, 196, 196),
-                                    ((x-12, menu_top+8),
-                                     (x-12, menu_top+32),
-                                     (x, menu_top+20)))
+                                    ((x-12, menu_top+triangle_offset-12),
+                                     (x-12, menu_top+triangle_offset+12),
+                                     (x, menu_top+triangle_offset)))
                 pygame.draw.aalines(self.screen,
                                     (255, 255, 255),
                                     True,
-                                    ((x-12, menu_top+8),
-                                     (x-12, menu_top+32),
-                                     (x, menu_top+20)))
+                                    ((x-12, menu_top+triangle_offset-12),
+                                     (x-12, menu_top+triangle_offset+12),
+                                     (x, menu_top+triangle_offset)))
 
                 x = WINDOW_W - x
                 pygame.draw.polygon(self.screen,
                                     (196, 196, 196),
-                                    ((x+12, menu_top+8),
-                                     (x+12, menu_top+32),
-                                     (x, menu_top+20)))
+                                    ((x+12, menu_top+triangle_offset-12),
+                                     (x+12, menu_top+triangle_offset+12),
+                                     (x, menu_top+triangle_offset)))
                 pygame.draw.aalines(self.screen,
                                     (255, 255, 255),
                                     True,
-                                    ((x+12, menu_top+8),
-                                     (x+12, menu_top+32),
-                                     (x, menu_top+20)))
+                                    ((x+12, menu_top+triangle_offset-12),
+                                     (x+12, menu_top+triangle_offset+12),
+                                     (x, menu_top+triangle_offset)))
 
             menu_top += max_height + margin
 
