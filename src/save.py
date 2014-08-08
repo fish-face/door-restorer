@@ -51,15 +51,15 @@ class SaveGame(object):
         return a
 
     def load(self):
+        self.data = {'completed' : {}}
         filename = self.save_location()
         try:
             fd = open(filename, 'r')
         except IOError:
-            self.data = {}
             return False
 
         with fd:
-            self.data = json.load(fd)
+            self.data.update(json.load(fd))
 
         return True
 
