@@ -8,12 +8,12 @@
  <tileset firstgid="201" source="Terrain.tsx"/>
  <layer name="Terrain" width="10" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjZGBgYCQSsyBhRiSaCYmNTR0jAXXI8tjEsbkBmzp09+Ayg5D/sPkD2Wx84YKujpVENwAAoQAAyQ==
+   eJxjZGBgYCQSswAxE5TNhMRmgWJGLHJMSHLo6kixl4WA2ehyjGh6mKlgLzMWs9HDBd2PrCTaCQCGvACr
   </data>
  </layer>
  <layer name="Objects" width="10" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjYCAepJKgNo0EtaMAAQAKYwDM
+   eJxjYCAepOKRSyPAH86Amn4FAKtbAZg=
   </data>
  </layer>
 </map>
