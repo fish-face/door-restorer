@@ -25,6 +25,9 @@ MODE_SELECT_WORLD = 1
 MODE_SELECT_LEVEL = 2
 MODE_PLAYING = 3
 
+GRID_COLS = 6
+
+
 class Launcher(object):
     def __init__(self, screen):
         self.screen = screen
@@ -149,12 +152,11 @@ class Launcher(object):
 
     def draw_level_list(self):
         margin = 8
-        columns = 6
-        w = (WINDOW_W - margin) / columns
-        h = (WINDOW_H - margin) / columns
+        w = (WINDOW_W - margin) / GRID_COLS - margin
+        h = (WINDOW_H - margin) / GRID_COLS - margin
         y = -h
         for i, item in enumerate(self.select_list):
-            if i % columns == 0:
+            if i % GRID_COLS == 0:
                 x = -w
                 y += margin + h
             x += margin + w
@@ -175,7 +177,7 @@ class Launcher(object):
                              (x + thickness, y + thickness, w - 2*thickness, h - 2*thickness))
             id_text = self.menu_font.render(str(item.id), True, (0, 0, 0))
             id_pos = id_text.get_rect()
-            id_pos.y = margin/2
+            id_pos.y = y + margin/2
             id_pos.centerx = x + w/2
             name_text = self.small_font.render(item.name, True, (0, 0, 0))
             name_pos = name_text.get_rect()
@@ -238,10 +240,32 @@ class Launcher(object):
                 return False
             if e.type == pygame.KEYDOWN:
                 if e.key in game.UP_KEYS:
-                    self.current_menu_item -= 1
+                    if self.mode == MODE_SELECT_LEVEL:
+                        if self.current_menu_item - GRID_COLS >= 0:
+                            self.current_menu_item -= GRID_COLS
+                        elif self.current_menu_item < len(self.select_list) % GRID_COLS:
+                            self.current_menu_item -= len(self.select_list) % GRID_COLS
+                        else:
+                            self.current_menu_item -= len(self.select_list) % GRID_COLS + GRID_COLS
+                    else:
+                        self.current_menu_item -= 1
                     self.current_menu_item %= len(self.select_list)
                     return True
                 if e.key in game.DOWN_KEYS:
+                    if self.mode == MODE_SELECT_LEVEL:
+                        if self.current_menu_item + GRID_COLS < len(self.select_list):
+                            self.current_menu_item += GRID_COLS
+                        else:
+                            self.current_menu_item %= GRID_COLS
+                    else:
+                        self.current_menu_item += 1
+                    self.current_menu_item %= len(self.select_list)
+                    return True
+                if e.key in game.LEFT_KEYS and self.mode == MODE_SELECT_LEVEL:
+                    self.current_menu_item -= 1
+                    self.current_menu_item %= len(self.select_list)
+                    return True
+                if e.key in game.RIGHT_KEYS and self.mode == MODE_SELECT_LEVEL:
                     self.current_menu_item += 1
                     self.current_menu_item %= len(self.select_list)
                     return True

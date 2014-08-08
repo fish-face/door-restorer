@@ -5,7 +5,6 @@ Features
 * Big doors, keys, teleporters, ...
 * More characters, switching?
 * Hints for tutorial levels/introducing new features
-* Level set/world selection
 
 Misc
 ---
