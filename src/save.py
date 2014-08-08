@@ -9,20 +9,39 @@ class SaveGame(object):
         else:
             self.load()
 
+    def set_current(self, world, id):
+        self.load()
+        self.update({'current' : {'world' : world, 'level' : id}})
+        self.save()
+
+    def current(self):
+        if 'current' in self.data:
+            return self.data['current']['world'], self.data['current']['level']
+        else:
+            return ('Tutorials', 1)
+
+    def set_completed(self, world, id):
+        self.load()
+        self.update({'completed': {world: [id]}})
+        self.save()
+
     def completed(self, levelset, id):
-        return levelset in self.data and id in self.data[levelset]['completed']
+        return levelset in self.data['completed'] and id in self.data['completed'][levelset]
 
     def available(self, levelset, id):
         return self.completed(levelset, id) or id == 1 or self.completed(levelset, id - 1)
 
     def from_data(self, data={}):
         self.load()
-        self.update(self.data, data)
+        self.update(data)
 
-    def update(self, a, b):
+    def update(self, b, a=None):
+        if a is None:
+            a = self.data
+
         for key, value in b.items():
             if isinstance(value, dict):
-                r = self.update(a.get(key, {}), value)
+                r = self.update(value, a.get(key, {}))
                 a[key] = r
             elif isinstance(value, list):
                 a[key] = list(set(a.get(key, [])) | set(value))
