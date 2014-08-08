@@ -2,6 +2,9 @@ import os
 import sys
 import json
 
+INITIAL = {'completed' : {}, 'current' : {'world' : 'Tutorials', 'level' : 1}}
+
+
 class SaveGame(object):
     def __init__(self, data=None):
         if data is not None:
@@ -15,10 +18,7 @@ class SaveGame(object):
         self.save()
 
     def current(self):
-        if 'current' in self.data:
-            return self.data['current']['world'], self.data['current']['level']
-        else:
-            return ('Tutorials', 1)
+        return self.data['current']['world'], self.data['current']['level']
 
     def set_completed(self, world, id):
         self.load()
@@ -51,7 +51,7 @@ class SaveGame(object):
         return a
 
     def load(self):
-        self.data = {'completed' : {}}
+        self.data = INITIAL
         filename = self.save_location()
         try:
             fd = open(filename, 'r')
