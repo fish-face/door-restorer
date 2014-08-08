@@ -78,7 +78,7 @@ class SaveGame(object):
         if sys.platform.startswith('linux'):
             return os.path.expanduser('~/.local/share/Dora/save.txt')
         if sys.platform == 'win32':
-            return os.path.expand('%APPDATA%/Dora/save.txt')
+            return os.path.expandvars('%APPDATA%/Dora/save.txt')
         if sys.platform == 'darwin':
             return os.path.expanduser('~/Libraries/Application Support/Dora/save.txt')
 
