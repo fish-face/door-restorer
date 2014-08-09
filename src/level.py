@@ -26,7 +26,6 @@ class Level:
         self.map = []
         self.regions = []
 
-        self.set_cursor(0,0)
         self.map = []
         self.width = width
         self.height = height
@@ -36,16 +35,6 @@ class Level:
             for x in xrange(self.width):
                 self.map[y].append([])
 
-    def set_cursor(self, x, y):
-        """Set the level's origin; all terrain-drawing will be translated by this amount"""
-        self.x = x
-        self.y = y
-
-    def translate(self, x, y):
-        """Like set_cursor but relative"""
-        self.x += x
-        self.y += y
-
     def get_coords_of(self, obj):
         """Get coordinates of given object or its container"""
         if not obj.container:
@@ -53,8 +42,8 @@ class Level:
         return self.get_coords_of(obj.container)
 
     def set_terrain(self, p, terrain):
-        x = p[0] + self.x
-        y = p[1] + self.y
+        x = p[0]
+        y = p[1]
         if callable(terrain):
             terrain = terrain(self, p)
 
@@ -71,6 +60,12 @@ class Level:
         # TODO: Nothing specifies that there must be exactly one terrain
         #       per tile, or even where it is in the tile's list.
 
+    def add_region(self, region):
+        if region in self.regions:
+            return
+
+        self.regions.append(region)
+
     def add_object(self, obj):
         """Add object to the level's list of objects"""
         if obj in self.objects:
@@ -78,11 +73,8 @@ class Level:
 
         self.objects.add(obj)
 
-        #Translate by our cursor coords - this should only happen during level generation.
         if obj.location:
-            x, y = obj.location
-            self[(x,y)].append(obj)
-            obj.location = (x+self.x, y+self.y)
+            self[obj.location].append(obj)
 
     def remove_object(self, obj):
         """Should only be called from obj.destroy()"""
@@ -99,6 +91,9 @@ class Level:
         if location:
             self[location].append(obj)
             self[location].sort(key=lambda x: x.z)
+            for region in self.regions:
+                if location in region:
+                    if region.arrived(obj): break
 
     def get_tile(self, x, y):
         """Return all the stuff at the given location"""

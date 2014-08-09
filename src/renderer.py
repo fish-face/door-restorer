@@ -17,12 +17,14 @@ class Renderer:
         self.tw = 24
         self.th = 24
         self.font = pygame.font.Font('fonts/DejaVuSansMono.ttf', 12)
+        self.msg_font = pygame.font.Font('fonts/C&C Red Alert [INET].ttf', 26)
         self.title_font = pygame.font.Font('fonts/DejaVuSansMono.ttf', 18)
         self.centre = ()
         self.view = None
 
     def render(self, game, surface):
         self.render_level(game)
+        self.render_overlays(game)
         # Set up areas to render to
         main_surface = surface.subsurface(MARGIN, MARGIN, VIEW_W, VIEW_H)
 
@@ -33,6 +35,7 @@ class Renderer:
     def render_level(self, game):
         # Calculate viewport
         surface = self.level_surf
+        surface.fill((0, 0, 0))
         level = game.level
         player = game.player
 
@@ -83,11 +86,19 @@ class Renderer:
             except TypeError:
                 pass
 
-    def render_messages(self, surface, messages):
-        surface.fill((25, 25, 25))
-        text = '\n'.join(messages[-100:])
-        self.draw_text(surface, text,
-                       (255, 255, 255), surface.get_rect(), self.font, False)
+    def render_overlays(self, game):
+        message_rect = pygame.Rect((MARGIN, MARGIN, VIEW_W-2*MARGIN, 200))
+        message_rect.bottom = self.level_surf.get_rect().bottom - MARGIN
+        for region in game.level.regions:
+            if game.player.location in region and region.message:
+                self.level_surf.fill((32, 32, 32), message_rect)
+                message_rect.inflate_ip(-2*MARGIN, -MARGIN)
+                self.draw_text(self.level_surf,
+                               region.message,
+                               (255, 255, 255),
+                               message_rect,
+                               self.msg_font)
+                break
 
     def draw_text(self, surface, text, color, rect, font, align_top=True):
         """Draw text on surface, wrapped to fit inside rect"""
