@@ -71,7 +71,7 @@ class BuildExe:
         self.icon_file = None
 
         #Extra files/dirs copied to game
-        self.extra_datas = ['levels', 'graphics', 'DejaVuSansMono.ttf']
+        self.extra_datas = ['levels', 'graphics', 'fonts', 'sounds']
 
         #Extra/excludes python modules
         self.extra_modules = []
@@ -170,4 +170,3 @@ if __name__ == '__main__':
     if operator.lt(len(sys.argv), 2):
         sys.argv.append('py2exe')
     BuildExe().run() #Run generation
-    raw_input("Press any key to continue") #Pause to let user see that things ends

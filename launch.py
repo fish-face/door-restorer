@@ -8,7 +8,10 @@ from glob import glob
 import cProfile
 import pstats
 
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
+if hasattr(sys, 'frozen') and sys.frozen == 'windows_exe':
+    os.chdir(os.path.dirname(os.path.abspath(sys.executable)))
+else:
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(os.path.join('.', 'src'))
 sys.path.insert(0, os.path.join('.', 'PyTMX'))
 
