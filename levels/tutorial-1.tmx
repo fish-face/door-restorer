@@ -18,32 +18,22 @@
  <objectgroup name="Hints" width="10" height="10">
   <object name="Hint Movement" x="24" y="24" width="48" height="48">
    <properties>
-    <property name="message" value="Hello, Dora! You're probably wondering what you're doing here. Well, I can't help you there, but I suggest you try and get to those stairs over there. Try WALKING a bit with the arrow keys, WASD or HJKL."/>
+    <property name="message" value="Hello, Dora! You're probably wondering what you're doing here. Well, I can't help you there, but I suggest you try and get to those stairs over there.\n\nTry WALKING a bit with the arrow keys, WASD or HJKL."/>
    </properties>
   </object>
   <object name="Go to Door" x="24" y="72" width="48" height="48">
    <properties>
-    <property name="message" value="Good! Now, for reasons I won't go into, you have been blessed with the ability to pick up heavy wooden doors neither a huff nor a puff! First WALK next to the door down there."/>
+    <property name="message" value="Good! Now, for reasons I won't go into, you have been blessed with the ability to pick up heavy wooden doors neither a huff nor a puff!\n\nFirst WALK next to the door down there."/>
    </properties>
   </object>
   <object name="Lift Door" x="24" y="144" width="24" height="24">
    <properties>
-    <property name="message" value="Now you're next to the door, you can LIFT it. First, press Space, Enter, E or X, followed by the direction to the door."/>
-   </properties>
-  </object>
-  <object name="Lift Door" x="48" y="168" width="24" height="24">
-   <properties>
-    <property name="message" value="Now you're next to the door, you can LIFT it. First, press Space, Enter, E or X, followed by the direction to the door."/>
-   </properties>
-  </object>
-  <object name="Lift Door" x="24" y="192" width="24" height="24">
-   <properties>
-    <property name="message" value="Now you're next to the door, you can LIFT it. First, press Space, Enter, E or X, followed by the direction to the door."/>
+    <property name="message" value="Now you're next to the door, you can LIFT it.\n\nFirst, press Space, Enter, E or X, followed by the direction to the door."/>
    </properties>
   </object>
   <object name="Nearly There" x="96" y="24" width="48" height="192">
    <properties>
-    <property name="message" value="Crikey. As you can imagine, a team of scientists is investigating this phenomenon as we speak, but while they deliberate, press Space, Enter, X or E and then left to close the door, then pick it up and continue to the stairs."/>
+    <property name="message" value="Crikey. As you can imagine, a team of scientists is investigating this phenomenon as we speak, but while they deliberate, you'd best press on.\n\nPress Space, Enter, X or E and then left to close the door, then pick it up and continue to the stairs."/>
    </properties>
   </object>
   <object name="In Wall" x="72" y="24" width="24" height="192">
@@ -54,6 +44,16 @@
   <object name="Finished" x="168" y="24" width="48" height="192">
    <properties>
     <property name="message" value="Lovely. Now just pop over to the stairs, and I'll talk to you in the next room."/>
+   </properties>
+  </object>
+  <object name="Lift Door" x="48" y="168" width="24" height="24">
+   <properties>
+    <property name="message" value="Now you're next to the door, you can LIFT it.\n\nFirst, press Space, Enter, E or X, followed by the direction to the door."/>
+   </properties>
+  </object>
+  <object name="Lift Door" x="24" y="192" width="24" height="24">
+   <properties>
+    <property name="message" value="Now you're next to the door, you can LIFT it.\n\nFirst, press Space, Enter, E or X, followed by the direction to the door."/>
    </properties>
   </object>
  </objectgroup>

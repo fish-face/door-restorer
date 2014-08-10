@@ -26,7 +26,7 @@ class TutorialOne(Game):
             return False
 
         if not self.picked_up_door:
-            self.display_message('Picked up', 'OK, now THROW the door at the wall to your right! Press Space, Enter, E or X, and then right.')
+            self.display_message('Picked up', 'OK, now THROW the door at the wall to your right!\n\nPress Space, Enter, E or X, and then right.')
             self.picked_up_door = True
         return True
 
@@ -37,9 +37,9 @@ class TutorialOne(Game):
 
         if not self.correctly_thrown_door:
             if direction == RIGHT:
-                self.display_message('Thrown', 'As you can see, a quite incredible thing has happened. Rather than making a loud BANG and falling over, the door fused into the wall. My gast is flabbered. Go ahead and WALK into the door to open it.')
+                self.display_message('Thrown', 'As you can see, a quite incredible thing has happened. Rather than making a loud BANG and falling over, the door fused into the wall. My gast is flabbered.\n\nGo ahead and WALK into the door to open it.')
                 self.correctly_thrown_door = True
             else:
-                self.display_message('Thrown Wrong', 'Can\'t tell your left from your right, eh? Well it seems you have the brawn but not the brains. Go over to where you throw it and pick it up again. Then throw it at the wall to your RIGHT.')
+                self.display_message('Thrown Wrong', 'Can\'t tell your left from your right, eh? Well it seems you have the brawn but not the brains.\n\nGo over to where you throw it and pick it up again. Then throw it at the wall to your RIGHT.')
                 self.picked_up_door = False
         return True

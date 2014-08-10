@@ -95,7 +95,7 @@ def load_level(game, filename):
         h = obj.height / TILE_H
         region = Region(obj.name, level, (x, y), (w, h))
         if obj.message:
-            region.message = obj.message
+            region.message = obj.message.decode('string-escape')
 
     return level
 
