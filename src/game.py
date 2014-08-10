@@ -129,6 +129,7 @@ class Game:
         self.quitting = False
 
         for obj in self.level.objects:
+            obj.location = obj.location
             obj.record_state(self.turn)
         if not self.quitting:
             self.update()
