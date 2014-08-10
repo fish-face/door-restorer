@@ -9,6 +9,8 @@ MARGIN = 8
 VIEW_W = WIN_W - 2 * MARGIN
 VIEW_H = WIN_H - 2 * MARGIN
 
+message_bg = pygame.image.load('graphics/message.png')
+
 class Renderer:
     def __init__(self):
         self.terrain_surf = None
@@ -91,11 +93,13 @@ class Renderer:
     anim_end_fac = 1.3*math.pi/2
     def render_overlays(self, game):
         if game.message:
+            anim_pos = game.msg_anim_pos()
             message_rect = pygame.Rect((MARGIN, MARGIN, VIEW_W-2*MARGIN, 200))
             message_rect.bottom = self.level_surf.get_rect().bottom - MARGIN
-            message_rect.y += 200 * (math.sin(self.anim_end_fac) - math.sin(game.msg_anim_pos() * self.anim_end_fac))
-            self.level_surf.fill((32, 32, 32), message_rect)
-            message_rect.inflate_ip(-2*MARGIN, -MARGIN)
+            message_rect.y += 200 * (math.sin(self.anim_end_fac) - math.sin(anim_pos * self.anim_end_fac))
+            #self.level_surf.fill((32, 32, 32), message_rect)
+            self.level_surf.blit(message_bg, message_rect.topleft)
+            message_rect.inflate_ip(-4*MARGIN, -2*MARGIN)
             self.draw_text(self.level_surf,
                            game.message,
                            (255, 255, 255),
