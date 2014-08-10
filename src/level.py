@@ -86,11 +86,16 @@ class Level:
 
     def move_object(self, obj, location):
         """Should only be called from obj.move"""
+        regions = []
         if obj.location:
             self[obj.location].remove(obj)
+            regions = [r for r in self.regions if obj.location in r]
         if location:
             self[location].append(obj)
             self[location].sort(key=lambda x: x.z)
+            for region in regions:
+                if location not in region:
+                    if region.leaving(obj): break
             for region in self.regions:
                 if location in region:
                     if region.arrived(obj): break

@@ -41,5 +41,20 @@
     <property name="message" value="Now you're next to the door, you can LIFT it. First, press Space, Enter, E or X, followed by the direction to the door."/>
    </properties>
   </object>
+  <object name="Nearly There" x="96" y="24" width="48" height="192">
+   <properties>
+    <property name="message" value="Crikey. As you can imagine, a team of scientists is investigating this phenomenon as we speak, but while they deliberate, press Space, Enter, X or E and then left to close the door, then pick it up and continue to the stairs."/>
+   </properties>
+  </object>
+  <object name="In Wall" x="72" y="24" width="24" height="192">
+   <properties>
+    <property name="message" value="While in here I suggest not looking to either side too much. We've no idea what kind of transdimensional monsters could be lurking in the void... Continue through to pick up the door again."/>
+   </properties>
+  </object>
+  <object name="Finished" x="168" y="24" width="48" height="192">
+   <properties>
+    <property name="message" value="Lovely. Now just pop over to the stairs, and I'll talk to you in the next room."/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

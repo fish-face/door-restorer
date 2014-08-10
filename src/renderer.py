@@ -1,5 +1,6 @@
 ### Renders a level to a pygame surface
 
+import math
 import pygame
 
 WIN_W = 600
@@ -86,19 +87,20 @@ class Renderer:
             except TypeError:
                 pass
 
+
+    anim_end_fac = 1.3*math.pi/2
     def render_overlays(self, game):
-        message_rect = pygame.Rect((MARGIN, MARGIN, VIEW_W-2*MARGIN, 200))
-        message_rect.bottom = self.level_surf.get_rect().bottom - MARGIN
-        for region in game.level.regions:
-            if game.player.location in region and region.message:
-                self.level_surf.fill((32, 32, 32), message_rect)
-                message_rect.inflate_ip(-2*MARGIN, -MARGIN)
-                self.draw_text(self.level_surf,
-                               region.message,
-                               (255, 255, 255),
-                               message_rect,
-                               self.msg_font)
-                break
+        if game.message:
+            message_rect = pygame.Rect((MARGIN, MARGIN, VIEW_W-2*MARGIN, 200))
+            message_rect.bottom = self.level_surf.get_rect().bottom - MARGIN
+            message_rect.y += 200 * (math.sin(self.anim_end_fac) - math.sin(game.msg_anim_pos() * self.anim_end_fac))
+            self.level_surf.fill((32, 32, 32), message_rect)
+            message_rect.inflate_ip(-2*MARGIN, -MARGIN)
+            self.draw_text(self.level_surf,
+                           game.message,
+                           (255, 255, 255),
+                           message_rect,
+                           self.msg_font)
 
     def draw_text(self, surface, text, color, rect, font, align_top=True):
         """Draw text on surface, wrapped to fit inside rect"""

@@ -1,6 +1,5 @@
 #encoding=utf8
 from codecs import open
-from ConfigParser import ConfigParser
 from collections import defaultdict
 import os
 import pytmx

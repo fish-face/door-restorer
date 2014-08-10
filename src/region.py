@@ -17,7 +17,15 @@ class Region(object):
         self._level.add_region(self)
 
     def arrived(self, other):
-        return False
+        if other.flag('player'):
+            self.game.display_message(self.name, self.message)
+            return False
+        return True
+
+    def leaving(self, other):
+        if other.flag('player'):
+            self.game.display_message(self.name, None)
+        return True
 
     def __contains__(self, location):
         return (location[0] >= self.location[0] and

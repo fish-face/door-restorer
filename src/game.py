@@ -31,9 +31,7 @@ QUIT_KEYS = (pygame.K_q,)
 
 
 class Game:
-    def __init__(self, screen):
-        self.screen = screen
-        self.framerates = []
+    def __init__(self):
         self.sound = SoundPlayer()
 
         #self.font = pygame.font.SysFont('Sans', 18)
@@ -107,6 +105,16 @@ class Game:
     def end(self):
         self.stopping = True
 
+    def display_message(self, key, message):
+        if message != self.message:
+            self.msg_anim_frame = 0
+            self.message = message
+
+    def msg_anim_pos(self):
+        if self.msg_anim_frame < 12:
+            self.msg_anim_frame += 1
+        return self.msg_anim_frame / 12.0
+
     def start(self):
         self.turn = 0
         self.messages = []
@@ -115,10 +123,10 @@ class Game:
         self.player_turn = True
         self.next_update = 0
         self.won = False
+        self.message = None
 
         self.stopping = False
         self.quitting = False
-        self.renderer = Renderer()
 
         for obj in self.level.objects:
             obj.record_state(self.turn)
@@ -131,9 +139,6 @@ class Game:
         took_turn = self.process_events()
         if took_turn or (not self.player_turn and pygame.time.get_ticks() > self.next_update):
             self.update()
-
-        self.renderer.render(self, self.screen)
-        pygame.display.flip()
 
     def process_events(self):
         took_turn = False

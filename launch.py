@@ -15,7 +15,9 @@ else:
 sys.path.append(os.path.join('.', 'src'))
 sys.path.insert(0, os.path.join('.', 'PyTMX'))
 
+from renderer import Renderer
 import game
+from tutorial import TutorialOne
 from save import SaveGame
 from sound import SoundPlayer
 from levelset import LevelSet, LevelDescription
@@ -46,7 +48,6 @@ class Launcher(object):
                              Label('Credits'),
                              Label('Quit'))
         self.mode = MODE_MAIN_MENU
-        self.game = game.Game(screen)
 
     @property
     def mode(self):
@@ -110,6 +111,11 @@ class Launcher(object):
     def play(self):
         self.save.set_current(self.current_world, self.level.id)
         self.mode = MODE_PLAYING
+        if self.current_world == 'Tutorials' and self.level.id == 1:
+            self.game = TutorialOne()
+        else:
+            self.game = game.Game()
+        self.renderer = Renderer()
         self.game.load_level(self.level.value)
         self.game.start()
 
@@ -127,6 +133,7 @@ class Launcher(object):
             self.clock.tick(game.FRAME_RATE)
             if self.mode == MODE_PLAYING:
                 self.game.main_loop()
+
                 if self.game.stopping:
                     if self.game.won:
                         self.save.set_completed(self.current_world, self.level.id)
@@ -151,6 +158,8 @@ class Launcher(object):
             self.draw_select_list()
         elif self.mode == MODE_SELECT_LEVEL:
             self.draw_level_list()
+        elif self.mode == MODE_PLAYING:
+            self.renderer.render(self.game, self.screen)
         pygame.display.flip()
 
     def draw_level_list(self):
@@ -236,7 +245,7 @@ class Launcher(object):
 
     def process_events(self):
         if self.mode == MODE_PLAYING:
-            return False
+            return True
 
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
