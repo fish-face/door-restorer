@@ -23,7 +23,7 @@
   </object>
   <object name="Go to Door" x="24" y="72" width="48" height="48">
    <properties>
-    <property name="message" value="Good! Now, for reasons I won't go into, you have been blessed with the ability to pick up heavy wooden doors neither a huff nor a puff!\n\nFirst WALK next to the door down there."/>
+    <property name="message" value="Good! Now, for reasons I won't go into, you have been blessed with the ability to pick up heavy wooden doors with neither a huff nor a puff!\n\nFirst WALK next to the door down there."/>
    </properties>
   </object>
   <object name="Lift Door" x="24" y="144" width="24" height="24">
