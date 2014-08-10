@@ -15,6 +15,8 @@ class Renderer:
     def __init__(self):
         self.terrain_surf = None
         self.level_surf = pygame.Surface((VIEW_W, VIEW_H))
+        self.message_surf = pygame.Surface((VIEW_W-MARGIN*2, 200))
+        self.message = None
         self.view_w = 0.75
         self.view_h = 0.75
         self.tw = 24
@@ -93,18 +95,19 @@ class Renderer:
     anim_end_fac = 1.3*math.pi/2
     def render_overlays(self, game):
         if game.message:
+            if game.message != self.message:
+                self.message_surf.blit(message_bg, (0, 0))
+                self.draw_text(self.message_surf,
+                               game.message,
+                               (255, 255, 255),
+                               self.message_surf.get_rect().inflate(-4*MARGIN, -4*MARGIN),
+                               self.msg_font)
+                self.message = game.message
             anim_pos = game.msg_anim_pos()
-            message_rect = pygame.Rect((MARGIN, MARGIN, VIEW_W-2*MARGIN, 200))
+            message_rect = pygame.Rect((MARGIN, MARGIN, VIEW_W-4*MARGIN, 200))
             message_rect.bottom = self.level_surf.get_rect().bottom - MARGIN
             message_rect.y += 200 * (math.sin(self.anim_end_fac) - math.sin(anim_pos * self.anim_end_fac))
-            #self.level_surf.fill((32, 32, 32), message_rect)
-            self.level_surf.blit(message_bg, message_rect.topleft)
-            message_rect.inflate_ip(-4*MARGIN, -2*MARGIN)
-            self.draw_text(self.level_surf,
-                           game.message,
-                           (255, 255, 255),
-                           message_rect,
-                           self.msg_font)
+            self.level_surf.blit(self.message_surf, message_rect.topleft)
 
     def draw_text(self, surface, text, color, rect, font, align_top=True):
         """Draw text on surface, wrapped to fit inside rect"""

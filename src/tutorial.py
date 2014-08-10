@@ -3,14 +3,14 @@ from game import Game, RIGHT
 class TutorialOne(Game):
     def __init__(self, *args, **kwargs):
         Game.__init__(self, *args, **kwargs)
-        self.gone_to_door = False
-        self.pressed_action = False
         self.picked_up_door = False
         self.correctly_thrown_door = False
         self.deactivate_if = {
             'Hint Movement': ('picked_up_door',),
             'Go to Door': ('picked_up_door',),
-            'Lift Door': ('picked_up_door',)
+            'Lift Door': ('picked_up_door',),
+            'In Wall': ('second_pickup',),
+            'Nearly There': ('second_pickup',),
         }
 
     def display_message(self, key, message):
@@ -28,6 +28,8 @@ class TutorialOne(Game):
         if not self.picked_up_door:
             self.display_message('Picked up', 'OK, now THROW the door at the wall to your right!\n\nPress Space, Enter, E or X, and then right.')
             self.picked_up_door = True
+        elif self.player.location[0] == 4:
+            self.second_pickup = True
         return True
 
     def throw(self, direction):
