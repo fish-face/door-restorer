@@ -22,7 +22,7 @@
     <property name="message" value="Ah, you made it. I wasn't sure if the stairs would just drop you into the void with no way out until your eventual death. What do you suppose those black squares are, down there?\n\nWalk down to them and check them out."/>
    </properties>
   </object>
-  <object name="You fell in a pit" x="24" y="72" width="120" height="24">
+  <object name="Pit region" x="24" y="72" width="120" height="24">
    <properties>
     <property name="message" value="Oh. I suppose those are bottomless pits. I guess now you'll be falling through the void with no way out until your eventual death.\n\nI suggest you press U to UNDO your foolish mistake!"/>
    </properties>
@@ -34,5 +34,10 @@
    <polygon points="0,0 0,24 120,24 120,48 144,48 144,0"/>
   </object>
   <object name="Door landing" x="24" y="96" width="120" height="24"/>
+  <object name="Done" x="24" y="96" width="24" height="48">
+   <properties>
+    <property name="message" value="Ahah, wonderful! Now that is a useful trick if you ever come across the pestiferous pits again. Looks like you can head on over to the stairs, and see what awaits you in the next room."/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

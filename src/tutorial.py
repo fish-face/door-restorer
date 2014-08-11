@@ -62,10 +62,12 @@ class TutorialTwo(Tutorial):
         Tutorial.__init__(self, *args, **kwargs)
         self.fell_in_pit = False
         self.door_landed = False
+        self.door_fallen = False
         self.tried_through_door = False
         self.deactivate_if = {
             'Investigate pits': ('fell_in_pit', 'door_landed'),
-            'You fell in a pit': ('left_pit',),
+            'Pit region': ('left_pit',),
+            'Left Pit': ('door_landed',),
         }
         self.activate_if = {
             'Left Pit': ('fell_in_pit',),
@@ -74,6 +76,9 @@ class TutorialTwo(Tutorial):
     def fell_in_pit_cb(self, region, obj):
         if obj.flag('player'):
             self.fell_in_pit = True
+        if obj.flag('door') and obj.move_turns == 0 and not self.door_fallen:
+            self.door_fallen = True
+            self.display_message(None, 'Hmm. I think you needed that.\n\nYou\'d better press U to undo and get it back again.')
 
     def left_pit_cb(self, region, obj):
         if obj.flag('player') and self.fell_in_pit:
@@ -82,7 +87,7 @@ class TutorialTwo(Tutorial):
     def landed_cb(self, region, obj):
         if obj.flag('door') and not self.door_landed:
             self.door_landed = True
-            self.display_message(None, 'Ah, hmm! Yes, now you would be able to bypass one of the pits. If you use the other doors in the same way, you should be able to forge yourself a path!')
+            self.display_message(None, 'Ah, hmm! If you use the other doors in the same way, you should be able to forge yourself a path past those pesky pits!')
 
     def failed_move(self, newloc):
         if (self.player.contained and
@@ -93,7 +98,7 @@ class TutorialTwo(Tutorial):
 
     def start(self):
         Tutorial.start(self)
-        self.level.get_region('You fell in a pit').arrived_cbs.append(self.fell_in_pit_cb)
+        self.level.get_region('Pit region').arrived_cbs.append(self.fell_in_pit_cb)
         self.level.get_region('Left Pit').leaving_cbs.append(self.left_pit_cb)
         self.level.get_region('Door landing').arrived_cbs.append(self.landed_cb)
 
