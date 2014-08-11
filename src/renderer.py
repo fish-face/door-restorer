@@ -103,10 +103,10 @@ class Renderer:
                                self.message_surf.get_rect().inflate(-4*MARGIN, -4*MARGIN),
                                self.msg_font)
                 self.message = game.message
-            anim_pos = game.msg_anim_pos()
+            t = game.msg_anim_pos()
             message_rect = pygame.Rect((MARGIN, MARGIN, VIEW_W-4*MARGIN, 200))
             message_rect.bottom = self.level_surf.get_rect().bottom - MARGIN
-            message_rect.y += 200 * (math.sin(self.anim_end_fac) - math.sin(anim_pos * self.anim_end_fac))
+            message_rect.y += 200 - 200 * (2**(-10*t) * math.sin((t-0.4/4)*(2*math.pi)/0.4) + 1)
             self.level_surf.blit(self.message_surf, message_rect.topleft)
 
     def draw_text(self, surface, text, color, rect, font, align_top=True):

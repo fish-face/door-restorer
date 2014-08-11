@@ -114,9 +114,9 @@ class Game:
             self.message = message
 
     def msg_anim_pos(self):
-        if self.msg_anim_frame < 12:
+        if self.msg_anim_frame < 24:
             self.msg_anim_frame += 1
-        return self.msg_anim_frame / 12.0
+        return self.msg_anim_frame / 24.0
 
     def start(self):
         self.turn = 0
