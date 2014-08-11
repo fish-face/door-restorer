@@ -67,11 +67,18 @@ class TutorialTwo(Tutorial):
         self.deactivate_if = {
             'Investigate pits': ('fell_in_pit', 'door_landed'),
             'Pit region': ('left_pit',),
-            'Left Pit': ('door_landed',),
+            'Left Pit': ('got_door',),
         }
         self.activate_if = {
             'Left Pit': ('fell_in_pit',),
         }
+
+    def pickup(self, direction):
+        success = Tutorial.pickup(self, direction)
+        if success:
+            self.got_door = True
+
+        return success
 
     def fell_in_pit_cb(self, region, obj):
         if obj.flag('player'):
