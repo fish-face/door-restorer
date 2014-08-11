@@ -116,6 +116,8 @@ class Launcher(object):
                 self.game = TutorialOne()
             elif self.level.id == 2:
                 self.game = TutorialTwo()
+            else:
+                self.game = game.Game()
         else:
             self.game = game.Game()
         self.renderer = Renderer()
@@ -311,6 +313,7 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         level = os.path.basename(sys.argv[1])
         launcher.mode = MODE_PLAYING
+        launcher.game = game.Game()
         launcher.game.load_level(level)
         launcher.game.start()
     if PROFILE:
