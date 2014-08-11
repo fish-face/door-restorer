@@ -6,9 +6,9 @@
  <tileset firstgid="1" source="Terrain.tsx"/>
  <tileset firstgid="101" source="Objects.tsx"/>
  <tileset firstgid="201" source="Terrain.tsx"/>
- <layer name="Terrain" width="10" height="10" visible="0">
+ <layer name="Terrain" width="10" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjZGBgYCQSsxDApKo7jQVjU3cSC8ZlL7HqiBVjpUAvuhgxGACdQgvk
+   eJxjZGBgYCQSsxDApKpjxoKxqSPkFmQxYtURK8ZKgV5i/IGOAcXsAPQ=
   </data>
  </layer>
  <layer name="Objects" width="10" height="10">
@@ -16,4 +16,23 @@
    eJxjYCAepJKglhKQNkzUkQMA5LsCZA==
   </data>
  </layer>
+ <objectgroup name="Hints" width="10" height="10">
+  <object name="Investigate pits" x="24" y="24" width="48" height="48">
+   <properties>
+    <property name="message" value="Ah, you made it. I wasn't sure if the stairs would just drop you into the void with no way out until your eventual death. What do you suppose those black squares are, down there?\n\nWalk down to them and check them out."/>
+   </properties>
+  </object>
+  <object name="You fell in a pit" x="24" y="72" width="120" height="24">
+   <properties>
+    <property name="message" value="Oh. I suppose those are bottomless pits. I guess now you'll be falling through the void with no way out until your eventual death.\n\nI suggest you press U to UNDO your foolish mistake!"/>
+   </properties>
+  </object>
+  <object name="Left Pit" x="24" y="48">
+   <properties>
+    <property name="message" value="Right, that's quite enough of that. Never mind the pits then, I think the key here is circumventing them using those doors.\n\nExperiment a bit and see what you can do."/>
+   </properties>
+   <polygon points="0,0 0,24 120,24 120,48 144,48 144,0"/>
+  </object>
+  <object name="Door landing" x="24" y="96" width="120" height="24"/>
+ </objectgroup>
 </map>

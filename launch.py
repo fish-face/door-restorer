@@ -17,7 +17,7 @@ sys.path.insert(0, os.path.join('.', 'PyTMX'))
 
 from renderer import Renderer
 import game
-from tutorial import TutorialOne
+from tutorial import TutorialOne, TutorialTwo
 from save import SaveGame
 from sound import SoundPlayer
 from levelset import LevelSet, LevelDescription
@@ -111,8 +111,11 @@ class Launcher(object):
     def play(self):
         self.save.set_current(self.current_world, self.level.id)
         self.mode = MODE_PLAYING
-        if self.current_world == 'Tutorials' and self.level.id == 1:
-            self.game = TutorialOne()
+        if self.current_world == 'Tutorials':
+            if self.level.id == 1:
+                self.game = TutorialOne()
+            elif self.level.id == 2:
+                self.game = TutorialTwo()
         else:
             self.game = game.Game()
         self.renderer = Renderer()

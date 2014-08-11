@@ -89,13 +89,15 @@ def load_level(game, filename):
                 level.player = obj
 
     for obj in tmx_data.getObjects():
-        x = obj.x / TILE_W
-        y = obj.y / TILE_H
-        w = obj.width / TILE_W
-        h = obj.height / TILE_H
+        x = int(obj.x / TILE_W)
+        y = int(obj.y / TILE_H)
+        w = int(obj.width / TILE_W)
+        h = int(obj.height / TILE_H)
         region = Region(obj.name, level, (x, y), (w, h))
-        if obj.message:
+        if hasattr(obj, 'message'):
             region.message = obj.message.decode('string-escape')
+        if hasattr(obj, 'points'):
+            region.set_vertices([(px/TILE_W, py/TILE_H) for (px, py) in obj.points])
 
     return level
 

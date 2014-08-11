@@ -96,6 +96,9 @@ class Game:
             loc[1] += dist
         return tuple(loc)
 
+    def failed_move(self, location):
+        pass
+
     def win(self):
         #self.quitting = True
         self.player.animate('descending', self.end)
@@ -229,6 +232,7 @@ class Game:
                         self.sound.step()
                         took_turn = True
                     else:
+                        self.failed_move(newloc)
                         for thing in self.level[newloc]:
                             if thing.bumped(self.player):
                                 took_turn = True

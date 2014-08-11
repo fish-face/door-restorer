@@ -24,7 +24,7 @@ class Level:
         self.name = name
         self.objects = set()
         self.map = []
-        self.regions = []
+        self.regions = {}
 
         self.map = []
         self.width = width
@@ -61,10 +61,10 @@ class Level:
         #       per tile, or even where it is in the tile's list.
 
     def add_region(self, region):
-        if region in self.regions:
+        if region in self.regions.values():
             return
 
-        self.regions.append(region)
+        self.regions[region.name] = region
 
     def add_object(self, obj):
         """Add object to the level's list of objects"""
@@ -89,14 +89,14 @@ class Level:
         regions = []
         if obj.location:
             self[obj.location].remove(obj)
-            regions = [r for r in self.regions if obj.location in r]
+            regions = [r for r in self.regions.values() if obj.location in r]
         if location:
             self[location].append(obj)
             self[location].sort(key=lambda x: x.z)
             for region in regions:
                 if location not in region:
                     if region.leaving(obj): break
-            for region in self.regions:
+            for region in self.regions.values():
                 if location in region:
                     if region.arrived(obj): break
 
@@ -122,6 +122,9 @@ class Level:
         for obj in sorted(self.objects, key=lambda x: x.z):
             if obj.location:
                 yield obj.location[0], obj.location[1], obj
+
+    def get_region(self, name):
+        return self.regions[name]
 
     def __getitem__(self, location):
         return self.get_tile(location[0], location[1]) if location else None
