@@ -313,6 +313,7 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         level = os.path.basename(sys.argv[1])
         launcher.mode = MODE_PLAYING
+        launcher.renderer = Renderer()
         launcher.game = game.Game()
         launcher.game.load_level(level)
         launcher.game.start()
