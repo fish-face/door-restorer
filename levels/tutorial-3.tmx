@@ -16,4 +16,11 @@
    eJxjYCAepJKgNo0EtaMAAQAKYwDM
   </data>
  </layer>
+ <objectgroup name="Hints" width="10" height="10">
+  <object name="Non-pickup squares" x="24" y="24" width="72" height="72">
+   <properties>
+    <property name="message" value="Hmm, from the looks of things, there are some places in here that you can't pick up doors from - you'll have to plan your route carefully to avoid getting stuck.\nRemember you can use Undo if you get into an impossible situation!"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>
