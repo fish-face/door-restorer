@@ -82,5 +82,4 @@ class Player(GameObject):
         self.game.block()
 
     def really_destroy(self):
-        self.game.unblock()
         GameObject.destroy(self)

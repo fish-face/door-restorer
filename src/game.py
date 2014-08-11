@@ -238,19 +238,19 @@ class Game:
                                 took_turn = True
                                 break
 
-            if e.key in RESTART_KEYS:
-                self.restart()
-            elif e.key in ACTION_KEYS:
+            if e.key in ACTION_KEYS:
                 self.pick_direction(self.action)
             elif e.key in CHEAT_KEYS:
                 self.cheating = not self.cheating
-            elif e.key in QUIT_KEYS:
-                self.stopping = True
         if self.state == STATE_NORMAL or self.state == STATE_LOCKED:
             if e.key in UNDO_KEYS:
                 self.undo()
                 self.sound.undo()
                 self.state = STATE_NORMAL
+            elif e.key in QUIT_KEYS:
+                self.stopping = True
+            elif e.key in RESTART_KEYS:
+                self.restart()
 
         return took_turn
 
