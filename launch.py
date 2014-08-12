@@ -318,6 +318,7 @@ if __name__ == '__main__':
     pygame.mixer.pre_init(44100)
     pygame.init()
     screen = pygame.display.set_mode((600, 600))
+    pygame.display.set_caption('Dora Roarer the Door Restorer')
 
     launcher = Launcher(screen)
     if len(sys.argv) > 1:
