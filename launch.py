@@ -32,14 +32,17 @@ MODE_PLAYING = 3
 
 GRID_COLS = 6
 
+MENU_OFFSET = 50
+
 
 class Launcher(object):
     def __init__(self, screen):
         self.screen = screen
         self.save = SaveGame()
         self.sound = SoundPlayer()
-        self.menu_font = pygame.font.Font('fonts/DAYPBL__.TTF', 36)
+        self.menu_font = pygame.font.Font('fonts/GROTESKIA.ttf', 42)
         self.small_font = pygame.font.Font('fonts/C&C Red Alert [INET].ttf', 13)
+        self.background = pygame.image.load('graphics/background.png').convert()
         self.quitting = False
         self.clock = pygame.time.Clock()
         self.menu_options = (Label('Play'),
@@ -158,10 +161,11 @@ class Launcher(object):
             self.draw()
 
     def draw(self):
-        self.screen.fill((0, 0, 0))
         if self.mode == MODE_MAIN_MENU or self.mode == MODE_SELECT_WORLD:
+            self.screen.blit(self.background, (0, 0))
             self.draw_select_list()
         elif self.mode == MODE_SELECT_LEVEL:
+            self.screen.fill((0, 0, 0))
             self.draw_level_list()
         elif self.mode == MODE_PLAYING:
             self.renderer.render(self.game, self.screen)
@@ -213,38 +217,39 @@ class Launcher(object):
             menu_height += height
             max_height = max(height, max_height)
 
-        margin = 2
-        menu_top = WINDOW_H / 2 - menu_height / 2
-        triangle_offset = 28
+        margin = 3
+        menu_top = WINDOW_H / 2 - menu_height / 2 + MENU_OFFSET
+        triangle_y = 16
+        triangle_x = 6
         for i, item in enumerate(rendered_items):
             x = WINDOW_W / 2 - item.get_width() / 2
             self.screen.blit(item, (x, menu_top))
             if i == self.current_menu_item:
-                x -= 8
+                x -= 8 + triangle_x
                 pygame.draw.polygon(self.screen,
                                     (196, 196, 196),
-                                    ((x-12, menu_top+triangle_offset-12),
-                                     (x-12, menu_top+triangle_offset+12),
-                                     (x, menu_top+triangle_offset)))
+                                    ((x-12, menu_top+triangle_y-12),
+                                     (x-12, menu_top+triangle_y+12),
+                                     (x, menu_top+triangle_y)))
                 pygame.draw.aalines(self.screen,
                                     (255, 255, 255),
                                     True,
-                                    ((x-12, menu_top+triangle_offset-12),
-                                     (x-12, menu_top+triangle_offset+12),
-                                     (x, menu_top+triangle_offset)))
+                                    ((x-12, menu_top+triangle_y-12),
+                                     (x-12, menu_top+triangle_y+12),
+                                     (x, menu_top+triangle_y)))
 
-                x = WINDOW_W - x
+                x = WINDOW_W - x - triangle_x
                 pygame.draw.polygon(self.screen,
                                     (196, 196, 196),
-                                    ((x+12, menu_top+triangle_offset-12),
-                                     (x+12, menu_top+triangle_offset+12),
-                                     (x, menu_top+triangle_offset)))
+                                    ((x+12, menu_top+triangle_y-12),
+                                     (x+12, menu_top+triangle_y+12),
+                                     (x, menu_top+triangle_y)))
                 pygame.draw.aalines(self.screen,
                                     (255, 255, 255),
                                     True,
-                                    ((x+12, menu_top+triangle_offset-12),
-                                     (x+12, menu_top+triangle_offset+12),
-                                     (x, menu_top+triangle_offset)))
+                                    ((x+12, menu_top+triangle_y-12),
+                                     (x+12, menu_top+triangle_y+12),
+                                     (x, menu_top+triangle_y)))
 
             menu_top += max_height + margin
 
