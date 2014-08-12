@@ -273,6 +273,7 @@ class Launcher(object):
                     else:
                         self.current_menu_item -= 1
                     self.current_menu_item %= len(self.select_list)
+                    self.sound.step()
                     return True
                 if e.key in game.DOWN_KEYS:
                     if self.mode == MODE_SELECT_LEVEL:
@@ -283,14 +284,17 @@ class Launcher(object):
                     else:
                         self.current_menu_item += 1
                     self.current_menu_item %= len(self.select_list)
+                    self.sound.step()
                     return True
                 if e.key in game.LEFT_KEYS and self.mode == MODE_SELECT_LEVEL:
                     self.current_menu_item -= 1
                     self.current_menu_item %= len(self.select_list)
+                    self.sound.step()
                     return True
                 if e.key in game.RIGHT_KEYS and self.mode == MODE_SELECT_LEVEL:
                     self.current_menu_item += 1
                     self.current_menu_item %= len(self.select_list)
+                    self.sound.step()
                     return True
                 if e.key in game.ACTION_KEYS:
                     if self.select_menu():
@@ -300,6 +304,7 @@ class Launcher(object):
                     return True
                 if e.key in game.QUIT_KEYS:
                     self.back()
+                    self.sound.undo()
                     return True
 
 
