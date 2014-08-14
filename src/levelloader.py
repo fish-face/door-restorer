@@ -129,6 +129,9 @@ class Terrain(object):
             other.move_turns = 0
 
 
+
+PICKUP_STATES = ('wall-left', 'wall-up', 'wall-right', 'wall-down')
+PICKUP_STATE_COMBOS = ['{0:04b}'.format(x) for x in range(2**4)]
 class Wall(Terrain):
     def __init__(self):
         Terrain.__init__(self, '#', 'wall', (0,0), True, True)
@@ -138,10 +141,67 @@ class Wall(Terrain):
         if other.flag('door'):
             self.level.game.sound.land()
 
+    @property
+    def image(self):
+        adjacents = ((self.location[0] - 1, self.location[1]),
+                     (self.location[0],     self.location[1] - 1),
+                     (self.location[0] + 1, self.location[1]),
+                     (self.location[0],     self.location[1] + 1))
+        #blocking = ['1' if self.level[adjacents[i]][0].name == 'floor' else '0' for i in range(4)]
+        blocking = []
+        for i in range(4):
+            try:
+                if self.level[adjacents[i]][0].name == 'floor':
+                    blocking.append('1')
+                    continue
+            except:
+                pass
+
+            blocking.append('0')
+
+        return self.state_images['wall-%s' % (''.join(blocking))]
+
+    @image.setter
+    def image(self, value):
+        for combo in PICKUP_STATE_COMBOS:
+            surf = pygame.Surface(self.state_images['default'].get_size())
+            surf.blit(self.state_images['default'], (0, 0))
+            for i, state in enumerate(combo):
+                if state == '0':
+                    continue
+                name = PICKUP_STATES[int(i)]
+                surf.blit(self.state_images[name], (0, 0))
+
+            self.state_images['wall-%s' % (combo)] = surf
+
+
 
 class Floor(Terrain):
     def __init__(self):
         Terrain.__init__(self, u'.', 'floor', (1,0), False, False)
+
+    @property
+    def image(self):
+        adjacents = ((self.location[0] - 1, self.location[1]),
+                     (self.location[0],     self.location[1] - 1),
+                     (self.location[0] + 1, self.location[1]),
+                     (self.location[0],     self.location[1] + 1))
+        blocking = ['1' if self.level[adjacents[i]][0].block_move else '0' for i in range(4)]
+
+        return self.state_images['wall-%s' % (''.join(blocking))]
+
+    @image.setter
+    def image(self, value):
+        for combo in PICKUP_STATE_COMBOS:
+            surf = pygame.Surface(self.state_images['default'].get_size())
+            surf.blit(self.state_images['default'], (0, 0))
+            for i, state in enumerate(combo):
+                if state == '0':
+                    continue
+                name = PICKUP_STATES[int(i)]
+                surf.blit(self.state_images[name], (0, 0))
+
+            self.state_images['wall-%s' % (combo)] = surf
 
 
 class PlayerConveyor(Terrain):
@@ -166,8 +226,6 @@ class Pit(Terrain):
         other.destroy()
 
 
-PICKUP_STATES = ('wall-left', 'wall-up', 'wall-right', 'wall-down')
-PICKUP_STATE_COMBOS = ['{0:04b}'.format(x) for x in range(2**4)]
 class Pickup(Terrain):
     char = ','
     def __init__(self):
@@ -175,28 +233,28 @@ class Pickup(Terrain):
         self.bgcolour = (80, 80, 80)
         self.pickup = True
 
-    @property
-    def image(self):
-        adjacents = ((self.location[0] - 1, self.location[1]),
-                     (self.location[0],     self.location[1] - 1),
-                     (self.location[0] + 1, self.location[1]),
-                     (self.location[0],     self.location[1] + 1))
-        blocking = ['1' if self.level[adjacents[i]][0].block_move else '0' for i in range(4)]
+    #@property
+    #def image(self):
+    #    adjacents = ((self.location[0] - 1, self.location[1]),
+    #                 (self.location[0],     self.location[1] - 1),
+    #                 (self.location[0] + 1, self.location[1]),
+    #                 (self.location[0],     self.location[1] + 1))
+    #    blocking = ['1' if self.level[adjacents[i]][0].block_move else '0' for i in range(4)]
 
-        return self.state_images['wall-%s' % (''.join(blocking))]
+    #    return self.state_images['wall-%s' % (''.join(blocking))]
 
-    @image.setter
-    def image(self, value):
-        for combo in PICKUP_STATE_COMBOS:
-            surf = pygame.Surface(self.state_images['default'].get_size())
-            surf.blit(self.state_images['default'], (0, 0))
-            for i, state in enumerate(combo):
-                if state == '0':
-                    continue
-                name = PICKUP_STATES[int(i)]
-                surf.blit(self.state_images[name], (0, 0))
+    #@image.setter
+    #def image(self, value):
+    #    for combo in PICKUP_STATE_COMBOS:
+    #        surf = pygame.Surface(self.state_images['default'].get_size())
+    #        surf.blit(self.state_images['default'], (0, 0))
+    #        for i, state in enumerate(combo):
+    #            if state == '0':
+    #                continue
+    #            name = PICKUP_STATES[int(i)]
+    #            surf.blit(self.state_images[name], (0, 0))
 
-            self.state_images['wall-%s' % (combo)] = surf
+    #        self.state_images['wall-%s' % (combo)] = surf
 
 
 class Goal(Terrain):

@@ -27,9 +27,26 @@
    <property name="name" value="goal"/>
   </properties>
  </tile>
+ <tile id="12">
+  <properties>
+   <property name="name" value="nopickup"/>
+  </properties>
+ </tile>
  <tile id="13">
   <properties>
    <property name="name" value="pickup"/>
+  </properties>
+ </tile>
+ <tile id="20">
+  <properties>
+   <property name="name" value="wall"/>
+   <property name="state" value="wall-up"/>
+  </properties>
+ </tile>
+ <tile id="22">
+  <properties>
+   <property name="name" value="floor"/>
+   <property name="state" value="wall-up"/>
   </properties>
  </tile>
  <tile id="23">
@@ -38,16 +55,52 @@
    <property name="state" value="wall-up"/>
   </properties>
  </tile>
+ <tile id="30">
+  <properties>
+   <property name="name" value="wall"/>
+   <property name="state" value="wall-right"/>
+  </properties>
+ </tile>
+ <tile id="32">
+  <properties>
+   <property name="name" value="floor"/>
+   <property name="state" value="wall-right"/>
+  </properties>
+ </tile>
  <tile id="33">
   <properties>
    <property name="name" value="pickup"/>
    <property name="state" value="wall-right"/>
   </properties>
  </tile>
+ <tile id="40">
+  <properties>
+   <property name="name" value="wall"/>
+   <property name="state" value="wall-down"/>
+  </properties>
+ </tile>
+ <tile id="42">
+  <properties>
+   <property name="name" value="floor"/>
+   <property name="state" value="wall-down"/>
+  </properties>
+ </tile>
  <tile id="43">
   <properties>
    <property name="name" value="pickup"/>
    <property name="state" value="wall-down"/>
+  </properties>
+ </tile>
+ <tile id="50">
+  <properties>
+   <property name="name" value="wall"/>
+   <property name="state" value="wall-left"/>
+  </properties>
+ </tile>
+ <tile id="52">
+  <properties>
+   <property name="name" value="floor"/>
+   <property name="state" value="wall-left"/>
   </properties>
  </tile>
  <tile id="53">
