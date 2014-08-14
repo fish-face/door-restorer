@@ -33,12 +33,14 @@ Appeal
 ---
 
 * Menu graphics
+* Win screen
 * Auto-tiling walls etc
 * More varied/better tiles
 * More animations (walking, ...?)
 * Proper sound
 * Music
-* Fiddle with pickup indicators (Invert logic? Display on wall tile?)
+* ~~Fiddle with pickup indicators (Invert logic? Display on wall tile?)~~
+	* Working but needs experimentation to find the good sprites
 
 Dreams
 ---
