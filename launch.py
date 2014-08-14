@@ -144,12 +144,17 @@ class Launcher(object):
 
                 if self.game.stopping:
                     if self.game.won:
+                        self.mode = MODE_SELECT_WORLD
                         self.save.set_completed(self.current_world, self.level.id)
                         next_level = self.level.id + 1
                         for level in self.worlds[self.current_world].levels:
                             if next_level == level.id:
-                                self.save.set_current(self.current_world, self.level.id + 1)
-                                break
+                                self.level = level
+                                self.play()
+
+                        self.draw()
+                        continue
+
                     self.mode = MODE_MAIN_MENU
                     self.draw()
                 elif self.game.quitting:
