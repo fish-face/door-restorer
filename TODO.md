@@ -2,9 +2,9 @@ Features
 ---
 
 * Error handling (especially in save/load)
-* Big doors, keys, teleporters, ...
+* Big doors, keys, teleporters, lasers ...
 * More characters, switching?
-* Hints for tutorial levels/introducing new features
+* ~~Hints for tutorial levels/~~ introducing new features
 
 Misc
 ---
@@ -15,12 +15,14 @@ Refactors
 ---
 
 * Make terrains into objects, unify everything
+* Rename "floor" <-> "(no) pickup"
+* Make no-pickups fully direction-independent
 
 Content
 ---
 
 * More levels
-* Tutorial levels
+* ~~Tutorial levels~~
 * Levels for extra features
 
 Usability
@@ -28,6 +30,7 @@ Usability
 
 * Help
 * Mouse support?
+* Sound for "can't walk here" and "can't pick up here"
 
 Appeal
 ---
