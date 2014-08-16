@@ -229,10 +229,10 @@ class Game:
             except KeyError:
                 pass
             else:
+                self.player.direction = DIR_MAP[e.key]
                 if newloc != self.player.location:
                     if self.can_move_to(self.player, newloc):
                         self.player.location = newloc
-                        self.player.direction = DIR_MAP[e.key]
                         self.sound.step()
                         took_turn = True
                     else:

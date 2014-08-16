@@ -51,6 +51,24 @@
    <property name="frame" value="1"/>
   </properties>
  </tile>
+ <tile id="13">
+  <properties>
+   <property name="name" value="player"/>
+   <property name="state" value="left-holding-door"/>
+  </properties>
+ </tile>
+ <tile id="14">
+  <properties>
+   <property name="name" value="player"/>
+   <property name="state" value="right-holding-door"/>
+  </properties>
+ </tile>
+ <tile id="15">
+  <properties>
+   <property name="name" value="player"/>
+   <property name="state" value="up-holding-door"/>
+  </properties>
+ </tile>
  <tile id="11">
   <properties>
    <property name="name" value="door"/>
@@ -71,6 +89,24 @@
    <property name="frame" value="2"/>
   </properties>
  </tile>
+ <tile id="23">
+  <properties>
+   <property name="name" value="player"/>
+   <property name="state" value="left-awaiting-input"/>
+  </properties>
+ </tile>
+ <tile id="24">
+  <properties>
+   <property name="name" value="player"/>
+   <property name="state" value="right-awaiting-input"/>
+  </properties>
+ </tile>
+ <tile id="25">
+  <properties>
+   <property name="name" value="player"/>
+   <property name="state" value="up-awaiting-input"/>
+  </properties>
+ </tile>
  <tile id="30">
   <properties>
    <property name="name" value="player"/>
@@ -83,6 +119,24 @@
    <property name="state" value="descending"/>
    <property name="frame-delay" value="10"/>
    <property name="frame" value="3"/>
+  </properties>
+ </tile>
+ <tile id="33">
+  <properties>
+   <property name="name" value="player"/>
+   <property name="state" value="left-awaiting-throw"/>
+  </properties>
+ </tile>
+ <tile id="34">
+  <properties>
+   <property name="name" value="player"/>
+   <property name="state" value="right-awaiting-throw"/>
+  </properties>
+ </tile>
+ <tile id="35">
+  <properties>
+   <property name="name" value="player"/>
+   <property name="state" value="up-awaiting-throw"/>
   </properties>
  </tile>
  <tile id="40">
