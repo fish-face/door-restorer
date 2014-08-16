@@ -6,12 +6,12 @@
    <property name="name" value="player"/>
   </properties>
  </tile>
- <tile id="1">
+ <tile id="5">
   <properties>
    <property name="name" value="door"/>
   </properties>
  </tile>
- <tile id="2">
+ <tile id="6">
   <properties>
    <property name="name" value="player"/>
    <property name="state" value="descending"/>
@@ -19,19 +19,19 @@
    <property name="frame" value="0"/>
   </properties>
  </tile>
- <tile id="3">
+ <tile id="1">
   <properties>
    <property name="name" value="player"/>
    <property name="state" value="left-default"/>
   </properties>
  </tile>
- <tile id="4">
+ <tile id="2">
   <properties>
    <property name="name" value="player"/>
    <property name="state" value="right-default"/>
   </properties>
  </tile>
- <tile id="5">
+ <tile id="3">
   <properties>
    <property name="name" value="player"/>
    <property name="state" value="up-default"/>
@@ -43,7 +43,7 @@
    <property name="state" value="holding-door"/>
   </properties>
  </tile>
- <tile id="12">
+ <tile id="16">
   <properties>
    <property name="name" value="player"/>
    <property name="state" value="descending"/>
@@ -51,25 +51,25 @@
    <property name="frame" value="1"/>
   </properties>
  </tile>
- <tile id="13">
+ <tile id="11">
   <properties>
    <property name="name" value="player"/>
    <property name="state" value="left-holding-door"/>
   </properties>
  </tile>
- <tile id="14">
+ <tile id="12">
   <properties>
    <property name="name" value="player"/>
    <property name="state" value="right-holding-door"/>
   </properties>
  </tile>
- <tile id="15">
+ <tile id="13">
   <properties>
    <property name="name" value="player"/>
    <property name="state" value="up-holding-door"/>
   </properties>
  </tile>
- <tile id="11">
+ <tile id="15">
   <properties>
    <property name="name" value="door"/>
    <property name="state" value="open"/>
@@ -81,7 +81,7 @@
    <property name="state" value="awaiting-input"/>
   </properties>
  </tile>
- <tile id="22">
+ <tile id="26">
   <properties>
    <property name="name" value="player"/>
    <property name="state" value="descending"/>
@@ -89,19 +89,19 @@
    <property name="frame" value="2"/>
   </properties>
  </tile>
- <tile id="23">
+ <tile id="21">
   <properties>
    <property name="name" value="player"/>
    <property name="state" value="left-awaiting-input"/>
   </properties>
  </tile>
- <tile id="24">
+ <tile id="22">
   <properties>
    <property name="name" value="player"/>
    <property name="state" value="right-awaiting-input"/>
   </properties>
  </tile>
- <tile id="25">
+ <tile id="23">
   <properties>
    <property name="name" value="player"/>
    <property name="state" value="up-awaiting-input"/>
@@ -113,7 +113,7 @@
    <property name="state" value="awaiting-throw"/>
   </properties>
  </tile>
- <tile id="32">
+ <tile id="36">
   <properties>
    <property name="name" value="player"/>
    <property name="state" value="descending"/>
@@ -121,32 +121,32 @@
    <property name="frame" value="3"/>
   </properties>
  </tile>
- <tile id="33">
+ <tile id="31">
   <properties>
    <property name="name" value="player"/>
    <property name="state" value="left-awaiting-throw"/>
   </properties>
  </tile>
- <tile id="34">
+ <tile id="32">
   <properties>
    <property name="name" value="player"/>
    <property name="state" value="right-awaiting-throw"/>
   </properties>
  </tile>
- <tile id="35">
+ <tile id="33">
   <properties>
    <property name="name" value="player"/>
    <property name="state" value="up-awaiting-throw"/>
   </properties>
  </tile>
- <tile id="40">
+ <tile id="4">
   <properties>
    <property name="frame" value="0"/>
    <property name="name" value="player"/>
    <property name="state" value="falling"/>
   </properties>
  </tile>
- <tile id="42">
+ <tile id="46">
   <properties>
    <property name="name" value="player"/>
    <property name="state" value="descending"/>
@@ -154,14 +154,14 @@
    <property name="frame" value="4"/>
   </properties>
  </tile>
- <tile id="50">
+ <tile id="14">
   <properties>
    <property name="frame" value="1"/>
    <property name="name" value="player"/>
    <property name="state" value="falling"/>
   </properties>
  </tile>
- <tile id="52">
+ <tile id="56">
   <properties>
    <property name="name" value="player"/>
    <property name="state" value="descending"/>
@@ -169,14 +169,14 @@
    <property name="frame" value="5"/>
   </properties>
  </tile>
- <tile id="60">
+ <tile id="24">
   <properties>
    <property name="frame" value="2"/>
    <property name="name" value="player"/>
    <property name="state" value="falling"/>
   </properties>
  </tile>
- <tile id="62">
+ <tile id="66">
   <properties>
    <property name="name" value="player"/>
    <property name="state" value="descending"/>
@@ -184,14 +184,14 @@
    <property name="frame" value="6"/>
   </properties>
  </tile>
- <tile id="70">
+ <tile id="34">
   <properties>
    <property name="frame" value="3"/>
    <property name="name" value="player"/>
    <property name="state" value="falling"/>
   </properties>
  </tile>
- <tile id="72">
+ <tile id="76">
   <properties>
    <property name="name" value="player"/>
    <property name="state" value="descending"/>
@@ -199,42 +199,42 @@
    <property name="frame" value="7"/>
   </properties>
  </tile>
- <tile id="80">
+ <tile id="44">
   <properties>
    <property name="frame" value="4"/>
    <property name="name" value="player"/>
    <property name="state" value="falling"/>
   </properties>
  </tile>
- <tile id="21">
+ <tile id="25">
   <properties>
    <property name="name" value="door"/>
    <property name="state" value="falling"/>
    <property name="frame" value="0"/>
   </properties>
  </tile>
- <tile id="31">
+ <tile id="35">
   <properties>
    <property name="name" value="door"/>
    <property name="state" value="falling"/>
    <property name="frame" value="1"/>
   </properties>
  </tile>
- <tile id="41">
+ <tile id="45">
   <properties>
    <property name="name" value="door"/>
    <property name="state" value="falling"/>
    <property name="frame" value="2"/>
   </properties>
  </tile>
- <tile id="61">
+ <tile id="65">
   <properties>
    <property name="name" value="door"/>
    <property name="state" value="falling"/>
    <property name="frame" value="3"/>
   </properties>
  </tile>
- <tile id="71">
+ <tile id="75">
   <properties>
    <property name="name" value="door"/>
    <property name="state" value="falling"/>

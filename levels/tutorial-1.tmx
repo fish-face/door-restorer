@@ -6,14 +6,32 @@
  <tileset firstgid="1" source="Terrain.tsx"/>
  <tileset firstgid="101" source="Objects.tsx"/>
  <layer name="Terrain" width="10" height="10">
-  <data encoding="base64" compression="zlib">
-   eJxjZGBgYCQSs0AxNjYrkepYRrA6YjAAw2AA9g==
-  </data>
+  <data encoding="csv">
+1,1,1,1,1,1,1,1,1,1,
+1,4,4,1,4,4,1,4,5,1,
+1,4,4,1,4,4,1,4,4,1,
+1,4,4,1,4,4,1,4,4,1,
+1,4,4,1,4,4,1,4,4,1,
+1,4,4,1,4,4,1,4,4,1,
+1,4,4,1,4,4,1,4,4,1,
+1,4,4,1,4,4,1,4,4,1,
+1,4,4,1,4,4,1,4,4,1,
+1,1,1,1,1,1,1,1,1,1
+</data>
  </layer>
  <layer name="Objects" width="10" height="10">
-  <data encoding="base64" compression="zlib">
-   eJxjYCAepJKgdjiAtAGwEwC8PADM
-  </data>
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,
+0,101,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,106,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0
+</data>
  </layer>
  <objectgroup name="Hints" width="10" height="10">
   <object name="Hint Movement" x="24" y="24" width="48" height="48">

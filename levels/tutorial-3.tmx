@@ -7,14 +7,32 @@
  <tileset firstgid="101" source="Objects.tsx"/>
  <tileset firstgid="201" source="Terrain.tsx"/>
  <layer name="Terrain" width="10" height="10">
-  <data encoding="base64" compression="zlib">
-   eJxjZGBgYCQSsyBhRiSaCYmNTR0jAXXI8tjEsbkBmzp09+Ayg5D/sPkD2Wx84YKujpVENwAAoQAAyQ==
-  </data>
+  <data encoding="csv">
+1,1,1,1,1,1,1,1,1,1,
+1,4,4,4,1,4,1,2,4,1,
+1,4,4,4,1,1,1,2,4,1,
+1,4,4,1,1,2,1,4,4,1,
+1,1,1,1,4,4,1,4,4,1,
+1,4,1,2,4,4,1,1,1,1,
+1,1,1,1,1,1,1,4,4,1,
+1,4,4,4,4,1,2,1,1,1,
+1,4,4,4,4,1,2,1,5,1,
+1,1,1,1,1,1,1,1,1,1
+</data>
  </layer>
  <layer name="Objects" width="10" height="10">
-  <data encoding="base64" compression="zlib">
-   eJxjYCAepJKgNo0EtaMAAQAKYwDM
-  </data>
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,
+0,101,0,0,0,0,0,0,0,0,
+0,0,106,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0
+</data>
  </layer>
  <objectgroup name="Hints" width="10" height="10">
   <object name="Non-pickup squares" x="24" y="24" width="72" height="72">

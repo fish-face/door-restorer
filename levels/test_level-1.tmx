@@ -7,13 +7,31 @@
  <tileset firstgid="101" source="Objects.tsx"/>
  <tileset firstgid="201" source="Terrain.tsx"/>
  <layer name="Terrain" width="10" height="10">
-  <data encoding="base64" compression="zlib">
-   eJxjZGBgYCQSswAxE5TNhMRmgWJGLHJMSHLo6kixl4WA2ehyjGh6mKlgLzMWs9HDBd2PrCTaCQCGvACr
-  </data>
+  <data encoding="csv">
+1,1,1,1,1,1,1,1,1,1,
+1,4,2,1,2,2,1,4,4,1,
+1,2,2,1,2,4,1,4,4,1,
+1,1,1,1,1,1,1,1,1,1,
+1,4,4,1,2,2,1,2,4,1,
+1,2,2,1,1,4,1,2,3,1,
+1,1,1,1,1,1,1,1,1,1,
+1,4,4,1,2,3,1,1,4,1,
+1,4,2,1,4,4,1,1,5,1,
+1,1,1,1,1,1,1,1,1,1
+</data>
  </layer>
  <layer name="Objects" width="10" height="10">
-  <data encoding="base64" compression="zlib">
-   eJxjYCAepOKRSyPAH86Amn4FAKtbAZg=
-  </data>
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,
+0,101,0,0,0,0,0,0,106,0,
+0,0,106,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,106,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0
+</data>
  </layer>
 </map>
