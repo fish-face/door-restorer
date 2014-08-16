@@ -177,6 +177,7 @@ class Game:
 
     def pickup(self, direction):
         pickup_loc = self.coords_in_dir(self.player.location, direction, 1)
+        self.player.direction = direction
 
         success = False
         for obj in self.get_objects_at(pickup_loc):
@@ -194,6 +195,7 @@ class Game:
         return success
 
     def close(self, direction):
+        self.player.direction = direction
         close_loc = self.coords_in_dir(self.player.location, direction, 1)
         for obj in self.get_objects_at(close_loc):
             if obj.flag('door') and not obj.block_move:
@@ -201,6 +203,7 @@ class Game:
                 return True
 
     def throw(self, direction):
+        self.player.direction = direction
         success = False
         for obj in self.player.contained:
             self.player.remove(obj)
@@ -229,6 +232,7 @@ class Game:
                 if newloc != self.player.location:
                     if self.can_move_to(self.player, newloc):
                         self.player.location = newloc
+                        self.player.direction = DIR_MAP[e.key]
                         self.sound.step()
                         took_turn = True
                     else:

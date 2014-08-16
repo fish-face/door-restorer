@@ -1,5 +1,5 @@
 ### Contains definition of Game Objects
-from game import FRAME_DELAY, ANIM_DELAY
+from game import FRAME_DELAY, ANIM_DELAY, UP, DOWN, LEFT, RIGHT
 
 
 class GameObject(object):
@@ -15,6 +15,7 @@ class GameObject(object):
         self.contained = []
         self.destroyed = False
         self.flags = {}
+        self.direction = DOWN
 
         self.z = 10
         self.char = char
@@ -26,7 +27,7 @@ class GameObject(object):
         self.animation_callback = lambda: None
 
         self.history = []
-        self.track_properties = ('_location', 'container', 'contained', 'destroyed', 'flags', 'char', 'block_sight', 'block_move', 'block_door', 'state', 'animation', 'animation_callback', 'move_dir', 'move_turns', 'move_to')
+        self.track_properties = ('_location', 'direction', 'container', 'contained', 'destroyed', 'flags', 'char', 'block_sight', 'block_move', 'block_door', 'state', 'animation', 'animation_callback', 'move_dir', 'move_turns', 'move_to')
 
         self.mass = 1
         self.move_dir = None
@@ -89,9 +90,12 @@ class GameObject(object):
                 self.animation = None
                 self.animation_done()
                 return None
-        try:
+        dir = ['up', 'down', 'left', 'right'][self.direction]
+        if dir + '-' + self.state in self.state_images:
+            return self.state_images[dir + '-' + self.state]
+        elif self.state in self.state_images:
             return self.state_images[self.state]
-        except KeyError:
+        else:
             return self.state_images['default']
 
     def animate(self, name, callback=lambda: None):

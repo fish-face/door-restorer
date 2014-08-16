@@ -19,6 +19,24 @@
    <property name="frame" value="0"/>
   </properties>
  </tile>
+ <tile id="3">
+  <properties>
+   <property name="name" value="player"/>
+   <property name="state" value="left-default"/>
+  </properties>
+ </tile>
+ <tile id="4">
+  <properties>
+   <property name="name" value="player"/>
+   <property name="state" value="right-default"/>
+  </properties>
+ </tile>
+ <tile id="5">
+  <properties>
+   <property name="name" value="player"/>
+   <property name="state" value="up-default"/>
+  </properties>
+ </tile>
  <tile id="10">
   <properties>
    <property name="name" value="player"/>
