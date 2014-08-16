@@ -8,7 +8,7 @@
  </tile>
  <tile id="1">
   <properties>
-   <property name="name" value="floor"/>
+   <property name="name" value="nopickup"/>
   </properties>
  </tile>
  <tile id="2">
@@ -18,7 +18,7 @@
  </tile>
  <tile id="3">
   <properties>
-   <property name="name" value="pickup"/>
+   <property name="name" value="floor"/>
    <property name="state" value="null"/>
   </properties>
  </tile>
@@ -30,11 +30,12 @@
  <tile id="12">
   <properties>
    <property name="name" value="nopickup"/>
+   <property name="state" value="null"/>
   </properties>
  </tile>
  <tile id="13">
   <properties>
-   <property name="name" value="pickup"/>
+   <property name="name" value="floor"/>
   </properties>
  </tile>
  <tile id="20">
@@ -45,13 +46,13 @@
  </tile>
  <tile id="22">
   <properties>
-   <property name="name" value="floor"/>
+   <property name="name" value="nopickup"/>
    <property name="state" value="wall-up"/>
   </properties>
  </tile>
  <tile id="23">
   <properties>
-   <property name="name" value="pickup"/>
+   <property name="name" value="floor"/>
    <property name="state" value="wall-up"/>
   </properties>
  </tile>
@@ -63,13 +64,13 @@
  </tile>
  <tile id="32">
   <properties>
-   <property name="name" value="floor"/>
+   <property name="name" value="nopickup"/>
    <property name="state" value="wall-right"/>
   </properties>
  </tile>
  <tile id="33">
   <properties>
-   <property name="name" value="pickup"/>
+   <property name="name" value="floor"/>
    <property name="state" value="wall-right"/>
   </properties>
  </tile>
@@ -81,13 +82,13 @@
  </tile>
  <tile id="42">
   <properties>
-   <property name="name" value="floor"/>
+   <property name="name" value="nopickup"/>
    <property name="state" value="wall-down"/>
   </properties>
  </tile>
  <tile id="43">
   <properties>
-   <property name="name" value="pickup"/>
+   <property name="name" value="floor"/>
    <property name="state" value="wall-down"/>
   </properties>
  </tile>
@@ -99,13 +100,13 @@
  </tile>
  <tile id="52">
   <properties>
-   <property name="name" value="floor"/>
+   <property name="name" value="nopickup"/>
    <property name="state" value="wall-left"/>
   </properties>
  </tile>
  <tile id="53">
   <properties>
-   <property name="name" value="pickup"/>
+   <property name="name" value="floor"/>
    <property name="state" value="wall-left"/>
   </properties>
  </tile>

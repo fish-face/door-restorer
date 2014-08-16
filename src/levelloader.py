@@ -175,8 +175,7 @@ class Wall(Terrain):
             self.state_images['wall-%s' % (combo)] = surf
 
 
-
-class Floor(Terrain):
+class NoPickup(Terrain):
     def __init__(self):
         Terrain.__init__(self, u'.', 'floor', (1,0), False, False)
 
@@ -226,7 +225,7 @@ class Pit(Terrain):
         other.destroy()
 
 
-class Pickup(Terrain):
+class Floor(Terrain):
     char = ','
     def __init__(self):
         Terrain.__init__(self, '.', 'pickup', (1,0), False, False)
