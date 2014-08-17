@@ -101,7 +101,7 @@ class Wall(Terrain):
         walls = []
         for i in range(4):
             tile = self.level[adjacent4[i]]
-            if tile and tile[0].name == 'floor':
+            if tile and tile[0].name == 'nopickup':
                 blocking.append(True)
             else:
                 blocking.append(False)
@@ -128,7 +128,7 @@ class Wall(Terrain):
 
 class NoPickup(Terrain):
     def __init__(self):
-        Terrain.__init__(self, u'.', 'floor', (1,0), False, False)
+        Terrain.__init__(self, u'.', 'nopickup', (1,0), False, False)
 
     @property
     def image(self):
@@ -202,7 +202,7 @@ class Pit(Terrain):
 class Floor(Terrain):
     char = ','
     def __init__(self):
-        Terrain.__init__(self, '.', 'pickup', (1,0), False, False)
+        Terrain.__init__(self, '.', 'floor', (1,0), False, False)
         self.bgcolour = (80, 80, 80)
         self.pickup = True
 
