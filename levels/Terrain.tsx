@@ -140,4 +140,34 @@
    <property name="state" value="autotile-5"/>
   </properties>
  </tile>
+ <tile id="63">
+  <properties>
+   <property name="name" value="pit"/>
+   <property name="state" value="autotile-1"/>
+  </properties>
+ </tile>
+ <tile id="72">
+  <properties>
+   <property name="name" value="pit"/>
+   <property name="state" value="autotile-2"/>
+  </properties>
+ </tile>
+ <tile id="73">
+  <properties>
+   <property name="name" value="pit"/>
+   <property name="state" value="autotile-3"/>
+  </properties>
+ </tile>
+ <tile id="82">
+  <properties>
+   <property name="name" value="pit"/>
+   <property name="state" value="autotile-4"/>
+  </properties>
+ </tile>
+ <tile id="83">
+  <properties>
+   <property name="name" value="pit"/>
+   <property name="state" value="autotile-5"/>
+  </properties>
+ </tile>
 </tileset>
