@@ -15,8 +15,8 @@ Refactors
 ---
 
 * Make terrains into objects, unify everything
-* Rename "floor" <-> "(no) pickup"
 * Make no-pickups fully direction-independent
+* Reorganise auto-tiling to not be awful
 
 Content
 ---
@@ -37,7 +37,7 @@ Appeal
 
 * Menu graphics
 * Win screen
-* Auto-tiling walls etc
+* ~~Auto-tiling walls~~ Auto-tiling pits
 * More varied/better tiles
 * More animations (walking, ...?)
 * Proper sound

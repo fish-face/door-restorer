@@ -110,4 +110,34 @@
    <property name="state" value="wall-left"/>
   </properties>
  </tile>
+ <tile id="61">
+  <properties>
+   <property name="name" value="wall"/>
+   <property name="state" value="autotile-1"/>
+  </properties>
+ </tile>
+ <tile id="70">
+  <properties>
+   <property name="name" value="wall"/>
+   <property name="state" value="autotile-2"/>
+  </properties>
+ </tile>
+ <tile id="71">
+  <properties>
+   <property name="name" value="wall"/>
+   <property name="state" value="autotile-3"/>
+  </properties>
+ </tile>
+ <tile id="80">
+  <properties>
+   <property name="name" value="wall"/>
+   <property name="state" value="autotile-4"/>
+  </properties>
+ </tile>
+ <tile id="81">
+  <properties>
+   <property name="name" value="wall"/>
+   <property name="state" value="autotile-5"/>
+  </properties>
+ </tile>
 </tileset>

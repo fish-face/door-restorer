@@ -10,9 +10,12 @@ from object import GameObject
 from player import Player
 from animation import Animation
 from region import Region
+from autotile import get_adjacency_sources
 
 TILE_W = 24
 TILE_H = 24
+H_TILE_W = 12
+H_TILE_H = 12
 
 
 def load_level(game, filename):
@@ -135,6 +138,7 @@ PICKUP_STATE_COMBOS = ['{0:04b}'.format(x) for x in range(2**4)]
 class Wall(Terrain):
     def __init__(self):
         Terrain.__init__(self, '#', 'wall', (0,0), True, True)
+        self.computed_image = None
 
     def arrived(self, other):
         Terrain.arrived(self, other)
@@ -143,36 +147,47 @@ class Wall(Terrain):
 
     @property
     def image(self):
-        adjacents = ((self.location[0] - 1, self.location[1]),
-                     (self.location[0],     self.location[1] - 1),
-                     (self.location[0] + 1, self.location[1]),
-                     (self.location[0],     self.location[1] + 1))
-        #blocking = ['1' if self.level[adjacents[i]][0].name == 'floor' else '0' for i in range(4)]
+        if self.computed_image:
+            return self.computed_image
+
+        x, y = self.location
+
+        adjacent4 = ((x - 1, y), (x, y - 1), (x + 1, y), (x, y + 1))
+        adjacent8 = [(x_, y_) for y_ in range(y-1, y+2) for x_ in range(x-1, x+2)]
         blocking = []
+        walls = []
         for i in range(4):
-            try:
-                if self.level[adjacents[i]][0].name == 'floor':
-                    blocking.append('1')
-                    continue
-            except:
-                pass
+            tile = self.level[adjacent4[i]]
+            if tile and tile[0].name == 'floor':
+                blocking.append(True)
+            else:
+                blocking.append(False)
 
-            blocking.append('0')
+        for ax, ay in adjacent8:
+            tile = self.level[(ax, ay)]
+            if tile and tile[0].name == 'wall':
+                walls.append(True)
+            else:
+                walls.append(False)
 
-        return self.state_images['wall-%s' % (''.join(blocking))]
+        sources = ['autotile-%d' % i for i in get_adjacency_sources(walls)]
+        base = pygame.Surface((TILE_W, TILE_H))
+        base.blit(self.state_images[sources[0]], (0, 0), (0, 0, H_TILE_W, H_TILE_H))
+        base.blit(self.state_images[sources[1]], (H_TILE_W, 0), (H_TILE_W, 0, H_TILE_W, H_TILE_H))
+        base.blit(self.state_images[sources[2]], (0, H_TILE_H), (0, H_TILE_H, H_TILE_W, H_TILE_H))
+        base.blit(self.state_images[sources[3]],
+                  (H_TILE_W, H_TILE_H),
+                  (H_TILE_W, H_TILE_H, H_TILE_W, H_TILE_H))
+        for i, block in enumerate(blocking):
+            if block:
+                base.blit(self.state_images[PICKUP_STATES[i]], (0, 0))
+
+        self.computed_image = base
+        return base
 
     @image.setter
     def image(self, value):
-        for combo in PICKUP_STATE_COMBOS:
-            surf = pygame.Surface(self.state_images['default'].get_size())
-            surf.blit(self.state_images['default'], (0, 0))
-            for i, state in enumerate(combo):
-                if state == '0':
-                    continue
-                name = PICKUP_STATES[int(i)]
-                surf.blit(self.state_images[name], (0, 0))
-
-            self.state_images['wall-%s' % (combo)] = surf
+        pass
 
 
 class NoPickup(Terrain):
