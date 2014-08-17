@@ -102,9 +102,9 @@ class Level:
 
     def get_tile(self, x, y):
         """Return all the stuff at the given location"""
-        try:
+        if x >= 0 and y >= 0 and x < self.width and y < self.height:
             return self.map[y][x]
-        except (KeyError, IndexError):
+        else:
             return []
 
     def get_tiles(self, x1, y1, x2, y2):
