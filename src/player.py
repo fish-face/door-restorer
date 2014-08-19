@@ -4,10 +4,10 @@ from object import GameObject
 from game import STATE_PICK
 
 class Player(GameObject):
-    def __init__(self, name='Dora', description='', location=None, *args, **kwargs):
+    def __init__(self, name='Dora', location=None, *args, **kwargs):
         self.map_memory = {}
 
-        GameObject.__init__(self, name=name, description=description, location=location, *args, **kwargs)
+        GameObject.__init__(self, name=name, location=location, *args, **kwargs)
 
         self.char = '@'
         self.tiletype = 2

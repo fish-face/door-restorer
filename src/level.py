@@ -41,24 +41,24 @@ class Level:
             return obj.location
         return self.get_coords_of(obj.container)
 
-    def set_terrain(self, p, terrain):
-        x = p[0]
-        y = p[1]
-        if callable(terrain):
-            terrain = terrain(self, p)
+    #def set_terrain(self, p, terrain):
+    #    x = p[0]
+    #    y = p[1]
+    #    if callable(terrain):
+    #        terrain = terrain(self, p)
 
-        if x < 0 or y < 0 or x >= self.width or y >= self.height:
-            return
-        if self.map[y][x]:
-            self.map[y][x][0] = terrain
-        else:
-            self.map[y][x] = [terrain]
+    #    if x < 0 or y < 0 or x >= self.width or y >= self.height:
+    #        return
+    #    if self.map[y][x]:
+    #        self.map[y][x][0] = terrain
+    #    else:
+    #        self.map[y][x] = [terrain]
 
-        terrain.level = self
-        terrain.location = p
+    #    terrain.level = self
+    #    terrain.location = p
 
-        # TODO: Nothing specifies that there must be exactly one terrain
-        #       per tile, or even where it is in the tile's list.
+    #    # TODO: Nothing specifies that there must be exactly one terrain
+    #    #       per tile, or even where it is in the tile's list.
 
     def add_region(self, region):
         if region in self.regions.values():

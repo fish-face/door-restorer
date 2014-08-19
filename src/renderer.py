@@ -85,6 +85,8 @@ class Renderer:
         surface.blit(self.terrain_surf, (-view.left, -view.top))
 
         for x, y, obj in level.get_objects():
+            if obj.flag('terrain'): continue
+
             dx, dy = obj.animated_position()
             try:
                 surface.blit(obj.image, ((x-dx)*tw - view.left, (y-dy)*th - view.top))

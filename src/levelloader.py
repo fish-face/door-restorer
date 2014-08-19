@@ -70,10 +70,10 @@ def load_level(game, filename):
         if tile == 0:
             continue
         name = tmx_data.tile_properties[tile]['name']
-        terrain = TERRAINS[name]()
-        level.set_terrain((x, y), terrain)
+        state = tmx_data.tile_properties[tile].get('state', 'default')
+        terrain = OBJECTS[name](level=level, location=(x, y))
         terrain.state_images = state_images[name]
-        terrain.image = state_images[name]['default']
+        terrain.state = state
 
     for layer in tmx_data.tilelayers[1:]:
         for (x, y, tile) in layer:
@@ -115,7 +115,7 @@ OBJECTS = {}
 name = None
 obj = None
 for name, obj in locals().items():
-    if isinstance(obj, type) and issubclass(obj, Terrain) and obj is not Terrain:
-        TERRAINS[name.lower()] = obj
-    elif isinstance(obj, type) and issubclass(obj, GameObject) and obj is not GameObject:
+    #if isinstance(obj, type) and issubclass(obj, Terrain) and obj is not Terrain:
+    #    TERRAINS[name.lower()] = obj
+    if isinstance(obj, type) and issubclass(obj, GameObject) and obj is not GameObject:
         OBJECTS[name.lower()] = obj
