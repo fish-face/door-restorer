@@ -66,16 +66,7 @@ def load_level(game, filename):
             animation.finalise()
 
     level = Level(game, name, width, height)
-    for (x, y, tile) in tmx_data.tilelayers[0]:
-        if tile == 0:
-            continue
-        name = tmx_data.tile_properties[tile]['name']
-        state = tmx_data.tile_properties[tile].get('state', 'default')
-        terrain = OBJECTS[name](level=level, location=(x, y))
-        terrain.state_images = state_images[name]
-        terrain.state = state
-
-    for layer in tmx_data.tilelayers[1:]:
+    for layer in tmx_data.tilelayers:
         for (x, y, tile) in layer:
             if tile == 0:
                 continue
