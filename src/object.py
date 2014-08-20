@@ -8,7 +8,6 @@ class GameObject(object):
         """Create a new GameObject with the given name, description and location."""
         self.name = name
         self.description = description
-        self._location = location
         self.old_location = location
         self.amount_moved = 1.0
         self.container = None
@@ -27,7 +26,7 @@ class GameObject(object):
         self.animation_callback = lambda: None
 
         self.history = []
-        self.track_properties = ('_location', 'direction', 'container', 'contained', 'destroyed', 'flags', 'char', 'block_sight', 'block_move', 'block_door', 'state', 'animation', 'animation_callback', 'move_dir', 'move_turns', 'move_to')
+        self.track_properties = ('location', 'direction', 'container', 'contained', 'destroyed', 'flags', 'char', 'block_sight', 'block_move', 'block_door', 'state', 'animation', 'animation_callback', 'move_dir', 'move_turns', 'move_to')
 
         self.mass = 1
         self.move_dir = None
@@ -39,7 +38,9 @@ class GameObject(object):
         self.removed_cbs = []
         self.destroyed_cbs = []
 
+        object.__setattr__(self, 'location', None)
         self.level = level
+        self.location = location
 
         if self.name[0].lower() in 'aeiou':
             self.indef_article = 'an'
@@ -50,22 +51,28 @@ class GameObject(object):
 
         self.facts = []
 
-    @property
-    def location(self):
-        return self._location
+    #@property
+    #def location(self):
+    #    return self._location
 
-    @location.setter
-    def location(self, value):
+    #@location.setter
+    def _set_location(self, value):
         self.level.move_object(self, value)
 
-        self.old_location = self._location
+        self.old_location = self.location
         self.amount_moved = 0.0
-        self._location = value
+        object.__setattr__(self, 'location', value)
         if value:
             for thing in self.level[value][::-1]:
                 if thing != self and thing.arrived(self):
                     break
         self.on_moved()
+
+    def __setattr__(self, name, value):
+        if name == 'location':
+            self._set_location(value)
+        else:
+            object.__setattr__(self, name, value)
 
     @property
     def level(self):
@@ -104,9 +111,9 @@ class GameObject(object):
         self.animation_done = callback
 
     def animated_position(self):
-        if self._location and self.old_location:
-            dx = (self._location[0] - self.old_location[0]) * (1 - self.amount_moved)
-            dy = (self._location[1] - self.old_location[1]) * (1 - self.amount_moved)
+        if self.location and self.old_location:
+            dx = (self.location[0] - self.old_location[0]) * (1 - self.amount_moved)
+            dy = (self.location[1] - self.old_location[1]) * (1 - self.amount_moved)
             if self.amount_moved < 1.0:
                 self.amount_moved = min(1.0, self.amount_moved + FRAME_DELAY / ANIM_DELAY)
             return dx, dy
@@ -163,11 +170,11 @@ class GameObject(object):
     def restore_state(self, index):
         state = self.history[index]
         for key, value in state.items():
-            if key == '_location':
-                self.old_location = self._location
+            if key == 'location':
+                self.old_location = self.location
                 self.amount_moved = 0.0
                 self.level.move_object(self, value)
-            setattr(self, key, value)
+            object.__setattr__(self, key, value)
         self.contained = state['contained'][:]
 
     def resolve_movement(self):

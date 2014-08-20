@@ -73,9 +73,6 @@ class Level:
 
         self.objects.add(obj)
 
-        if obj.location:
-            self[obj.location].append(obj)
-
     def remove_object(self, obj):
         """Should only be called from obj.destroy()"""
         if obj not in self.objects:
