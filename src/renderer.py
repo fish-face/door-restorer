@@ -84,8 +84,7 @@ class Renderer:
 
         surface.blit(self.terrain_surf, (-view.left, -view.top))
 
-        for x, y, obj in level.get_objects():
-            if obj.flag('terrain') or obj.flag('static'): continue
+        for x, y, obj in level.get_dynamics():
 
             dx, dy = obj.animated_position()
             try:

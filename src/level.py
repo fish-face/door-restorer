@@ -35,6 +35,12 @@ class Level:
             for x in xrange(self.width):
                 self.map[y].append([])
 
+    def load_finished(self):
+        self.statics = [obj for obj in self.objects if obj.flag('static') or obj.flag('terrain')]
+        self.statics.sort(key=lambda x: x.z)
+        self.dynamics = [obj for obj in self.objects if not obj.flag('static') and not obj.flag('terrain')]
+        self.dynamics.sort(key=lambda x: x.z)
+
     def get_coords_of(self, obj):
         """Get coordinates of given object or its container"""
         if not obj.container:
@@ -114,15 +120,11 @@ class Level:
                 yield (x, y, self.map[y][x])
 
     def get_statics(self):
-        for y in xrange(self.height):
-            for x in xrange(self.width):
-                yield (x, y, self.map[y][x][0])
-        for obj in self.objects:
-            if obj.flag('static'):
-                yield (obj.location[0], obj.location[1], obj)
+        for obj in self.statics:
+            yield (obj.location[0], obj.location[1], obj)
 
-    def get_objects(self):
-        for obj in sorted(self.objects, key=lambda x: x.z):
+    def get_dynamics(self):
+        for obj in self.dynamics:
             if obj.location:
                 yield obj.location[0], obj.location[1], obj
 

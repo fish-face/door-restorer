@@ -101,6 +101,8 @@ def load_level(game, filename):
         if hasattr(obj, 'points'):
             region.set_vertices([(px/TILE_W, py/TILE_H) for (px, py) in obj.points])
 
+    level.load_finished()
+
     return level
 
 
