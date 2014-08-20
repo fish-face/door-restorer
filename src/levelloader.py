@@ -106,7 +106,7 @@ def load_level(game, filename):
 
 UP, DOWN, LEFT, RIGHT = 0, 1, 2, 3
 
-from object import Door
+from object import *
 from terrain import *
 
 TERRAINS = {}

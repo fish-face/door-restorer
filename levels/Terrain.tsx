@@ -27,6 +27,11 @@
    <property name="name" value="goal"/>
   </properties>
  </tile>
+ <tile id="5">
+  <properties>
+   <property name="name" value="static"/>
+  </properties>
+ </tile>
  <tile id="11">
   <properties>
    <property name="name" value="nopickup"/>
@@ -167,6 +172,36 @@
  <tile id="83">
   <properties>
    <property name="name" value="pit"/>
+   <property name="state" value="autotile-5"/>
+  </properties>
+ </tile>
+ <tile id="65">
+  <properties>
+   <property name="name" value="static"/>
+   <property name="state" value="autotile-1"/>
+  </properties>
+ </tile>
+ <tile id="74">
+  <properties>
+   <property name="name" value="static"/>
+   <property name="state" value="autotile-2"/>
+  </properties>
+ </tile>
+ <tile id="75">
+  <properties>
+   <property name="name" value="static"/>
+   <property name="state" value="autotile-3"/>
+  </properties>
+ </tile>
+ <tile id="84">
+  <properties>
+   <property name="name" value="static"/>
+   <property name="state" value="autotile-4"/>
+  </properties>
+ </tile>
+ <tile id="85">
+  <properties>
+   <property name="name" value="static"/>
    <property name="state" value="autotile-5"/>
   </properties>
  </tile>

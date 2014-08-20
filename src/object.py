@@ -1,6 +1,5 @@
 ### Contains definition of Game Objects
 import pygame
-
 from game import FRAME_DELAY, ANIM_DELAY, UP, DOWN, LEFT, RIGHT
 
 NW, NE, SW, SE = range(4)
@@ -149,7 +148,7 @@ class GameObject(object):
                     subtiles.append(sources[4])
 
         names = [prefix + str(src) for src in subtiles]
-        base = pygame.Surface((w, h))
+        base = pygame.Surface((w, h), flags=pygame.SRCALPHA)
 
         # Now for each corner, copy in that corner from the region we found
         # in the previous step.
@@ -283,6 +282,37 @@ class GameObject(object):
 
     def __str__(self):
         return self.name
+
+
+class Static(GameObject):
+    def __init__(self, level, location=None):
+        GameObject.__init__(self, 'static', level, location)
+        self.flags['static'] = True
+        self.computed_image = None
+
+    @property
+    def image(self):
+        if self.computed_image:
+            return self.computed_image
+
+        x, y = self.location
+
+        adjacent8 = [(x_, y_) for y_ in range(y-1, y+2) for x_ in range(x-1, x+2)]
+        adj = []
+        for ax, ay in adjacent8:
+            tile = self.level[(ax, ay)]
+            if tile and [1 for obj in tile if obj.name == 'static']:
+                adj.append(True)
+            else:
+                adj.append(False)
+
+        self.computed_image = self.autotile(adj)
+        return self.computed_image
+
+    @image.setter
+    def image(self, value):
+        pass
+
 
 
 class Door(GameObject):

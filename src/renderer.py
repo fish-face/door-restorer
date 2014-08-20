@@ -52,7 +52,7 @@ class Renderer:
         if not self.terrain_surf:
             self.terrain_surf = pygame.Surface((level.width * tw, level.height * th))
 
-            for x, y, terrain in level.get_terrain():
+            for x, y, terrain in level.get_statics():
                 self.terrain_surf.blit(terrain.image, (x*tw, y*th))
 
         if player.destroyed:
@@ -85,7 +85,7 @@ class Renderer:
         surface.blit(self.terrain_surf, (-view.left, -view.top))
 
         for x, y, obj in level.get_objects():
-            if obj.flag('terrain'): continue
+            if obj.flag('terrain') or obj.flag('static'): continue
 
             dx, dy = obj.animated_position()
             try:

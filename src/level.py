@@ -113,10 +113,13 @@ class Level:
             for x in xrange(x1, x2):
                 yield (x, y, self.map[y][x])
 
-    def get_terrain(self):
+    def get_statics(self):
         for y in xrange(self.height):
             for x in xrange(self.width):
                 yield (x, y, self.map[y][x][0])
+        for obj in self.objects:
+            if obj.flag('static'):
+                yield (obj.location[0], obj.location[1], obj)
 
     def get_objects(self):
         for obj in sorted(self.objects, key=lambda x: x.z):
