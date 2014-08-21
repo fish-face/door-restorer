@@ -1,13 +1,23 @@
 ### Contains definition of Game Objects
+import pygame
 from game import FRAME_DELAY, ANIM_DELAY, UP, DOWN, LEFT, RIGHT
+
+NW, NE, SW, SE = range(4)
+# The following are constants which together determine which bit of the tileset
+# we use ("source") for the auto-tile depending on what is adjacent to us
+# ("checks"). The numbers in "checks" (0-9) are indexes of the 3x3 grid of coordinates
+# adjacent to the tile, starting top-left, going right then down.
+# The numbers in "sources" are 1 for the "cross-roads" piece and 2-5 for the various
+# parts of the 2x2 piece, as seen in the tileset.
+SUBTILE_CHECKS = ((3, 1, 0), (1, 5, 2), (3, 7, 6), (7, 5, 8))
+SUBTILE_SOURCES = ((5, 1, 3, 4, 2), (4, 1, 5, 2, 3), (3, 1, 5, 2, 4), (2, 1, 3, 4, 5))
 
 
 class GameObject(object):
     """An object in the game world"""
-    def __init__(self, name, level, description='', location=None, char='?'):
+    def __init__(self, name, level, location=None, char='?'):
         """Create a new GameObject with the given name, description and location."""
         self.name = name
-        self.description = description
         self._location = location
         self.old_location = location
         self.amount_moved = 1.0
@@ -25,6 +35,7 @@ class GameObject(object):
         self.state = 'default'
         self.animation = None
         self.animation_callback = lambda: None
+        self.computed_image = None
 
         self.history = []
         self.track_properties = ('_location', 'direction', 'container', 'contained', 'destroyed', 'flags', 'char', 'block_sight', 'block_move', 'block_door', 'state', 'animation', 'animation_callback', 'move_dir', 'move_turns', 'move_to')
@@ -113,6 +124,42 @@ class GameObject(object):
         else:
             return 0, 0
 
+    def autotile(self, connections, prefix='autotile-'):
+        w, h = self.state_images['default'].get_size()
+        hw, hh = w/2, h/2
+
+        # First go through and determine which subtile regions to use for each corner
+        subtiles = []
+        for corner in (NW, NE, SW, SE):
+            checks = SUBTILE_CHECKS[corner]
+            sources = SUBTILE_SOURCES[corner]
+            if connections[checks[0]]:
+                if connections[checks[1]]:
+                    if connections[checks[2]]:
+                        subtiles.append(sources[0])
+                    else:
+                        subtiles.append(sources[1])
+                else:
+                    subtiles.append(sources[2])
+            else:
+                if connections[checks[1]]:
+                    subtiles.append(sources[3])
+                else:
+                    subtiles.append(sources[4])
+
+        names = [prefix + str(src) for src in subtiles]
+        base = pygame.Surface((w, h), flags=pygame.SRCALPHA)
+
+        # Now for each corner, copy in that corner from the region we found
+        # in the previous step.
+        base.blit(self.state_images[names[0]], (0, 0), (0, 0, hw, hh))
+        base.blit(self.state_images[names[1]], (hw, 0), (hw, 0, hw, hh))
+        base.blit(self.state_images[names[2]], (0, hh), (0, hh, hw, hh))
+        base.blit(self.state_images[names[3]],
+                  (hw, hh),
+                  (hw, hh, hw, hh))
+
+        return base
     def indefinite(self):
         """Name of the object with indefinite article"""
         return '%s %s' % (self.indef_article, self.name)
@@ -152,6 +199,8 @@ class GameObject(object):
 
     def arrived(self, other):
         """Something else arrived on the same square as us. Return False to let other objects be landed on."""
+        if self.block_move:
+            other.move_turns = 0
         return False
 
     def record_state(self, index):
@@ -235,9 +284,52 @@ class GameObject(object):
         return self.name
 
 
+class Static(GameObject):
+    def __init__(self, level, location=None):
+        name = self.__class__.__name__.lower()
+        GameObject.__init__(self, name, level, location)
+        self.flags['static'] = True
+        self.computed_image = None
+
+
+class Rug(Static):
+    @property
+    def image(self):
+        if self.computed_image:
+            return self.computed_image
+
+        x, y = self.location
+
+        adjacent8 = [(x_, y_) for y_ in range(y-1, y+2) for x_ in range(x-1, x+2)]
+        adj = []
+        for ax, ay in adjacent8:
+            tile = self.level[(ax, ay)]
+            if tile and [1 for obj in tile if obj.name == self.name]:
+                adj.append(True)
+            else:
+                adj.append(False)
+
+        self.computed_image = self.autotile(adj)
+        return self.computed_image
+
+    @image.setter
+    def image(self, value):
+        pass
+
+
+class Cracks(Static):
+    pass
+
+class Alcove(Static):
+    pass
+
+class Painting(Static):
+    pass
+
+
 class Door(GameObject):
     def __init__(self, level, location):
-        GameObject.__init__(self, 'door', level, 'A wooden door', location, '+')
+        GameObject.__init__(self, 'door', level, location, '+')
 
         self.tileindex = (0,0)
         self.locked = False

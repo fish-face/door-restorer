@@ -66,16 +66,7 @@ def load_level(game, filename):
             animation.finalise()
 
     level = Level(game, name, width, height)
-    for (x, y, tile) in tmx_data.tilelayers[0]:
-        if tile == 0:
-            continue
-        name = tmx_data.tile_properties[tile]['name']
-        terrain = TERRAINS[name]()
-        level.set_terrain((x, y), terrain)
-        terrain.state_images = state_images[name]
-        terrain.image = state_images[name]['default']
-
-    for layer in tmx_data.tilelayers[1:]:
+    for layer in tmx_data.tilelayers:
         for (x, y, tile) in layer:
             if tile == 0:
                 continue
@@ -101,12 +92,14 @@ def load_level(game, filename):
         if hasattr(obj, 'points'):
             region.set_vertices([(px/TILE_W, py/TILE_H) for (px, py) in obj.points])
 
+    level.load_finished()
+
     return level
 
 
 UP, DOWN, LEFT, RIGHT = 0, 1, 2, 3
 
-from object import Door
+from object import *
 from terrain import *
 
 TERRAINS = {}
@@ -115,7 +108,7 @@ OBJECTS = {}
 name = None
 obj = None
 for name, obj in locals().items():
-    if isinstance(obj, type) and issubclass(obj, Terrain) and obj is not Terrain:
-        TERRAINS[name.lower()] = obj
-    elif isinstance(obj, type) and issubclass(obj, GameObject) and obj is not GameObject:
+    #if isinstance(obj, type) and issubclass(obj, Terrain) and obj is not Terrain:
+    #    TERRAINS[name.lower()] = obj
+    if isinstance(obj, type) and issubclass(obj, GameObject) and obj is not GameObject:
         OBJECTS[name.lower()] = obj

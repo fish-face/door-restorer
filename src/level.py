@@ -35,30 +35,36 @@ class Level:
             for x in xrange(self.width):
                 self.map[y].append([])
 
+    def load_finished(self):
+        self.statics = [obj for obj in self.objects if obj.flag('static') or obj.flag('terrain')]
+        self.statics.sort(key=lambda x: x.z)
+        self.dynamics = [obj for obj in self.objects if not obj.flag('static') and not obj.flag('terrain')]
+        self.dynamics.sort(key=lambda x: x.z)
+
     def get_coords_of(self, obj):
         """Get coordinates of given object or its container"""
         if not obj.container:
             return obj.location
         return self.get_coords_of(obj.container)
 
-    def set_terrain(self, p, terrain):
-        x = p[0]
-        y = p[1]
-        if callable(terrain):
-            terrain = terrain(self, p)
+    #def set_terrain(self, p, terrain):
+    #    x = p[0]
+    #    y = p[1]
+    #    if callable(terrain):
+    #        terrain = terrain(self, p)
 
-        if x < 0 or y < 0 or x >= self.width or y >= self.height:
-            return
-        if self.map[y][x]:
-            self.map[y][x][0] = terrain
-        else:
-            self.map[y][x] = [terrain]
+    #    if x < 0 or y < 0 or x >= self.width or y >= self.height:
+    #        return
+    #    if self.map[y][x]:
+    #        self.map[y][x][0] = terrain
+    #    else:
+    #        self.map[y][x] = [terrain]
 
-        terrain.level = self
-        terrain.location = p
+    #    terrain.level = self
+    #    terrain.location = p
 
-        # TODO: Nothing specifies that there must be exactly one terrain
-        #       per tile, or even where it is in the tile's list.
+    #    # TODO: Nothing specifies that there must be exactly one terrain
+    #    #       per tile, or even where it is in the tile's list.
 
     def add_region(self, region):
         if region in self.regions.values():
@@ -113,13 +119,12 @@ class Level:
             for x in xrange(x1, x2):
                 yield (x, y, self.map[y][x])
 
-    def get_terrain(self):
-        for y in xrange(self.height):
-            for x in xrange(self.width):
-                yield (x, y, self.map[y][x][0])
+    def get_statics(self):
+        for obj in self.statics:
+            yield (obj.location[0], obj.location[1], obj)
 
-    def get_objects(self):
-        for obj in sorted(self.objects, key=lambda x: x.z):
+    def get_dynamics(self):
+        for obj in self.dynamics:
             if obj.location:
                 yield obj.location[0], obj.location[1], obj
 
