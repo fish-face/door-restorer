@@ -286,10 +286,13 @@ class GameObject(object):
 
 class Static(GameObject):
     def __init__(self, level, location=None):
-        GameObject.__init__(self, 'static', level, location)
+        name = self.__class__.__name__.lower()
+        GameObject.__init__(self, name, level, location)
         self.flags['static'] = True
         self.computed_image = None
 
+
+class Rug(Static):
     @property
     def image(self):
         if self.computed_image:
@@ -301,7 +304,7 @@ class Static(GameObject):
         adj = []
         for ax, ay in adjacent8:
             tile = self.level[(ax, ay)]
-            if tile and [1 for obj in tile if obj.name == 'static']:
+            if tile and [1 for obj in tile if obj.name == self.name]:
                 adj.append(True)
             else:
                 adj.append(False)
@@ -313,6 +316,15 @@ class Static(GameObject):
     def image(self, value):
         pass
 
+
+class Cracks(Static):
+    pass
+
+class Alcove(Static):
+    pass
+
+class Painting(Static):
+    pass
 
 
 class Door(GameObject):
