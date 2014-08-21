@@ -2,9 +2,19 @@ Features
 ---
 
 * Error handling (especially in save/load)
-* Big doors, keys, teleporters, lasers ...
+* New mechanics:
+	* Big doors
+	* Other objects which get in the way
+	* Tiles that block doors but not Dora
+	* Keys
+	* Teleporters
+	* Lasers
 * More characters, switching?
 * ~~Hints for tutorial levels/~~ introducing new features
+* Track stats
+	* Turns taken
+	* Time taken
+	* Doors used?
 
 Misc
 ---
@@ -17,6 +27,7 @@ Refactors
 * Make terrains into objects, unify everything
 * Make no-pickups fully direction-independent
 * ~~Reorganise auto-tiling to not be awful~~
+	* Extract more common code from auto-tiling objects
 
 Content
 ---
@@ -31,6 +42,9 @@ Usability
 * Help
 * Mouse support?
 * Sound for "can't walk here" and "can't pick up here"
+* Rework hints so that there is a key to dismiss them
+	* What should the key be? Should it be possible to reactivate hints?
+* Advance to the next world
 
 Appeal
 ---
@@ -45,6 +59,7 @@ Appeal
 * Music
 * ~~Fiddle with pickup indicators (Invert logic? Display on wall tile?)~~
 	* Working but needs experimentation to find the good sprites
+* Make turn counter look better
 
 Dreams
 ---
