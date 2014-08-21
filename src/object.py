@@ -320,8 +320,22 @@ class Rug(Static):
 class Cracks(Static):
     pass
 
+
+class Decay(Static):
+    pass
+
+
+class Decay2(Static):
+    pass
+
+
 class Alcove(Static):
     pass
+
+
+class Diamond(Static):
+    pass
+
 
 class Painting(Static):
     pass

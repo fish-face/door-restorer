@@ -38,7 +38,8 @@ Appeal
 * Menu graphics
 * Win screen
 * ~~Auto-tiling walls and pits~~
-* More varied/better tiles
+* ~~More varied/better tiles~~
+	* Detailing in the form of alcoves, patterns, cracks done but need multiple tilesets
 * More animations (walking, ...?)
 * Proper sound
 * Music

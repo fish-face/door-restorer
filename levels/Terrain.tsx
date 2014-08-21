@@ -37,9 +37,24 @@
    <property name="name" value="cracks"/>
   </properties>
  </tile>
+ <tile id="16">
+  <properties>
+   <property name="name" value="decay"/>
+  </properties>
+ </tile>
+ <tile id="26">
+  <properties>
+   <property name="name" value="decay2"/>
+  </properties>
+ </tile>
  <tile id="7">
   <properties>
    <property name="name" value="alcove"/>
+  </properties>
+ </tile>
+ <tile id="17">
+  <properties>
+   <property name="name" value="diamond"/>
   </properties>
  </tile>
  <tile id="8">
