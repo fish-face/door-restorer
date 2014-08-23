@@ -365,12 +365,13 @@ class Door(GameObject):
         else:
             return (255, 255, 255)
 
-    def close(self):
+    def close(self, play_sound=True):
         self.block_move = True
         self.block_sight = True
         self.state = 'default'
         self.char = '+'
-        self.game.sound.close()
+        if play_sound:
+            self.game.sound.close()
 
     def open(self):
         self.block_move = False
@@ -385,7 +386,7 @@ class Door(GameObject):
             # Place the player at his location to trigger terrain effects
             self.container.location = self.container.location
 
-        self.close()
+        self.close(False)
 
     def bumped(self, other):
         if self.block_move:
