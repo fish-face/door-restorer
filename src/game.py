@@ -166,9 +166,9 @@ class Game:
     def action(self, direction):
         if self.player.contained:
             self.throw(direction)
-        elif self.close(direction):
-            pass
         elif self.pickup(direction):
+            pass
+        elif self.close(direction):
             pass
         else:
             # Took no action
@@ -182,8 +182,6 @@ class Game:
         success = False
         for obj in self.get_objects_at(pickup_loc):
             if obj.flag('door'):
-                if not obj.block_move:
-                    continue
                 if self.level[pickup_loc][0].block_move and not self.level[self.player.location][0].pickup:
                     continue
             if self.player.add(obj):
