@@ -40,6 +40,7 @@ class Renderer:
     def render_level(self, game):
         # Calculate viewport
         surface = self.level_surf
+        surface.fill((0, 0, 0))
         level = game.level
         player = game.player
 
