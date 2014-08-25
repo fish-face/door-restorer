@@ -3,4 +3,4 @@ Test Levels
 2	Level 2	test_level-2.tmx
 3	Level 3	test_level-3.tmx
 4	Level 4	test_level-4.tmx
-5	Autotile test	test_autotile.tmx
+5	Level 5	test_level-5.tmx
