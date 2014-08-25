@@ -18,8 +18,14 @@ class SoundPlayer(object):
         for name, filename in sounds.items():
             self.sounds[name] = pygame.mixer.Sound(filename)
 
+        self.channels = {}
+
     def play(self, name):
-        self.sounds[name].play()
+        snd = self.sounds[name]
+        if name not in self.channels or not self.channels[name].get_busy():
+            self.channels[name] = snd.play()
+
+        #self.sounds[name].play()
 
     def __getattr__(self, name):
         if name in self.sounds:

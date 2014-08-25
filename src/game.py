@@ -6,8 +6,9 @@ UP, DOWN, LEFT, RIGHT = 0, 1, 2, 3
 
 FRAME_RATE = 60
 FRAME_DELAY = 1000.0/FRAME_RATE
-ANIM_DELAY = 1000.0/30
-
+ANIM_DELAY = FRAME_DELAY * 5
+UPDATE_DELAY = FRAME_DELAY * 2
+TURN_DELAY = FRAME_DELAY * 6
 
 import pygame
 
@@ -28,6 +29,8 @@ RESTART_KEYS = (pygame.K_r,)
 UNDO_KEYS = (pygame.K_u, pygame.K_z)
 CHEAT_KEYS = (pygame.K_c,)
 QUIT_KEYS = (pygame.K_q,)
+
+HOLDABLE_KEYS = UP_KEYS + DOWN_KEYS + LEFT_KEYS + RIGHT_KEYS + UNDO_KEYS
 
 
 class Game:
@@ -99,70 +102,6 @@ class Game:
     def failed_move(self, location):
         pass
 
-    def win(self):
-        #self.quitting = True
-        self.player.animate('descending', self.end)
-        self.block()
-        self.won = True
-
-    def end(self):
-        self.stopping = True
-
-    def display_message(self, key, message):
-        if message != self.message:
-            self.msg_anim_frame = 0
-            self.message = message
-
-    def msg_anim_pos(self):
-        if self.msg_anim_frame < 24:
-            self.msg_anim_frame += 1
-        return self.msg_anim_frame / 24.0
-
-    def start(self):
-        self.turn = 0
-        self.messages = []
-        self.state = STATE_NORMAL
-        self.cheating = False
-        self.player_turn = True
-        self.next_update = 0
-        self.won = False
-        self.message = None
-
-        self.stopping = False
-        self.quitting = False
-
-        for obj in self.level.objects:
-            obj.location = obj.location
-            obj.record_state(self.turn)
-        if not self.quitting:
-            self.update()
-        #while not self.quitting:
-        #    self.main_loop()
-
-    def main_loop(self):
-        took_turn = self.process_events()
-        if took_turn or (not self.player_turn and pygame.time.get_ticks() > self.next_update):
-            self.update()
-
-    def process_events(self):
-        took_turn = False
-        for e in pygame.event.get():
-            if e.type == pygame.QUIT:
-                self.quitting = True
-                return False
-            elif self.player_turn:
-                if e.type == pygame.KEYDOWN:
-                    took_turn = self.keypressed(e)
-                elif e.type == pygame.MOUSEBUTTONUP:
-                    took_turn = self.clicked(e)
-
-        if took_turn:
-            self.turn += 1
-            for obj in self.level.dynamics:
-                obj.record_state(self.turn)
-
-        return took_turn
-
     def action(self, direction):
         if self.player.contained:
             self.throw(direction)
@@ -213,21 +152,90 @@ class Game:
             self.sound.throw()
         return success
 
-    def keypressed(self, e):
+    def win(self):
+        #self.quitting = True
+        self.player.animate('descending', self.end)
+        self.block()
+        self.won = True
+
+    def end(self):
+        self.stopping = True
+
+    def display_message(self, key, message):
+        if message != self.message:
+            self.msg_anim_frame = 0
+            self.message = message
+
+    def msg_anim_pos(self):
+        if self.msg_anim_frame < 24:
+            self.msg_anim_frame += 1
+        return self.msg_anim_frame / 24.0
+
+    def start(self):
+        self.turn = 0
+        self.messages = []
+        self.state = STATE_NORMAL
+        self.cheating = False
+        self.player_turn = True
+        self.next_turn = 0
+        self.next_update = 0
+        self.won = False
+        self.message = None
+
+        self.stopping = False
+        self.quitting = False
+
+        for obj in self.level.objects:
+            obj.location = obj.location
+            obj.record_state(self.turn)
+        if not self.quitting:
+            self.update()
+        #while not self.quitting:
+        #    self.main_loop()
+
+    def main_loop(self):
+        self.player_turn = pygame.time.get_ticks() > self.next_turn
+        took_turn = self.process_events()
+        if took_turn:
+            self.next_turn = pygame.time.get_ticks() + TURN_DELAY
+
+        if took_turn or (not self.player_turn and pygame.time.get_ticks() > self.next_update):
+            self.update()
+
+    def process_events(self):
         took_turn = False
-        if self.state == STATE_PICK:
-            try:
-                took_turn = self.pick_direction_done(DIR_MAP[e.key])
-            except KeyError:
-                self.sound.cancel()
-                self.state = STATE_NORMAL
-        elif self.state == STATE_NORMAL:
-            try:
-                newloc = self.coords_in_dir(self.player.location, DIR_MAP[e.key], 1)
-            except KeyError:
-                pass
-            else:
-                self.player.direction = DIR_MAP[e.key]
+        if pygame.event.get(pygame.QUIT):
+            self.quitting = True
+            return False
+
+        if not self.player_turn:
+            return False
+
+        held_keys = [key for key in HOLDABLE_KEYS if pygame.key.get_pressed()[key]]
+        if held_keys:
+            took_turn = self.keyheld(held_keys)
+        if not took_turn:
+            for e in pygame.event.get():
+                if e.type == pygame.KEYDOWN:
+                    took_turn = self.keypressed(e)
+                elif e.type == pygame.MOUSEBUTTONUP:
+                    took_turn = self.clicked(e)
+
+        if took_turn:
+            self.turn += 1
+            for obj in self.level.dynamics:
+                obj.record_state(self.turn)
+
+        return took_turn
+
+    def keyheld(self, keys):
+        took_turn = False
+        if self.state == STATE_NORMAL:
+            dirs = [DIR_MAP[key] for key in keys if key in DIR_MAP]
+            if len(set(dirs)) == 1:
+                dir = dirs[0]
+                newloc = self.coords_in_dir(self.player.location, dir, 1)
+                self.player.direction = dir
                 if newloc != self.player.location:
                     if self.can_move_to(self.player, newloc):
                         self.player.location = newloc
@@ -239,6 +247,26 @@ class Game:
                             if thing.bumped(self.player):
                                 took_turn = True
                                 break
+                return took_turn
+
+        if self.state == STATE_NORMAL or self.state == STATE_LOCKED:
+            if filter(keys.__contains__, UNDO_KEYS):
+                self.undo()
+                self.sound.undo()
+                self.state = STATE_NORMAL
+                self.next_turn = pygame.time.get_ticks() + TURN_DELAY
+
+        return took_turn
+
+    def keypressed(self, e):
+        took_turn = False
+        if self.state == STATE_PICK:
+            try:
+                took_turn = self.pick_direction_done(DIR_MAP[e.key])
+            except KeyError:
+                self.sound.cancel()
+                self.state = STATE_NORMAL
+        elif self.state == STATE_NORMAL:
 
             if e.key in ACTION_KEYS:
                 self.pick_direction(self.action)
@@ -246,9 +274,7 @@ class Game:
                 self.cheating = not self.cheating
         if self.state == STATE_NORMAL or self.state == STATE_LOCKED:
             if e.key in UNDO_KEYS:
-                self.undo()
-                self.sound.undo()
-                self.state = STATE_NORMAL
+                pass
             elif e.key in QUIT_KEYS:
                 self.stopping = True
             elif e.key in RESTART_KEYS:
@@ -278,13 +304,13 @@ class Game:
     def unblock(self):
         self.state = STATE_NORMAL
 
-    def schedule_update(self, time=ANIM_DELAY):
-        self.player_turn = False
+    def schedule_update(self, time=UPDATE_DELAY):
         self.next_update = pygame.time.get_ticks() + time
+        self.next_turn = self.next_update + TURN_DELAY
 
     def update(self):
         # level.objects is a set, so the order of evaluation is undefined
-        self.player_turn = True
+        #self.player_turn = True
 
         for obj in self.level.dynamics:
             if obj.resolve_movement():
