@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="11" height="11" tilewidth="24" tileheight="24">
+ <tileset firstgid="1" source="Terrain.tsx"/>
+ <tileset firstgid="101" source="Objects.tsx"/>
+ <layer name="Terrain" width="11" height="11">
+  <data encoding="base64" compression="zlib">
+   eJyVj0kKADAIA936/y+XgoUQ1NJDwHU0KiL6oQB5yjI//fXJQ64CK6CmQ8x/XUbH5bo/PHaz/Cff5lvsp/KOs1bs+sCYtAHjnAD1
+  </data>
+ </layer>
+ <layer name="Objects" width="11" height="11">
+  <data encoding="base64" compression="zlib">
+   eJxjYBh6IGugHYAEiHVLKh3swAUADycBpA==
+  </data>
+ </layer>
+ <layer name="Decals" width="11" height="11">
+  <data encoding="base64" compression="zlib">
+   eJxjYMAE7EhsISzyxAAhNJpUeRjgIKBfkAi3SOMwD1lcCIs8MiDGHkJ2I5sPs4+dgToAPRyR+QBHIwFW
+  </data>
+ </layer>
+</map>

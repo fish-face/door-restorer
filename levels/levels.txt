@@ -4,3 +4,4 @@ Test Levels
 3	Level 3	test_level-3.tmx
 4	Level 4	test_level-4.tmx
 5	Level 5	test_level-5.tmx
+6	Level 6	test_level-6.tmx
