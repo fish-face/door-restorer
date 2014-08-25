@@ -24,7 +24,7 @@ Misc
 Refactors
 ---
 
-* Make terrains into objects, unify everything
+* ~~Make terrains into objects, unify everything~~
 * Make no-pickups fully direction-independent
 * ~~Reorganise auto-tiling to not be awful~~
 	* Extract more common code from auto-tiling objects
