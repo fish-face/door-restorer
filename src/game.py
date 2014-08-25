@@ -158,7 +158,7 @@ class Game:
 
         if took_turn:
             self.turn += 1
-            for obj in self.level.objects:
+            for obj in self.level.dynamics:
                 obj.record_state(self.turn)
 
         return took_turn
@@ -286,7 +286,7 @@ class Game:
         # level.objects is a set, so the order of evaluation is undefined
         self.player_turn = True
 
-        for obj in self.level.objects:
+        for obj in self.level.dynamics:
             if obj.resolve_movement():
                 obj.record_state(self.turn)
                 self.schedule_update()
@@ -305,6 +305,6 @@ class Game:
 
         self.turn -= 1
 
-        for obj in self.level.objects:
+        for obj in self.level.dynamics:
             obj.restore_state(self.turn)
 
