@@ -22,7 +22,7 @@ from save import SaveGame
 from sound import SoundPlayer
 from levelset import LevelSet, LevelDescription
 
-PROFILE = True
+PROFILE = False
 WINDOW_W, WINDOW_H = 600, 600
 
 MODE_MAIN_MENU = 0
