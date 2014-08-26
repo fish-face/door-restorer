@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="15" height="15" tilewidth="24" tileheight="24">
+ <tileset firstgid="1" source="Terrain.tsx"/>
+ <tileset firstgid="101" source="Objects.tsx"/>
+ <layer name="Terrain" width="15" height="15">
+  <data encoding="base64" compression="zlib">
+   eJy9klEKwCAMQ2Pq7n/lIaxQ4ix1wj4eqJi0qTYA7YAeyPa6/kN7kss9+OBnVqBj7kd7VPhyZzXnlbbyRrt1K3mZ6CsQ85zVL94x5JmH5gra6GXiu/OvXOu1iW95lRu5EQIV
+  </data>
+ </layer>
+ <layer name="Objects" width="15" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBg4kAXEqQNoPy1BFp3MpIU95IDB4g56A2r4GwB5gwLi
+  </data>
+ </layer>
+</map>
