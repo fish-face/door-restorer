@@ -1,8 +1,8 @@
-class Region(object):
+from object import GameObject
+
+class Region(GameObject):
     def __init__(self, name, level, location, size):
-        self.name = name
-        self.level = level
-        self.location = location
+        GameObject.__init__(name, level, location)
         self.size = size
         self.message = None
         self.points = []
