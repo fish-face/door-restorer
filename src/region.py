@@ -2,7 +2,7 @@ from object import GameObject
 
 class Region(GameObject):
     def __init__(self, name, level, location, size):
-        GameObject.__init__(name, level, location)
+        GameObject.__init__(self, name, level, location)
         self.size = size
         self.message = None
         self.points = []

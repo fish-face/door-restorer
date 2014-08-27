@@ -38,7 +38,7 @@ class Level:
     def load_finished(self):
         self.statics = [obj for obj in self.objects if obj.flag('static') or obj.flag('terrain')]
         self.statics.sort(key=lambda x: x.z)
-        self.dynamics = [obj for obj in self.objects if not obj.flag('static') and not obj.flag('terrain')]
+        self.dynamics = [obj for obj in self.objects if not obj.flag('static') and not obj.flag('terrain')] + self.regions.values()
         self.dynamics.sort(key=lambda x: x.z)
 
     def get_coords_of(self, obj):
