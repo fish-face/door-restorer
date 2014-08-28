@@ -40,6 +40,7 @@ class Level:
         self.statics.sort(key=lambda x: x.z)
         self.dynamics = [obj for obj in self.objects if not obj.flag('static') and not obj.flag('terrain')] + self.regions.values()
         self.dynamics.sort(key=lambda x: x.z)
+        self.check_active_regions()
 
     def get_coords_of(self, obj):
         """Get coordinates of given object or its container"""
@@ -105,6 +106,10 @@ class Level:
             for region in self.regions.values():
                 if location in region:
                     if region.arrived(obj): break
+
+    def check_active_regions(self):
+        for reg in self.regions.values():
+            reg.check_active()
 
     def get_tile(self, x, y):
         """Return all the stuff at the given location"""

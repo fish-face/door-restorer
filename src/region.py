@@ -7,6 +7,10 @@ class Region(GameObject):
         self.message = None
         self.points = []
 
+        self.visible = False
+        self.active = False
+        self.activated = False
+        self.activate_requires = []
         self.arrived_cbs = []
         self.leaving_cbs = []
 
@@ -43,11 +47,28 @@ class Region(GameObject):
 
         return inside
 
+    def add_dependency(self, other):
+        self.activate_requires.append(other)
+
+    def check_active(self):
+        for req in self.activate_requires:
+            if not req.activated:
+                return False
+
+        self.active = True
+        if self.visible:
+            self.state = 'visible'
+
+    def activate(self, other):
+        self.activated = True
+        self.game.display_message(self.name, self.message)
+        self.level.check_active_regions()
+
     def arrived(self, other):
         for cb in self.arrived_cbs:
             cb(self, other)
-        if other.flag('player'):
-            self.game.display_message(self.name, self.message)
+        if other.flag('player') and self.active:
+            self.activate(other)
             return False
         return True
 
