@@ -1,6 +1,7 @@
 STATE_NORMAL = 0
 STATE_PICK = 1
 STATE_LOCKED = 2
+STATE_READING = 3
 
 UP, DOWN, LEFT, RIGHT = 0, 1, 2, 3
 
@@ -161,9 +162,13 @@ class Game:
     def end(self):
         self.stopping = True
 
-    def display_message(self, key, message):
+    def display_message(self, source, message):
         if message != self.message:
-            self.msg_anim_frame = 0
+            if message:
+                self.msg_anim_frame = 0
+            else:
+                self.msg_anim_frame = -20
+
             self.message = message
 
     def msg_anim_pos(self):
@@ -267,12 +272,15 @@ class Game:
                 self.sound.cancel()
                 self.state = STATE_NORMAL
         elif self.state == STATE_NORMAL:
-
             if e.key in ACTION_KEYS:
                 self.pick_direction(self.action)
             elif e.key in CHEAT_KEYS:
                 self.cheating = not self.cheating
-        if self.state == STATE_NORMAL or self.state == STATE_LOCKED:
+        elif self.state == STATE_READING:
+            if e.key in ACTION_KEYS:
+                self.display_message(None, None)
+
+        if self.state != STATE_PICK:
             if e.key in UNDO_KEYS:
                 pass
             elif e.key in QUIT_KEYS:
