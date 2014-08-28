@@ -67,11 +67,10 @@ class GameObject(object):
 
     @location.setter
     def location(self, value):
-        self.level.move_object(self, value)
-
         self.old_location = self._location
         self.amount_moved = 0.0
         self._location = value
+        self.level.move_object(self, self.old_location, value)
         if value:
             for thing in self.level[value][::-1]:
                 if thing != self and thing.arrived(self):
