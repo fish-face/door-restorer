@@ -46,9 +46,10 @@
     <property name="show" value=""/>
    </properties>
   </object>
-  <object name="Nearly There" x="96" y="24" width="48" height="192">
+  <object name="Nearly There" x="96" y="144" width="24" height="24">
    <properties>
     <property name="message" value="Crikey. As you can imagine, a team of scientists is investigating this phenomenon as we speak, but while they deliberate, you'd best press on.\n\nPress Space, Enter, X or E and then left to close the door, then pick it up and continue to the stairs."/>
+    <property name="show" value=""/>
    </properties>
   </object>
   <object name="In Wall" x="72" y="24" width="24" height="192">
@@ -66,7 +67,7 @@
     <property name="message" value="Now you're next to the door, you can LIFT it.\n\nFirst, press Space, Enter, E or X, followed by the direction to the door."/>
     <property name="show" value=""/>
    </properties>
-   <polygon points="0,0 0,24 24,24 24,48 0,48 0,72 24,72 24,48 48,48 48,24 24,24 24,0"/>
+   <polygon points="0,0 0,24 24,24 24,0"/>
   </object>
  </objectgroup>
  <layer name="Decals" width="10" height="10">

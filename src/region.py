@@ -11,8 +11,13 @@ class Region(GameObject):
         self.active = False
         self.activated = False
         self.activate_requires = []
+        self.activate_requires_not = []
         self.arrived_cbs = []
         self.leaving_cbs = []
+
+    @GameObject.location.setter
+    def location(self, value):
+        self._location = value
 
     @property
     def level(self):
@@ -50,12 +55,18 @@ class Region(GameObject):
     def add_dependency(self, other):
         self.activate_requires.append(other)
 
+    def add_anti_dependency(self, other):
+        self.activate_requires_not.append(other)
+
     def check_active(self):
         self.active = False
         self.state = 'default'
 
         for req in self.activate_requires:
             if not req.activated:
+                return False
+        for req in self.activate_requires_not:
+            if req.activated:
                 return False
 
         self.active = True

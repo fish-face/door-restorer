@@ -26,7 +26,9 @@ class TutorialOne(Tutorial):
 
         self.picked_up_door = False
         self.correctly_thrown_door = False
-        self.level.regions['Lift Door'].add_dependency(self.level.regions['Go to Door'])
+        self.level.get_region('Lift Door').add_dependency(self.level.get_region('Go to Door'))
+        self.level.get_region('Nearly There').add_dependency(self.level.get_region('In Wall'))
+        self.level.get_region('In Wall').add_anti_dependency(self.level.get_region('Nearly There'))
         self.deactivate_if = {
             'Hint Movement': ('picked_up_door',),
             'Go to Door': ('picked_up_door',),
@@ -63,6 +65,12 @@ class TutorialOne(Tutorial):
                 self.picked_up_door = False
         return True
 
+    def in_wall(self, region, obj):
+        if obj.flag('player'):
+            self.level.get_region('Nearly There').location = self.coords_in_dir(obj._location, RIGHT, 1)
+    def start(self):
+        Tutorial.start(self)
+        self.level.get_region('In Wall').arrived_cbs.append(self.in_wall)
 
 class TutorialTwo(Tutorial):
     def __init__(self, *args, **kwargs):

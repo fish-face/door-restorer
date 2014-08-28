@@ -276,7 +276,10 @@ class Game:
             if e.key in UNDO_KEYS:
                 pass
             elif e.key in QUIT_KEYS:
-                self.stopping = True
+                if self.message:
+                    self.display_message(None, None)
+                else:
+                    self.stopping = True
             elif e.key in RESTART_KEYS:
                 self.restart()
 
