@@ -20,8 +20,13 @@ class Tutorial(Game):
 class TutorialOne(Tutorial):
     def __init__(self, *args, **kwargs):
         Tutorial.__init__(self, *args, **kwargs)
+
+    def load_level(self, level_file):
+        Tutorial.load_level(self, level_file)
+
         self.picked_up_door = False
         self.correctly_thrown_door = False
+        self.level.regions['Lift Door'].add_dependency(self.level.regions['Go to Door'])
         self.deactivate_if = {
             'Hint Movement': ('picked_up_door',),
             'Go to Door': ('picked_up_door',),
@@ -29,6 +34,8 @@ class TutorialOne(Tutorial):
             'In Wall': ('second_pickup',),
             'Nearly There': ('second_pickup',),
         }
+
+        self.level.check_active_regions()
 
     def pickup(self, direction):
         success = Game.pickup(self, direction)

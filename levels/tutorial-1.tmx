@@ -64,6 +64,7 @@
   <object name="Lift Door" x="24" y="144">
    <properties>
     <property name="message" value="Now you're next to the door, you can LIFT it.\n\nFirst, press Space, Enter, E or X, followed by the direction to the door."/>
+    <property name="show" value=""/>
    </properties>
    <polygon points="0,0 0,24 24,24 24,48 0,48 0,72 24,72 24,48 48,48 48,24 24,24 24,0"/>
   </object>

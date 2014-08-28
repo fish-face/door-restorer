@@ -51,6 +51,9 @@ class Region(GameObject):
         self.activate_requires.append(other)
 
     def check_active(self):
+        self.active = False
+        self.state = 'default'
+
         for req in self.activate_requires:
             if not req.activated:
                 return False
