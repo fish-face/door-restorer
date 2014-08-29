@@ -7,11 +7,23 @@ class Region(GameObject):
         self.message = None
         self.points = []
 
+        # Explanation of the following members:
+        #
+        # visible is whether or not an icon is displayed when the region is active
+        # the region will not become active if it is enabled
+        # the region becomes active when it's enabled and all preconditions are met,
+        #       it can then be activated
+        # if the player has walked into the region while active, it has been activated
+        #
+        # in order to become active, all the regions in activate_requires must have
+        #       been activated, and none of those in activate_requires_not can have been.
         self.visible = False
+        self.enabled = True
         self.active = False
         self.activated = False
         self.activate_requires = []
         self.activate_requires_not = []
+
         self.arrived_cbs = []
         self.leaving_cbs = []
 
@@ -61,6 +73,9 @@ class Region(GameObject):
     def check_active(self):
         self.active = False
         self.state = 'default'
+
+        if not self.enabled:
+            return False
 
         for req in self.activate_requires:
             if not req.activated:

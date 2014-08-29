@@ -48,7 +48,7 @@
   </object>
   <object name="Nearly There" x="96" y="144" width="24" height="24">
    <properties>
-    <property name="message" value="Crikey. As you can imagine, a team of scientists is investigating this phenomenon as we speak, but while they deliberate, you'd best press on.\n\nPress Space, Enter, X or E and then left to close the door, then pick it up and continue to the stairs."/>
+    <property name="message" value="Crikey. As you can imagine, a team of scientists is investigating this phenomenon as we speak, but while they deliberate, you'd best press on.\n\nPress Space, Enter, X or E and then left to pick it up and continue to the stairs."/>
     <property name="show" value=""/>
    </properties>
   </object>

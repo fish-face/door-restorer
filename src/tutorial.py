@@ -1,20 +1,7 @@
 from game import Game, RIGHT
 
 class Tutorial(Game):
-    def __init__(self, *args, **kwargs):
-        Game.__init__(self, *args, **kwargs)
-        self.deactivate_if = {}
-        self.activate_if = {}
-
-    def display_message(self, key, message):
-        if key in self.deactivate_if:
-            for flag in self.deactivate_if[key]:
-                if getattr(self, flag, False): return False
-        if key in self.activate_if:
-            for flag in self.activate_if[key]:
-                if not getattr(self, flag, False): return False
-
-        Game.display_message(self, key, message)
+    pass
 
 
 class TutorialOne(Tutorial):
@@ -29,14 +16,6 @@ class TutorialOne(Tutorial):
         self.level.get_region('Lift Door').add_dependency(self.level.get_region('Go to Door'))
         self.level.get_region('Nearly There').add_dependency(self.level.get_region('In Wall'))
         self.level.get_region('In Wall').add_anti_dependency(self.level.get_region('Nearly There'))
-        self.deactivate_if = {
-            'Hint Movement': ('picked_up_door',),
-            'Go to Door': ('picked_up_door',),
-            'Lift Door': ('picked_up_door',),
-            'In Wall': ('second_pickup',),
-            'Nearly There': ('second_pickup',),
-        }
-
         self.level.check_active_regions()
 
     def pickup(self, direction):
@@ -47,8 +26,6 @@ class TutorialOne(Tutorial):
         if not self.picked_up_door:
             self.display_message('Picked up', 'OK, now THROW the door at the wall to your right!\n\nPress Space, Enter, E or X, and then right.')
             self.picked_up_door = True
-        elif self.player.location[0] == 4:
-            self.second_pickup = True
         return True
 
     def throw(self, direction):
@@ -61,16 +38,19 @@ class TutorialOne(Tutorial):
                 self.display_message('Thrown', 'As you can see, a quite incredible thing has happened. Rather than making a loud BANG and falling over, the door fused into the wall. My gast is flabbered.\n\nGo ahead and WALK into the door to open it.')
                 self.correctly_thrown_door = True
             else:
-                self.display_message('Thrown Wrong', 'Can\'t tell your left from your right, eh? Well it seems you have the brawn but not the brains.\n\nGo over to where you throw it and pick it up again. Then throw it at the wall to your RIGHT.')
-                self.picked_up_door = False
+                self.display_message('Thrown Wrong', 'Can\'t tell your left from your right, eh? Well it seems you have the brawn but not the brains.\n\nGo over to where you threw it and pick it up again. Then throw it at the wall to your RIGHT.')
+        self.level.get_region('Lift Door').enabled = False
+        self.level.get_region('Lift Door').check_active()
         return True
 
     def in_wall(self, region, obj):
         if obj.flag('player'):
             self.level.get_region('Nearly There').location = self.coords_in_dir(obj._location, RIGHT, 1)
+
     def start(self):
         Tutorial.start(self)
         self.level.get_region('In Wall').arrived_cbs.append(self.in_wall)
+
 
 class TutorialTwo(Tutorial):
     def __init__(self, *args, **kwargs):
