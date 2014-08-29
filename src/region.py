@@ -41,6 +41,12 @@ class Region(GameObject):
         self.game = self._level.game
         self._level.add_region(self)
 
+    def restore_state(self, index):
+        state = self.history[index]
+        for key, value in state.items():
+            setattr(self, key, value)
+        self.contained = state['contained'][:]
+
     def set_vertices(self, vertices):
         x, y = self.location
         w, h = self.size
