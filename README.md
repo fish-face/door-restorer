@@ -10,7 +10,7 @@ On windows this may be annoying, in which case you may want to try out the [pre-
 
 Gameplay
 ---
-Reach the stairs down by cunningly placing doors to move through the level. Be careful, because you can only remove doors from walls again from the marked squares. You can throw doors up to three tiles away, and sometimes you'll need to throw doors over pits in order to proceed. If you get stuck, you can always undo or restart.
+Reach the stairs down by cunningly placing doors to move through the level. Be careful, because in some locations devices prevent you from retrieving doors you've placed. You can throw doors up to three tiles away, and sometimes you'll need to throw doors over pits in order to proceed. If you get stuck, you can always undo or restart.
 
 Keys
 ---
