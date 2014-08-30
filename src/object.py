@@ -271,9 +271,9 @@ class GameObject(object):
 
     def destroy(self):
         self.removeself()
+        self.destroyed = True
         for obj in self.contained:
             self.remove(obj)
-        self.destroyed = True
 
         self.on_destroyed()
         self.location = None
