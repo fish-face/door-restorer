@@ -9,6 +9,7 @@ Features
 	* Keys
 	* Teleporters
 	* Lasers
+	* Platforms to traverse pits
 * More characters, switching?
 * ~~Hints for tutorial levels/~~ introducing new features
 * Track stats
@@ -42,8 +43,7 @@ Usability
 * Help
 * Mouse support?
 * Sound for "can't walk here" and "can't pick up here"
-* Rework hints so that there is a key to dismiss them
-	* What should the key be? Should it be possible to reactivate hints?
+* ~~Rework hints so that there is a key to dismiss them~~
 * Advance to the next world
 
 Appeal
