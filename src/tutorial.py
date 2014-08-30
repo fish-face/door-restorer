@@ -8,16 +8,6 @@ class TutorialOne(Tutorial):
     def __init__(self, *args, **kwargs):
         Tutorial.__init__(self, *args, **kwargs)
 
-    def load_level(self, level_file):
-        Tutorial.load_level(self, level_file)
-
-        self.picked_up_door = False
-        self.correctly_thrown_door = False
-        self.level.get_region('Lift Door').add_dependency(self.level.get_region('Go to Door'))
-        self.level.get_region('Nearly There').add_dependency(self.level.get_region('In Wall'))
-        self.level.get_region('In Wall').add_anti_dependency(self.level.get_region('Nearly There'))
-        self.level.check_active_regions()
-
     def pickup(self, direction):
         success = Game.pickup(self, direction)
         if not success:
@@ -49,42 +39,34 @@ class TutorialOne(Tutorial):
 
     def start(self):
         Tutorial.start(self)
+        self.picked_up_door = False
+        self.correctly_thrown_door = False
+        self.level.get_region('Lift Door').add_dependency(self.level.get_region('Go to Door'))
+        self.level.get_region('Nearly There').add_dependency(self.level.get_region('In Wall'))
+        self.level.get_region('In Wall').add_anti_dependency(self.level.get_region('Nearly There'))
+        self.level.check_active_regions()
         self.level.get_region('In Wall').arrived_cbs.append(self.in_wall)
 
 
 class TutorialTwo(Tutorial):
     def __init__(self, *args, **kwargs):
         Tutorial.__init__(self, *args, **kwargs)
-        self.fell_in_pit = False
-        self.door_landed = False
-        self.door_fallen = False
         self.tried_through_door = False
         self.deactivate_if = {
             'Investigate pits': ('fell_in_pit', 'door_landed'),
-            'Pit region': ('left_pit',),
-            'Left Pit': ('got_door',),
         }
-        self.activate_if = {
-            'Left Pit': ('fell_in_pit',),
-        }
-
-    def pickup(self, direction):
-        success = Tutorial.pickup(self, direction)
-        if success:
-            self.got_door = True
-
-        return success
 
     def fell_in_pit_cb(self, region, obj):
         if obj.flag('player'):
             self.fell_in_pit = True
-        if obj.flag('door') and obj.move_turns == 0 and not self.door_fallen:
+        if obj.flag('door') and not self.player.destroyed and obj.move_turns == 0 and not self.door_fallen:
             self.door_fallen = True
             self.display_message(None, 'Hmm. I think you needed that.\n\nYou\'d better press U to undo and get it back again.')
 
     def left_pit_cb(self, region, obj):
-        if obj.flag('player') and self.fell_in_pit:
+        if obj.flag('player') and self.fell_in_pit and not self.left_pit:
             self.left_pit = True
+            self.display_message(None, 'Right, that\'s quite enough of that. Never mind the pits then, I think the key here is circumventing them using those doors.\n\nExperiment a bit and see what you can do.')
 
     def landed_cb(self, region, obj):
         if obj.flag('door') and not self.door_landed:
@@ -100,7 +82,12 @@ class TutorialTwo(Tutorial):
 
     def start(self):
         Tutorial.start(self)
+        self.fell_in_pit = False
+        self.left_pit = False
+        self.door_landed = False
+        self.door_fallen = False
+        self.level.get_region('Pit region').add_anti_dependency(self.level.get_region('Pit region'))
         self.level.get_region('Pit region').arrived_cbs.append(self.fell_in_pit_cb)
-        self.level.get_region('Left Pit').leaving_cbs.append(self.left_pit_cb)
+        self.level.get_region('Left Pit').arrived_cbs.append(self.left_pit_cb)
         self.level.get_region('Door landing').arrived_cbs.append(self.landed_cb)
 

@@ -170,6 +170,7 @@ class Game:
                 self.msg_anim_frame = -20
 
             self.message = message
+            self.message_src = source
 
     def msg_anim_pos(self):
         if self.msg_anim_frame < 24:

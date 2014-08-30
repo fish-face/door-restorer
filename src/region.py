@@ -96,7 +96,8 @@ class Region(GameObject):
 
     def activate(self, other):
         self.activated = True
-        self.game.display_message(self.name, self.message)
+        if self.message:
+            self.game.display_message(self, self.message)
         self.level.check_active_regions()
 
     def arrived(self, other):
@@ -110,8 +111,8 @@ class Region(GameObject):
     def leaving(self, other):
         for cb in self.leaving_cbs:
             cb(self, other)
-        if other.flag('player'):
-            self.game.display_message(self.name, None)
+        if other.flag('player') and self.game.message_src == self:
+            self.game.display_message(self, None)
         return True
 
     def __contains__(self, location):
