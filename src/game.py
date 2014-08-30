@@ -180,6 +180,7 @@ class Game:
     def start(self):
         self.turn = 0
         self.messages = []
+        self.msg_anim_frame = 0
         self.state = STATE_NORMAL
         self.cheating = False
         self.player_turn = True
