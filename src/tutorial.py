@@ -1,35 +1,10 @@
 from game import Game, RIGHT
 
 class Tutorial(Game):
-    def __init__(self, *args, **kwargs):
-        Game.__init__(self, *args, **kwargs)
-        self.deactivate_if = {}
-        self.activate_if = {}
-
-    def display_message(self, key, message):
-        if key in self.deactivate_if:
-            for flag in self.deactivate_if[key]:
-                if getattr(self, flag, False): return False
-        if key in self.activate_if:
-            for flag in self.activate_if[key]:
-                if not getattr(self, flag, False): return False
-
-        Game.display_message(self, key, message)
+    pass
 
 
 class TutorialOne(Tutorial):
-    def __init__(self, *args, **kwargs):
-        Tutorial.__init__(self, *args, **kwargs)
-        self.picked_up_door = False
-        self.correctly_thrown_door = False
-        self.deactivate_if = {
-            'Hint Movement': ('picked_up_door',),
-            'Go to Door': ('picked_up_door',),
-            'Lift Door': ('picked_up_door',),
-            'In Wall': ('second_pickup',),
-            'Nearly There': ('second_pickup',),
-        }
-
     def pickup(self, direction):
         success = Game.pickup(self, direction)
         if not success:
@@ -38,8 +13,6 @@ class TutorialOne(Tutorial):
         if not self.picked_up_door:
             self.display_message('Picked up', 'OK, now THROW the door at the wall to your right!\n\nPress Space, Enter, E or X, and then right.')
             self.picked_up_door = True
-        elif self.player.location[0] == 4:
-            self.second_pickup = True
         return True
 
     def throw(self, direction):
@@ -52,44 +25,34 @@ class TutorialOne(Tutorial):
                 self.display_message('Thrown', 'As you can see, a quite incredible thing has happened. Rather than making a loud BANG and falling over, the door fused into the wall. My gast is flabbered.\n\nGo ahead and WALK into the door to open it.')
                 self.correctly_thrown_door = True
             else:
-                self.display_message('Thrown Wrong', 'Can\'t tell your left from your right, eh? Well it seems you have the brawn but not the brains.\n\nGo over to where you throw it and pick it up again. Then throw it at the wall to your RIGHT.')
-                self.picked_up_door = False
+                self.display_message('Thrown Wrong', 'Can\'t tell your left from your right, eh? Well it seems you have the brawn but not the brains.\n\nGo over to where you threw it and pick it up again. Then throw it at the wall to your RIGHT.')
+        self.level.get_region('Lift Door').enabled = False
+        self.level.get_region('Lift Door').check_active()
         return True
+
+    def in_wall(self, region, obj):
+        if obj.flag('player'):
+            self.level.get_region('Nearly There').location = self.coords_in_dir(obj._location, RIGHT, 1)
+
+    def start(self):
+        Tutorial.start(self)
+        self.picked_up_door = False
+        self.correctly_thrown_door = False
+        self.level.get_region('In Wall').arrived_cbs.append(self.in_wall)
 
 
 class TutorialTwo(Tutorial):
-    def __init__(self, *args, **kwargs):
-        Tutorial.__init__(self, *args, **kwargs)
-        self.fell_in_pit = False
-        self.door_landed = False
-        self.door_fallen = False
-        self.tried_through_door = False
-        self.deactivate_if = {
-            'Investigate pits': ('fell_in_pit', 'door_landed'),
-            'Pit region': ('left_pit',),
-            'Left Pit': ('got_door',),
-        }
-        self.activate_if = {
-            'Left Pit': ('fell_in_pit',),
-        }
-
-    def pickup(self, direction):
-        success = Tutorial.pickup(self, direction)
-        if success:
-            self.got_door = True
-
-        return success
-
     def fell_in_pit_cb(self, region, obj):
         if obj.flag('player'):
             self.fell_in_pit = True
-        if obj.flag('door') and obj.move_turns == 0 and not self.door_fallen:
+        if obj.flag('door') and not self.player.destroyed and obj.move_turns == 0 and not self.door_fallen:
             self.door_fallen = True
             self.display_message(None, 'Hmm. I think you needed that.\n\nYou\'d better press U to undo and get it back again.')
 
     def left_pit_cb(self, region, obj):
-        if obj.flag('player') and self.fell_in_pit:
+        if obj.flag('player') and self.fell_in_pit and not self.left_pit:
             self.left_pit = True
+            self.display_message(None, 'Right, that\'s quite enough of that. Never mind the pits then, I think the key here is circumventing them using those doors.\n\nExperiment a bit and see what you can do.')
 
     def landed_cb(self, region, obj):
         if obj.flag('door') and not self.door_landed:
@@ -98,14 +61,24 @@ class TutorialTwo(Tutorial):
 
     def failed_move(self, newloc):
         if (self.player.contained and
-            self.get_objects_at(newloc, lambda x: x.flag('door') and x.state == 'open')):
-            if not self.tried_through_door:
-                self.tried_through_door = True
-                self.display_message(None, 'Curious. It looks like you\'re unable to fit the door through the other one. It must be too big. Or magical. Either way, you\'ll need to find another way to get to the stairs!')
+            self.get_objects_at(newloc, lambda x: x.flag('door') and x.state == 'open') and
+            not self.tried_through_door):
+            self.level.get_region('Tried Through Door').location = self.player.location
+            self.level.get_region('Tried Through Door').enabled = True
+            self.level.get_region('Tried Through Door').check_active()
+            self.level.get_region('Tried Through Door').arrived(self.player)
+            self.tried_through_door = True
 
     def start(self):
         Tutorial.start(self)
+        self.fell_in_pit = False
+        self.left_pit = False
+        self.door_landed = False
+        self.door_fallen = False
+        self.tried_through_door = False
         self.level.get_region('Pit region').arrived_cbs.append(self.fell_in_pit_cb)
-        self.level.get_region('Left Pit').leaving_cbs.append(self.left_pit_cb)
+        self.level.get_region('Left Pit').arrived_cbs.append(self.left_pit_cb)
         self.level.get_region('Door landing').arrived_cbs.append(self.landed_cb)
+        self.level.get_region('Tried Through Door').enabled = False
+        self.level.check_active_regions()
 

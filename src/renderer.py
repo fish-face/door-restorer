@@ -95,8 +95,9 @@ class Renderer:
 
     anim_end_fac = 1.3*math.pi/2
     def render_overlays(self, game):
-        if game.message:
-            if game.message != self.message:
+        t = game.msg_anim_pos()
+        if game.message or t < 0:
+            if game.message and game.message != self.message:
                 self.message_surf.blit(message_bg, (0, 0))
                 self.draw_text(self.message_surf,
                                game.message,
@@ -104,10 +105,14 @@ class Renderer:
                                self.message_surf.get_rect().inflate(-4*MARGIN, -4*MARGIN),
                                self.msg_font)
                 self.message = game.message
-            t = game.msg_anim_pos()
-            message_rect = pygame.Rect((MARGIN, MARGIN, VIEW_W-4*MARGIN, 200))
-            message_rect.bottom = self.level_surf.get_rect().bottom - MARGIN
-            message_rect.y += 200 - 200 * (2**(-10*t) * math.sin((t-0.4/4)*(2*math.pi)/0.4) + 1)
+            if t < 0:
+                message_rect = pygame.Rect((MARGIN, MARGIN, VIEW_W-4*MARGIN, 200))
+                message_rect.bottom = self.level_surf.get_rect().bottom - MARGIN
+                message_rect.y += 200 * (1-math.sin(-t*math.pi*0.5)) ** 6
+            else:
+                message_rect = pygame.Rect((MARGIN, MARGIN, VIEW_W-4*MARGIN, 200))
+                message_rect.bottom = self.level_surf.get_rect().bottom - MARGIN
+                message_rect.y += 200 - 200 * (2**(-10*t) * math.sin((t-0.4/4)*(2*math.pi)/0.4) + 1)
             self.level_surf.blit(self.message_surf, message_rect.topleft)
 
     def draw_text(self, surface, text, color, rect, font, align_top=True):

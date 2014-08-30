@@ -67,11 +67,10 @@ class GameObject(object):
 
     @location.setter
     def location(self, value):
-        self.level.move_object(self, value)
-
         self.old_location = self._location
         self.amount_moved = 0.0
         self._location = value
+        self.level.move_object(self, self.old_location, value)
         if value:
             for thing in self.level[value][::-1]:
                 if thing != self and thing.arrived(self):
@@ -214,9 +213,11 @@ class GameObject(object):
         for key, value in state.items():
             if key == '_location':
                 self.old_location = self._location
+                setattr(self, key, value)
                 self.amount_moved = 0.0
-                self.level.move_object(self, value)
-            setattr(self, key, value)
+                self.level.move_object(self, self.old_location, value)
+            else:
+                setattr(self, key, value)
         self.contained = state['contained'][:]
 
     def resolve_movement(self):
@@ -270,9 +271,9 @@ class GameObject(object):
 
     def destroy(self):
         self.removeself()
+        self.destroyed = True
         for obj in self.contained:
             self.remove(obj)
-        self.destroyed = True
 
         self.on_destroyed()
         self.location = None

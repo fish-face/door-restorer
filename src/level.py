@@ -38,8 +38,9 @@ class Level:
     def load_finished(self):
         self.statics = [obj for obj in self.objects if obj.flag('static') or obj.flag('terrain')]
         self.statics.sort(key=lambda x: x.z)
-        self.dynamics = [obj for obj in self.objects if not obj.flag('static') and not obj.flag('terrain')]
+        self.dynamics = [obj for obj in self.objects if not obj.flag('static') and not obj.flag('terrain')] + self.regions.values()
         self.dynamics.sort(key=lambda x: x.z)
+        self.check_active_regions()
 
     def get_coords_of(self, obj):
         """Get coordinates of given object or its container"""
@@ -90,21 +91,25 @@ class Level:
         obj.location = None
         self.objects.remove(obj)
 
-    def move_object(self, obj, location):
+    def move_object(self, obj, old, new):
         """Should only be called from obj.move"""
         regions = []
-        if obj.location:
-            self[obj.location].remove(obj)
-            regions = [r for r in self.regions.values() if obj.location in r]
-        if location:
-            self[location].append(obj)
-            self[location].sort(key=lambda x: x.z)
+        if old:
+            self[old].remove(obj)
+            regions = [r for r in self.regions.values() if old in r]
+        if new:
+            self[new].append(obj)
+            self[new].sort(key=lambda x: x.z)
             for region in regions:
-                if location not in region:
+                if new not in region:
                     if region.leaving(obj): break
             for region in self.regions.values():
-                if location in region:
+                if new in region:
                     if region.arrived(obj): break
+
+    def check_active_regions(self):
+        for reg in self.regions.values():
+            reg.check_active()
 
     def get_tile(self, x, y):
         """Return all the stuff at the given location"""

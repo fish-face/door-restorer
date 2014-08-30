@@ -1,14 +1,35 @@
-class Region(object):
+from object import GameObject
+
+class Region(GameObject):
     def __init__(self, name, level, location, size):
-        self.name = name
-        self.level = level
-        self.location = location
+        GameObject.__init__(self, name, level, location)
         self.size = size
         self.message = None
         self.points = []
 
+        # Explanation of the following members:
+        #
+        # visible is whether or not an icon is displayed when the region is active
+        # the region will not become active if it is enabled
+        # the region becomes active when it's enabled and all preconditions are met,
+        #       it can then be activated
+        # if the player has walked into the region while active, it has been activated
+        #
+        # in order to become active, all the regions in activate_requires must have
+        #       been activated, and none of those in activate_requires_not can have been.
+        self.visible = False
+        self.enabled = True
+        self.active = False
+        self.activated = False
+        self.activate_requires = []
+        self.activate_requires_not = []
+
         self.arrived_cbs = []
         self.leaving_cbs = []
+
+    @GameObject.location.setter
+    def location(self, value):
+        self._location = value
 
     @property
     def level(self):
@@ -19,6 +40,12 @@ class Region(object):
         self._level = value
         self.game = self._level.game
         self._level.add_region(self)
+
+    def restore_state(self, index):
+        state = self.history[index]
+        for key, value in state.items():
+            setattr(self, key, value)
+        self.contained = state['contained'][:]
 
     def set_vertices(self, vertices):
         x, y = self.location
@@ -43,19 +70,49 @@ class Region(object):
 
         return inside
 
+    def add_dependency(self, other):
+        self.activate_requires.append(other)
+
+    def add_anti_dependency(self, other):
+        self.activate_requires_not.append(other)
+
+    def check_active(self):
+        self.active = False
+        self.state = 'default'
+
+        if not self.enabled:
+            return False
+
+        for req in self.activate_requires:
+            if not self.level.get_region(req).activated:
+                return False
+        for req in self.activate_requires_not:
+            if self.level.get_region(req).activated:
+                return False
+
+        self.active = True
+        if self.visible:
+            self.state = 'visible'
+
+    def activate(self, other):
+        self.activated = True
+        if self.message:
+            self.game.display_message(self, self.message)
+        self.level.check_active_regions()
+
     def arrived(self, other):
         for cb in self.arrived_cbs:
             cb(self, other)
-        if other.flag('player'):
-            self.game.display_message(self.name, self.message)
+        if other.flag('player') and self.active:
+            self.activate(other)
             return False
         return True
 
     def leaving(self, other):
         for cb in self.leaving_cbs:
             cb(self, other)
-        if other.flag('player'):
-            self.game.display_message(self.name, None)
+        if other.flag('player') and self.game.message_src == self:
+            self.game.display_message(self, None)
         return True
 
     def __contains__(self, location):

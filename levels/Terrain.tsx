@@ -37,6 +37,11 @@
    <property name="name" value="cracks"/>
   </properties>
  </tile>
+ <tile id="9">
+  <properties>
+   <property name="name" value="hint"/>
+  </properties>
+ </tile>
  <tile id="16">
   <properties>
    <property name="name" value="decay"/>

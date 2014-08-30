@@ -35,26 +35,31 @@
 </data>
  </layer>
  <objectgroup name="Hints" width="10" height="10">
-  <object name="Investigate pits" x="24" y="24" width="48" height="48">
+  <object name="Investigate pits" x="24" y="24" width="24" height="24">
    <properties>
     <property name="message" value="Ah, you made it. I wasn't sure if the stairs would just drop you into the void with no way out until your eventual death. What do you suppose that black thing is, down there?\n\nWalk down to it and check it out."/>
+    <property name="show" value=""/>
    </properties>
   </object>
   <object name="Pit region" x="24" y="72" width="120" height="24">
    <properties>
+    <property name="anti_dependencies" value="Pit region"/>
     <property name="message" value="Oh. I suppose those are bottomless pits. I guess now you'll be falling through the void with no way out until your eventual death.\n\nI suggest you press U to UNDO your foolish mistake!"/>
    </properties>
   </object>
   <object name="Left Pit" x="24" y="48">
-   <properties>
-    <property name="message" value="Right, that's quite enough of that. Never mind the pits then, I think the key here is circumventing them using those doors.\n\nExperiment a bit and see what you can do."/>
-   </properties>
    <polygon points="0,0 0,24 120,24 120,48 144,48 144,0"/>
   </object>
   <object name="Door landing" x="24" y="96" width="120" height="24"/>
   <object name="Done" x="24" y="96" width="24" height="48">
    <properties>
     <property name="message" value="Ahah, wonderful! Now that is a useful trick if you ever come across the pestiferous pits again. Looks like you can head on over to the stairs, and see what awaits you in the next room."/>
+   </properties>
+  </object>
+  <object name="Tried Through Door" x="144" y="144" width="24" height="24">
+   <properties>
+    <property name="message" value="Curious. It looks like you're unable to fit the door through the other one. It must be too big. Or magical. Either way, you\'ll need to find another way to get to the stairs!"/>
+    <property name="show" value=""/>
    </properties>
   </object>
  </objectgroup>
