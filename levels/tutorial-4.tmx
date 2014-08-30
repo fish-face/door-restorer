@@ -38,6 +38,7 @@
   <object name="On your own" x="24" y="24" width="24" height="24">
    <properties>
     <property name="message" value="Well, Dora, I think you know enough to not need my advice any more. Go on and solve this one on your own!"/>
+    <property name="show" value=""/>
    </properties>
   </object>
  </objectgroup>

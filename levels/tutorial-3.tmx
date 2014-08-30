@@ -34,9 +34,10 @@
 </data>
  </layer>
  <objectgroup name="Hints" width="10" height="10">
-  <object name="Non-pickup squares" x="24" y="24" width="72" height="72">
+  <object name="Non-pickup squares" x="24" y="24" width="24" height="24">
    <properties>
     <property name="message" value="Hmm, it looks like those walls have some kind of device to stop you picking up a door. You'll have to plan your route carefully to avoid getting stuck.\nRemember you can use Undo if you get into an impossible situation!"/>
+    <property name="show" value=""/>
    </properties>
   </object>
  </objectgroup>
