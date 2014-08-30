@@ -91,6 +91,12 @@ def load_level(game, filename):
             region.message = obj.message.decode('string-escape')
         if hasattr(obj, 'points'):
             region.set_vertices([(px/TILE_W, py/TILE_H) for (px, py) in obj.points])
+        if hasattr(obj, 'dependencies'):
+            for name in obj.dependencies.split(','):
+                region.add_dependency(name)
+        if hasattr(obj, 'anti_dependencies'):
+            for name in obj.anti_dependencies.split(','):
+                region.add_anti_dependency(name)
         region.visible = hasattr(obj, 'show')
         region.state_images = {'default' : None, 'visible' : state_images['hint']['default']}
 

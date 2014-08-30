@@ -38,10 +38,6 @@ class TutorialOne(Tutorial):
         Tutorial.start(self)
         self.picked_up_door = False
         self.correctly_thrown_door = False
-        self.level.get_region('Lift Door').add_dependency(self.level.get_region('Go to Door'))
-        self.level.get_region('Nearly There').add_dependency(self.level.get_region('In Wall'))
-        self.level.get_region('In Wall').add_anti_dependency(self.level.get_region('Nearly There'))
-        self.level.check_active_regions()
         self.level.get_region('In Wall').arrived_cbs.append(self.in_wall)
 
 
@@ -80,7 +76,6 @@ class TutorialTwo(Tutorial):
         self.door_landed = False
         self.door_fallen = False
         self.tried_through_door = False
-        self.level.get_region('Pit region').add_anti_dependency(self.level.get_region('Pit region'))
         self.level.get_region('Pit region').arrived_cbs.append(self.fell_in_pit_cb)
         self.level.get_region('Left Pit').arrived_cbs.append(self.left_pit_cb)
         self.level.get_region('Door landing').arrived_cbs.append(self.landed_cb)

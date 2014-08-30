@@ -48,12 +48,14 @@
   </object>
   <object name="Nearly There" x="96" y="144" width="24" height="24">
    <properties>
+    <property name="dependencies" value="In Wall"/>
     <property name="message" value="Crikey. As you can imagine, a team of scientists is investigating this phenomenon as we speak, but while they deliberate, you'd best press on.\n\nPress Space, Enter, X or E and then left to pick it up and continue to the stairs."/>
     <property name="show" value=""/>
    </properties>
   </object>
   <object name="In Wall" x="72" y="24" width="24" height="192">
    <properties>
+    <property name="anti_dependencies" value="Nearly There"/>
     <property name="message" value="While in here I suggest not looking to either side too much. We've no idea what kind of transdimensional monsters could be lurking in the void... Continue through to pick up the door again."/>
    </properties>
   </object>
@@ -64,6 +66,7 @@
   </object>
   <object name="Lift Door" x="24" y="144">
    <properties>
+    <property name="dependencies" value="Go to Door"/>
     <property name="message" value="Now you're next to the door, you can LIFT it.\n\nFirst, press Space, Enter, E or X, followed by the direction to the door."/>
     <property name="show" value=""/>
    </properties>

@@ -84,10 +84,10 @@ class Region(GameObject):
             return False
 
         for req in self.activate_requires:
-            if not req.activated:
+            if not self.level.get_region(req).activated:
                 return False
         for req in self.activate_requires_not:
-            if req.activated:
+            if self.level.get_region(req).activated:
                 return False
 
         self.active = True

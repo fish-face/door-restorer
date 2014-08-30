@@ -43,6 +43,7 @@
   </object>
   <object name="Pit region" x="24" y="72" width="120" height="24">
    <properties>
+    <property name="anti_dependencies" value="Pit region"/>
     <property name="message" value="Oh. I suppose those are bottomless pits. I guess now you'll be falling through the void with no way out until your eventual death.\n\nI suggest you press U to UNDO your foolish mistake!"/>
    </properties>
   </object>
