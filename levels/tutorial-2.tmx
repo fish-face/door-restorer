@@ -55,6 +55,12 @@
     <property name="message" value="Ahah, wonderful! Now that is a useful trick if you ever come across the pestiferous pits again. Looks like you can head on over to the stairs, and see what awaits you in the next room."/>
    </properties>
   </object>
+  <object name="Tried Through Door" x="144" y="144" width="24" height="24">
+   <properties>
+    <property name="message" value="Curious. It looks like you're unable to fit the door through the other one. It must be too big. Or magical. Either way, you\'ll need to find another way to get to the stairs!"/>
+    <property name="show" value=""/>
+   </properties>
+  </object>
  </objectgroup>
  <layer name="Decals" width="10" height="10">
   <data encoding="csv">

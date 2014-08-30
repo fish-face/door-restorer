@@ -5,9 +5,6 @@ class Tutorial(Game):
 
 
 class TutorialOne(Tutorial):
-    def __init__(self, *args, **kwargs):
-        Tutorial.__init__(self, *args, **kwargs)
-
     def pickup(self, direction):
         success = Game.pickup(self, direction)
         if not success:
@@ -49,13 +46,6 @@ class TutorialOne(Tutorial):
 
 
 class TutorialTwo(Tutorial):
-    def __init__(self, *args, **kwargs):
-        Tutorial.__init__(self, *args, **kwargs)
-        self.tried_through_door = False
-        self.deactivate_if = {
-            'Investigate pits': ('fell_in_pit', 'door_landed'),
-        }
-
     def fell_in_pit_cb(self, region, obj):
         if obj.flag('player'):
             self.fell_in_pit = True
@@ -75,10 +65,13 @@ class TutorialTwo(Tutorial):
 
     def failed_move(self, newloc):
         if (self.player.contained and
-            self.get_objects_at(newloc, lambda x: x.flag('door') and x.state == 'open')):
-            if not self.tried_through_door:
-                self.tried_through_door = True
-                self.display_message(None, 'Curious. It looks like you\'re unable to fit the door through the other one. It must be too big. Or magical. Either way, you\'ll need to find another way to get to the stairs!')
+            self.get_objects_at(newloc, lambda x: x.flag('door') and x.state == 'open') and
+            not self.tried_through_door):
+            self.level.get_region('Tried Through Door').location = self.player.location
+            self.level.get_region('Tried Through Door').enabled = True
+            self.level.get_region('Tried Through Door').check_active()
+            self.level.get_region('Tried Through Door').arrived(self.player)
+            self.tried_through_door = True
 
     def start(self):
         Tutorial.start(self)
@@ -86,8 +79,11 @@ class TutorialTwo(Tutorial):
         self.left_pit = False
         self.door_landed = False
         self.door_fallen = False
+        self.tried_through_door = False
         self.level.get_region('Pit region').add_anti_dependency(self.level.get_region('Pit region'))
         self.level.get_region('Pit region').arrived_cbs.append(self.fell_in_pit_cb)
         self.level.get_region('Left Pit').arrived_cbs.append(self.left_pit_cb)
         self.level.get_region('Door landing').arrived_cbs.append(self.landed_cb)
+        self.level.get_region('Tried Through Door').enabled = False
+        self.level.check_active_regions()
 
