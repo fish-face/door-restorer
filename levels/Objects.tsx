@@ -19,6 +19,11 @@
    <property name="frame" value="0"/>
   </properties>
  </tile>
+ <tile id="7">
+  <properties>
+   <property name="name" value="bigdoor"/>
+  </properties>
+ </tile>
  <tile id="1">
   <properties>
    <property name="name" value="player"/>
@@ -49,6 +54,12 @@
    <property name="state" value="descending"/>
    <property name="frame-delay" value="10"/>
    <property name="frame" value="1"/>
+  </properties>
+ </tile>
+ <tile id="17">
+  <properties>
+   <property name="name" value="bigdoor"/>
+   <property name="state" value="open"/>
   </properties>
  </tile>
  <tile id="11">

@@ -409,3 +409,23 @@ class Door(GameObject):
 
     def destroy(self):
         self.animate('falling', lambda: GameObject.destroy(self))
+
+
+
+class BigDoor(Door):
+    def __init__(self, level, location):
+        Door.__init__(self, level, location)
+        self.name = 'bigdoor'
+
+        self.mass = 3
+
+    def close(self, play_sound=True):
+        Door.close(self, play_sound)
+        self.block_door = True
+
+    def open(self):
+        Door.open(self)
+        self.block_door = False
+
+    #def destroy(self):
+        #self.animate('falling', lambda: GameObject.destroy(self))

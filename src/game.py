@@ -66,7 +66,7 @@ class Game:
             # If the terrain blocks movement, then, if there is a door in the tile, use its state
             for thing in tile[:0:-1]:
                 if thing.flag('door'):
-                    if obj.flag('player'):
+                    if thing.block_door and obj.flag('player'):
                         for c in obj.contained:
                             if c.flag('door'): return False
                     return not thing.block_move
@@ -120,7 +120,7 @@ class Game:
         self.player.direction = direction
 
         success = False
-        for obj in self.get_objects_at(pickup_loc):
+        for obj in self.get_objects_at(pickup_loc)[::-1]:
             if obj.flag('door'):
                 if self.level[pickup_loc][0].block_move and not self.level[self.player.location][0].pickup:
                     continue
