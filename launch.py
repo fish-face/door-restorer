@@ -25,24 +25,34 @@ from levelset import LevelSet, LevelDescription
 PROFILE = False
 WINDOW_W, WINDOW_H = 600, 600
 
-MODE_MAIN_MENU = 0
-MODE_SELECT_WORLD = 1
-MODE_SELECT_LEVEL = 2
-MODE_PLAYING = 3
+MODE_INTRO = 0
+MODE_MAIN_MENU = 1
+MODE_SELECT_WORLD = 2
+MODE_SELECT_LEVEL = 3
+MODE_PLAYING = 4
+
+INTRO_DELAY = 25
+INTRO_FRAMES = 100
 
 GRID_COLS = 6
 
 MENU_OFFSET = 50
+MENU_ITEM_H = 61
+MENU_ITEM_TOP = 300
 
+SELECTOR_H = 16
+SELECTOR_W = 6
 
 class Launcher(object):
     def __init__(self, screen):
         self.screen = screen
         self.save = SaveGame()
         self.sound = SoundPlayer()
-        self.menu_font = pygame.font.Font('fonts/GROTESKIA.ttf', 42)
+        self.menu_font = pygame.font.Font('fonts/GROTESKIA.ttf', 50)
         self.small_font = pygame.font.Font('fonts/C&C Red Alert [INET].ttf', 13)
+        self.intro_graphic = pygame.image.load('graphics/background_intro.png').convert()
         self.background = pygame.image.load('graphics/background.png').convert()
+        self.background_menu = pygame.image.load('graphics/background_menu.png').convert()
         self.quitting = False
         self.clock = pygame.time.Clock()
         self.menu_options = (Label('Play'),
@@ -50,7 +60,9 @@ class Launcher(object):
                              Label('Help'),
                              Label('Credits'),
                              Label('Quit'))
-        self.mode = MODE_MAIN_MENU
+        self.menu_widths = [self.menu_font.size(opt.name)[0] for opt in self.menu_options]
+        self.mode = MODE_INTRO
+        self.intro_frame = 0
 
     @property
     def mode(self):
@@ -160,13 +172,27 @@ class Launcher(object):
                 elif self.game.quitting:
                     self.quitting = True
 
-            if not self.process_events():
+            if self.mode == MODE_INTRO:
+                pygame.event.get()
+            elif not self.process_events():
                 continue
 
             self.draw()
 
     def draw(self):
-        if self.mode == MODE_MAIN_MENU or self.mode == MODE_SELECT_WORLD:
+        if self.mode == MODE_INTRO:
+            self.screen.blit(self.intro_graphic, (0, 0))
+            alpha = int(max(0, (self.intro_frame - INTRO_DELAY) * 255.0 / (INTRO_FRAMES - INTRO_DELAY)))
+            self.background_menu.set_alpha(alpha)
+            self.screen.blit(self.background_menu, (0, 0))
+            self.intro_frame += 1
+            if self.intro_frame > INTRO_FRAMES:
+                self.mode = MODE_MAIN_MENU
+                self.draw()
+        elif self.mode == MODE_MAIN_MENU:
+            #self.screen.blit(self.background, (0, 0))
+            self.draw_main_menu()
+        elif self.mode == MODE_SELECT_WORLD:
             self.screen.blit(self.background, (0, 0))
             self.draw_select_list()
         elif self.mode == MODE_SELECT_LEVEL:
@@ -175,6 +201,12 @@ class Launcher(object):
         elif self.mode == MODE_PLAYING:
             self.renderer.render(self.game, self.screen)
         pygame.display.flip()
+
+    def draw_main_menu(self):
+        self.screen.blit(self.background_menu, (0, 0))
+        height = self.current_menu_item * MENU_ITEM_H + MENU_ITEM_TOP
+        width = self.menu_widths[self.current_menu_item]
+        self.draw_option_selector(height, width)
 
     def draw_level_list(self):
         margin = 8
@@ -224,39 +256,41 @@ class Launcher(object):
 
         margin = 3
         menu_top = WINDOW_H / 2 - menu_height / 2 + MENU_OFFSET
-        triangle_y = 16
-        triangle_x = 6
         for i, item in enumerate(rendered_items):
             x = WINDOW_W / 2 - item.get_width() / 2
             self.screen.blit(item, (x, menu_top))
             if i == self.current_menu_item:
-                x -= 8 + triangle_x
-                pygame.draw.polygon(self.screen,
-                                    (196, 196, 196),
-                                    ((x-12, menu_top+triangle_y-12),
-                                     (x-12, menu_top+triangle_y+12),
-                                     (x, menu_top+triangle_y)))
-                pygame.draw.aalines(self.screen,
-                                    (255, 255, 255),
-                                    True,
-                                    ((x-12, menu_top+triangle_y-12),
-                                     (x-12, menu_top+triangle_y+12),
-                                     (x, menu_top+triangle_y)))
-
-                x = WINDOW_W - x - triangle_x
-                pygame.draw.polygon(self.screen,
-                                    (196, 196, 196),
-                                    ((x+12, menu_top+triangle_y-12),
-                                     (x+12, menu_top+triangle_y+12),
-                                     (x, menu_top+triangle_y)))
-                pygame.draw.aalines(self.screen,
-                                    (255, 255, 255),
-                                    True,
-                                    ((x+12, menu_top+triangle_y-12),
-                                     (x+12, menu_top+triangle_y+12),
-                                     (x, menu_top+triangle_y)))
+                #x -= 8 + triangle_x
+                self.draw_option_selector(menu_top, item.get_width())
 
             menu_top += max_height + margin
+
+    def draw_option_selector(self, y, width):
+        x = WINDOW_W / 2 - width / 2 - 8 - SELECTOR_W
+        pygame.draw.polygon(self.screen,
+                            (196, 196, 196),
+                            ((x-12, y+SELECTOR_H-12),
+                             (x-12, y+SELECTOR_H+12),
+                             (x, y+SELECTOR_H)))
+        pygame.draw.aalines(self.screen,
+                            (255, 255, 255),
+                            True,
+                            ((x-12, y+SELECTOR_H-12),
+                             (x-12, y+SELECTOR_H+12),
+                             (x, y+SELECTOR_H)))
+
+        x = WINDOW_W - x - SELECTOR_W
+        pygame.draw.polygon(self.screen,
+                            (196, 196, 196),
+                            ((x+12, y+SELECTOR_H-12),
+                             (x+12, y+SELECTOR_H+12),
+                             (x, y+SELECTOR_H)))
+        pygame.draw.aalines(self.screen,
+                            (255, 255, 255),
+                            True,
+                            ((x+12, y+SELECTOR_H-12),
+                             (x+12, y+SELECTOR_H+12),
+                             (x, y+SELECTOR_H)))
 
     def process_events(self):
         if self.mode == MODE_PLAYING:
