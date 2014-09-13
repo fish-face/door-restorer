@@ -50,6 +50,7 @@ Appeal
 ---
 
 * Menu graphics
+	* Much better but need more detail in floor and wall
 * Win screen
 * ~~Auto-tiling walls and pits~~
 * ~~More varied/better tiles~~
