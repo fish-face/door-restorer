@@ -62,6 +62,38 @@
    <property name="state" value="open"/>
   </properties>
  </tile>
+ <tile id="27">
+  <properties>
+   <property name="name" value="bigdoor"/>
+   <property name="state" value="open"/>
+   <property name="frame" value="0"/>
+   <property name="state" value="falling"/>
+  </properties>
+ </tile>
+ <tile id="37">
+  <properties>
+   <property name="name" value="bigdoor"/>
+   <property name="state" value="open"/>
+   <property name="frame" value="1"/>
+   <property name="state" value="falling"/>
+  </properties>
+ </tile>
+ <tile id="47">
+  <properties>
+   <property name="name" value="bigdoor"/>
+   <property name="state" value="open"/>
+   <property name="frame" value="2"/>
+   <property name="state" value="falling"/>
+  </properties>
+ </tile>
+ <tile id="57">
+  <properties>
+   <property name="name" value="bigdoor"/>
+   <property name="state" value="open"/>
+   <property name="frame" value="3"/>
+   <property name="state" value="falling"/>
+  </properties>
+ </tile>
  <tile id="11">
   <properties>
    <property name="name" value="player"/>
