@@ -172,8 +172,6 @@ class Launcher(object):
                 elif self.game.quitting:
                     self.quitting = True
 
-            if self.mode == MODE_INTRO:
-                pygame.event.get()
             elif not self.process_events():
                 continue
 
@@ -294,6 +292,13 @@ class Launcher(object):
 
     def process_events(self):
         if self.mode == MODE_PLAYING:
+            return True
+
+        if self.mode == MODE_INTRO:
+            for e in pygame.event.get():
+                if e.type == pygame.KEYDOWN:
+                    self.intro_frame = INTRO_FRAMES
+
             return True
 
         for e in pygame.event.get():
