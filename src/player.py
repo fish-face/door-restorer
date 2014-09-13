@@ -36,9 +36,15 @@ class Player(GameObject):
     def state(self):
         if self.contained:
             if self.level.game.state == STATE_PICK:
-                return 'awaiting-throw'
+                if self.contained[0].name == 'bigdoor':
+                    return 'awaiting-throw-bigdoor'
+                else:
+                    return 'awaiting-throw'
             else:
-                return 'holding-door'
+                if self.contained[0].name == 'bigdoor':
+                    return 'holding-bigdoor'
+                else:
+                    return 'holding-door'
         elif self.level.game.state == STATE_PICK:
             return 'awaiting-input'
         else:

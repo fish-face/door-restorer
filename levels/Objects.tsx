@@ -284,4 +284,52 @@
    <property name="frame" value="4"/>
   </properties>
  </tile>
+ <tile id="40">
+  <properties>
+   <property name="name" value="player"/>
+   <property name="state" value="holding-bigdoor"/>
+  </properties>
+ </tile>
+ <tile id="41">
+  <properties>
+   <property name="name" value="player"/>
+   <property name="state" value="left-holding-bigdoor"/>
+  </properties>
+ </tile>
+ <tile id="42">
+  <properties>
+   <property name="name" value="player"/>
+   <property name="state" value="right-holding-bigdoor"/>
+  </properties>
+ </tile>
+ <tile id="43">
+  <properties>
+   <property name="name" value="player"/>
+   <property name="state" value="up-holding-bigdoor"/>
+  </properties>
+ </tile>
+ <tile id="50">
+  <properties>
+   <property name="name" value="player"/>
+   <property name="state" value="awaiting-throw-bigdoor"/>
+  </properties>
+ </tile>
+ <tile id="51">
+  <properties>
+   <property name="name" value="player"/>
+   <property name="state" value="left-awaiting-throw-bigdoor"/>
+  </properties>
+ </tile>
+ <tile id="52">
+  <properties>
+   <property name="name" value="player"/>
+   <property name="state" value="right-awaiting-throw-bigdoor"/>
+  </properties>
+ </tile>
+ <tile id="53">
+  <properties>
+   <property name="name" value="player"/>
+   <property name="state" value="up-awaiting-throw-bigdoor"/>
+  </properties>
+ </tile>
 </tileset>
