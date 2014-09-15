@@ -56,24 +56,26 @@ class Game:
         if obj.flag('player') and self.cheating:
             return True
 
-        if obj.flag('door'):
+        if obj.special:
             for thing in tile:
-                if thing.block_door:
+                if thing.blocks(obj):
                     return False
             return True
 
-        if tile[0].block_move:
-            # If the terrain blocks movement, then, if there is a door in the tile, use its state
+        if tile[0].solid:
+            # If the terrain is solid and there is a special object on the tile, use its state.
             for thing in tile[:0:-1]:
-                if thing.flag('door'):
-                    if thing.block_door and obj.flag('player'):
+                if thing.special:
+                    if obj.flag('player'):
+                        # Don't allow the player to walk through if they're carrying something
+                        # that the special object blocks
                         for c in obj.contained:
-                            if c.flag('door'): return False
-                    return not thing.block_move
+                            if thing.blocks(c): return False
+                    return not thing.solid
             return False
         else:
             for thing in tile[1:]:
-                if thing.block_move:
+                if thing.solid:
                     return False
         return True
 
@@ -122,7 +124,7 @@ class Game:
         success = False
         for obj in self.get_objects_at(pickup_loc)[::-1]:
             if obj.flag('door'):
-                if self.level[pickup_loc][0].block_move and not self.level[self.player.location][0].pickup:
+                if self.level[pickup_loc][0].solid and not self.level[self.player.location][0].pickup:
                     continue
             if self.player.add(obj):
                 success = True
@@ -136,7 +138,7 @@ class Game:
         self.player.direction = direction
         close_loc = self.coords_in_dir(self.player.location, direction, 1)
         for obj in self.get_objects_at(close_loc):
-            if obj.flag('door') and not obj.block_move:
+            if obj.flag('door') and not obj.solid:
                 obj.close()
                 return True
 

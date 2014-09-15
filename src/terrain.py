@@ -14,7 +14,8 @@ PICKUP_STATE_COMBOS = ['{0:04b}'.format(x) for x in range(2**4)]
 class Wall(Terrain):
     def __init__(self, level, location):
         Terrain.__init__(self, 'wall', level, location)
-        self.block_move = True
+        self.solid = True
+        self.pickup = True
 
     def arrived(self, other):
         Terrain.arrived(self, other)

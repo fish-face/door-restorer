@@ -12,7 +12,7 @@ class Player(GameObject):
         self.char = '@'
         self.tiletype = 2
         self.hp = 1
-        self.block_move = True
+        self.solid = True
         self.z = 20
 
         self.track_properties += ('hp',)
@@ -71,7 +71,7 @@ class Player(GameObject):
         if other == self:
             return False
 
-        if self.contained or self.game.get_objects_at(self.location, lambda x: x.block_door):
+        if self.contained or self.game.get_objects_at(self.location, lambda x: x.blocks(other)):
             return False
 
         other.removeself()

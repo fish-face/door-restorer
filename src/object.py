@@ -29,17 +29,17 @@ class GameObject(object):
 
         self.z = 10
         self.char = char
-        self.block_sight = False
-        self.block_move = False
-        self.block_door = False
+        self.block_flags = []
+        self.solid = False
         self.state = 'default'
         self.animation = None
         self.animation_callback = lambda: None
         self.computed_image = None
 
         self.history = []
-        self.track_properties = ('_location', 'direction', 'container', 'contained', 'destroyed', 'flags', 'char', 'block_sight', 'block_move', 'block_door', 'state', 'animation', 'animation_callback', 'move_dir', 'move_turns', 'move_to')
+        self.track_properties = ('_location', 'direction', 'container', 'contained', 'destroyed', 'flags', 'char', 'solid', 'block_flags', 'state', 'animation', 'animation_callback', 'move_dir', 'move_turns', 'move_to')
 
+        self.special = False # Special objects override passability of things below them
         self.mass = 1
         self.move_dir = None
         self.move_turns = 0
@@ -192,13 +192,21 @@ class GameObject(object):
         for cb in self.moved_cbs:
             cb(self)
 
+    def blocks(self, other):
+        """Return true if we block the movement of other onto us, by virtue of
+           the other object's flags"""
+        for flag in self.block_flags:
+            if other.flag(flag): return True
+
+        return False
+
     def bumped(self, other):
         """Something else bumped into us. Return False to let other objects be bumped."""
         return False
 
     def arrived(self, other):
         """Something else arrived on the same square as us. Return False to let other objects be landed on."""
-        if self.block_move:
+        if self.solid:
             other.move_turns = 0
         return False
 
@@ -348,35 +356,33 @@ class Door(GameObject):
 
         self.tileindex = (0,0)
         self.locked = False
-        self.block_door = True
-        self.block_move = True
-        self.block_sight = True
+        self.solid = True
+        self.block_flags = ['door']
         self.state = 'default'
         self.char = '+'
         self.z = 5
 
         self.track_properties += ('locked',)
 
+        self.special = True
         self.flags['door'] = True
 
     @property
     def colour(self):
-        if self.level[self.location][0].block_move:
+        if self.level[self.location][0].solid:
             return (255, 255, 0)
         else:
             return (255, 255, 255)
 
     def close(self, play_sound=True):
-        self.block_move = True
-        self.block_sight = True
+        self.solid = True
         self.state = 'default'
         self.char = '+'
         if play_sound:
             self.game.sound.close()
 
     def open(self):
-        self.block_move = False
-        self.block_sight = False
+        self.solid = False
         self.char = 'o'
         self.state = 'open'
         self.game.sound.open()
@@ -390,14 +396,14 @@ class Door(GameObject):
         self.close(False)
 
     def bumped(self, other):
-        if self.block_move:
+        if self.solid:
             if self.locked:
                 if self.key and self.key in other:
                     self.locked = False
                     return True
                 else:
                     pass
-            elif self.level[self.location][0].block_move:
+            elif self.level[self.location][0].solid:
                 self.open()
                 return True
 
@@ -412,20 +418,23 @@ class Door(GameObject):
 
 
 
+
 class BigDoor(Door):
     def __init__(self, level, location):
         Door.__init__(self, level, location)
         self.name = 'bigdoor'
+        self.block_flags = ['door']
+        self.flags['big'] = True
 
         self.mass = 3
 
     def close(self, play_sound=True):
         Door.close(self, play_sound)
-        self.block_door = True
+        self.block_flags = ['door']
 
     def open(self):
         Door.open(self)
-        self.block_door = False
+        self.block_flags = ['big']
 
     #def destroy(self):
         #self.animate('falling', lambda: GameObject.destroy(self))
