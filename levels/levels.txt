@@ -1,10 +1,10 @@
 Test Levels
 
-1	Level 1	test_level-1.tmx
-2	Level 2	test_level-2.tmx
-3	Level 3	test_level-3.tmx
-4	Level 4	test_level-4.tmx
-5	Level 5	test_level-5.tmx
-6	Level 6	test_level-6.tmx
-7	Level 7	test_level-7.tmx
-8	Level 8	test_level-8.tmx
+Level 1	test_level-1.tmx
+Level 2	test_level-2.tmx
+Level 3	test_level-3.tmx
+Level 4	test_level-4.tmx
+Level 5	test_level-5.tmx
+Level 6	test_level-6.tmx
+Level 7	test_level-7.tmx
+Level 8	test_level-8.tmx

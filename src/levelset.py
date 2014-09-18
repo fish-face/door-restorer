@@ -15,7 +15,6 @@ class LevelSet(object):
 
 
 class LevelDescription(object):
-    def __init__(self, id, name, value):
-        self.id = int(id)
+    def __init__(self, name, value):
         self.name = name
         self.value = value

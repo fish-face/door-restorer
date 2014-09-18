@@ -92,8 +92,7 @@ class Launcher(object):
             name = option.name
             if name == 'Play':
                 self.read_level_info()
-                self.current_world, level_id = self.save.current()
-                self.level = self.worlds[self.current_world].levels[level_id-1]
+                self.current_world, self.level_id = self.save.current()
                 self.play()
             elif name == 'Select Level':
                 self.mode = MODE_SELECT_WORLD
@@ -105,8 +104,8 @@ class Launcher(object):
             self.current_world = option.name
             self.mode = MODE_SELECT_LEVEL
         elif self.mode == MODE_SELECT_LEVEL:
-            if self.save.available(self.current_world, option.id):
-                self.level = option
+            if self.save.available(self.current_world, self.current_menu_item):
+                self.level_id = self.current_menu_item
                 self.play()
             else:
                 return False
@@ -124,19 +123,19 @@ class Launcher(object):
             self.worlds[world.name] = world
 
     def play(self):
-        self.save.set_current(self.current_world, self.level.id)
+        self.save.set_current(self.current_world, self.level_id)
         self.mode = MODE_PLAYING
         if self.current_world == 'Tutorials':
-            if self.level.id == 1:
+            if self.level_id == 0:
                 self.game = TutorialOne()
-            elif self.level.id == 2:
+            elif self.level_id == 1:
                 self.game = TutorialTwo()
             else:
                 self.game = game.Game()
         else:
             self.game = game.Game()
         self.renderer = Renderer()
-        self.game.load_level(self.level.value)
+        self.game.load_level(self.worlds[self.current_world].levels[self.level_id].value)
         self.game.start()
 
     def back(self):
@@ -157,18 +156,15 @@ class Launcher(object):
                 if self.game.stopping:
                     if self.game.won:
                         self.mode = MODE_SELECT_WORLD
-                        self.save.set_completed(self.current_world, self.level.id)
-                        next_level = self.level.id + 1
-                        for level in self.worlds[self.current_world].levels:
-                            if next_level == level.id:
-                                self.level = level
-                                self.play()
-                                break
-                        else:
-                            if self.worlds[self.current_world].next:
-                                self.current_world = self.worlds[self.current_world].next
-                                self.level = self.worlds[self.current_world].levels[0]
-                                self.play()
+                        self.save.set_completed(self.current_world, self.level_id)
+                        next_level = self.level_id + 1
+                        if next_level < len(self.worlds[self.current_world].levels):
+                            self.level_id = next_level
+                            self.play()
+                        elif self.worlds[self.current_world].next:
+                            self.current_world = self.worlds[self.current_world].next
+                            self.level_id = 0
+                            self.play()
 
                         self.draw()
                         continue
@@ -224,8 +220,8 @@ class Launcher(object):
             x += margin + w
             thickness = 4 if i == self.current_menu_item else 1
 
-            completed = self.save.completed(self.current_world, item.id)
-            available = self.save.available(self.current_world, item.id)
+            completed = self.save.completed(self.current_world, i)
+            available = self.save.available(self.current_world, i)
 
             colour = (172, 172, 172) if available else (64, 64, 64)
             if i == self.current_menu_item:
@@ -237,7 +233,7 @@ class Launcher(object):
                              (x, y, w, h))
             self.screen.fill(colour,
                              (x + thickness, y + thickness, w - 2*thickness, h - 2*thickness))
-            id_text = self.menu_font.render(str(item.id), True, (0, 0, 0))
+            id_text = self.menu_font.render(str(i+1), True, (0, 0, 0))
             id_pos = id_text.get_rect()
             id_pos.y = y + margin/2
             id_pos.centerx = x + w/2

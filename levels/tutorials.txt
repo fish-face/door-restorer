@@ -1,6 +1,6 @@
 Tutorials
 Test Levels
-1	Introduction	tutorial-1.tmx
-2	Pit stop	tutorial-2.tmx
-3	Amazing	tutorial-3.tmx
-4	Limited Options	tutorial-4.tmx
+Introduction	tutorial-1.tmx
+Pit stop	tutorial-2.tmx
+Amazing	tutorial-3.tmx
+Limited Options	tutorial-4.tmx

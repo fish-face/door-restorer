@@ -2,7 +2,7 @@ import os
 import sys
 import json
 
-INITIAL = {'completed' : {}, 'current' : {'world' : 'Tutorials', 'level' : 1}}
+INITIAL = {'completed' : {}, 'current' : {'world' : 'Tutorials', 'level' : 0}}
 
 
 class SaveGame(object):
@@ -29,7 +29,7 @@ class SaveGame(object):
         return levelset in self.data['completed'] and id in self.data['completed'][levelset]
 
     def available(self, levelset, id):
-        return self.completed(levelset, id) or id == 1 or self.completed(levelset, id - 1)
+        return self.completed(levelset, id) or id == 0 or self.completed(levelset, id - 1)
 
     def from_data(self, data={}):
         self.load()
