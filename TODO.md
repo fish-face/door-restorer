@@ -44,7 +44,7 @@ Usability
 * Mouse support?
 * Sound for "can't walk here" and "can't pick up here"
 * ~~Rework hints so that there is a key to dismiss them~~
-* Advance to the next world
+* ~~Advance to the next world~~
 
 Appeal
 ---

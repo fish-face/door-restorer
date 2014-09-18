@@ -163,6 +163,12 @@ class Launcher(object):
                             if next_level == level.id:
                                 self.level = level
                                 self.play()
+                                break
+                        else:
+                            if self.worlds[self.current_world].next:
+                                self.current_world = self.worlds[self.current_world].next
+                                self.level = self.worlds[self.current_world].levels[0]
+                                self.play()
 
                         self.draw()
                         continue
