@@ -126,8 +126,8 @@ class Game:
             if obj.flag('door'):
                 if self.level[pickup_loc][0].solid and not self.level[self.player.location][0].pickup:
                     continue
-            if self.player.add(obj):
-                success = True
+                if self.player.add(obj):
+                    success = True
 
         if success:
             self.sound.pickup()
