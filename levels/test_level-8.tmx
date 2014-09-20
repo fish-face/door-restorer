@@ -35,4 +35,12 @@
 0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup name="Hints" width="11" height="11">
+  <object name="Big Doors" x="168" y="120" width="24" height="24">
+   <properties>
+    <property name="message" value="This double-door looks like you should be able to walk through it even while carrying an ordinary door! See if you can find a way to use that to your advantage!"/>
+    <property name="show" value=""/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>
