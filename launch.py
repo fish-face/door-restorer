@@ -352,6 +352,10 @@ class Launcher(object):
                     self.back()
                     self.sound.undo()
                     return True
+                if e.key in game.CHEAT_KEYS and self.mode == MODE_SELECT_LEVEL:
+                    for id in range(len(self.worlds[self.current_world].levels)):
+                        self.save.set_completed(self.current_world, id)
+                    return True
 
 
 class Label(object):
