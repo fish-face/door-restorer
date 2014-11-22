@@ -84,6 +84,7 @@ class Launcher(object):
             self.current_menu_item = 0
             self.select_list = self.menu_options
         elif value == MODE_PLAYING:
+            self.screen.fill((0, 0, 0))
             pygame.key.set_repeat(1, 150)
 
     def select_menu(self):
