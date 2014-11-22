@@ -107,7 +107,8 @@ class Game:
 
     def action(self, direction):
         if self.player.contained:
-            self.throw(direction)
+            if not self.throw(direction):
+                self.sound.cancel()
         elif self.pickup(direction):
             pass
         elif self.close(direction):
@@ -146,6 +147,9 @@ class Game:
         self.player.direction = direction
         success = False
         for obj in self.player.contained:
+            nextloc = self.coords_in_dir(self.player.location, direction, 1)
+            if not self.can_move_to(obj, nextloc):
+                continue
             self.player.remove(obj)
             obj.impulse(3, direction)
             self.schedule_update()
