@@ -2,7 +2,7 @@ import os
 import sys
 import json
 
-INITIAL = {'completed' : {}, 'current' : {'world' : 'Tutorials', 'level' : 0}}
+INITIAL = {'completed' : {}, 'current' : {'world' : 'Tutorials', 'level' : 0}, 'stats' : {}}
 
 
 class SaveGame(object):
@@ -27,6 +27,18 @@ class SaveGame(object):
 
     def completed(self, levelset, id):
         return levelset in self.data['completed'] and id in self.data['completed'][levelset]
+
+    def stats(self, world, id):
+        try:
+            return self.data['stats'][world][str(id)]
+        except KeyError:
+            return None
+
+    def set_stats(self, world, id, turns):
+        self.load()
+        turns = min(self.data['stats'].get(world, {}).get(str(id), {}).get('turns', turns), turns)
+        self.update({'stats' : {world : {str(id) : {'turns': turns}}}})
+        self.save()
 
     def available(self, levelset, id):
         return self.completed(levelset, id) or id == 0 or self.completed(levelset, id - 1)

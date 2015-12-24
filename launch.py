@@ -34,7 +34,7 @@ MODE_PLAYING = 4
 INTRO_DELAY = 25
 INTRO_FRAMES = 100
 
-GRID_COLS = 6
+GRID_COLS = 5
 
 MENU_OFFSET = 50
 MENU_ITEM_H = 61
@@ -158,6 +158,7 @@ class Launcher(object):
                     if self.game.won:
                         self.mode = MODE_SELECT_WORLD
                         self.save.set_completed(self.current_world, self.level_id)
+                        self.save.set_stats(self.current_world, self.level_id, self.game.turn)
                         next_level = self.level_id + 1
                         if next_level < len(self.worlds[self.current_world].levels):
                             self.level_id = next_level
@@ -223,6 +224,7 @@ class Launcher(object):
 
             completed = self.save.completed(self.current_world, i)
             available = self.save.available(self.current_world, i)
+            stats = self.save.stats(self.current_world, i)
 
             colour = (172, 172, 172) if available else (64, 64, 64)
             if i == self.current_menu_item:
@@ -242,6 +244,13 @@ class Launcher(object):
             name_pos = name_text.get_rect()
             name_pos.bottom = y + h - margin/2
             name_pos.centerx = x + w/2
+            if stats:
+                turns_text = self.small_font.render('Turns: %d' % stats['turns'], False, (64, 64, 64))
+                turns_pos = turns_text.get_rect()
+                turns_pos.bottom = id_pos.bottom + margin/2
+                turns_pos.centerx = x + w/2
+                self.screen.blit(turns_text, turns_pos)
+
             self.screen.blit(id_text, id_pos)
             self.screen.blit(name_text, name_pos)
 
