@@ -136,6 +136,7 @@ class Launcher(object):
         else:
             self.game = game.Game()
         self.renderer = Renderer()
+        self.game.loc_from_screen_coords = self.renderer.loc_from_screen_coords
         self.game.load_level(self.worlds[self.current_world].levels[self.level_id].value)
         self.game.start()
 

@@ -93,6 +93,10 @@ class Renderer:
                 pass
 
 
+    def loc_from_screen_coords(self, x, y):
+        return (x + self.view.left - self.tw/2.0 - MARGIN)/self.tw, (y + self.view.top - self.th/2.0 - MARGIN)/self.th
+
+
     anim_end_fac = 1.3*math.pi/2
     def render_overlays(self, game):
         t = game.msg_anim_pos()

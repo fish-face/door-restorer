@@ -22,16 +22,20 @@ UP_KEYS = (pygame.K_UP, pygame.K_w, pygame.K_k)
 DOWN_KEYS = (pygame.K_DOWN, pygame.K_s, pygame.K_j)
 LEFT_KEYS = (pygame.K_LEFT, pygame.K_a, pygame.K_h)
 RIGHT_KEYS = (pygame.K_RIGHT, pygame.K_d, pygame.K_l)
+MOVE_BUTTON = 0
 
 DIR_MAP = dict((k, d) for keys, d in ((UP_KEYS, UP), (DOWN_KEYS, DOWN), (LEFT_KEYS, LEFT), (RIGHT_KEYS, RIGHT)) for k in keys)
+I_DIR_MAP = {UP: UP_KEYS[0], DOWN: DOWN_KEYS[0], LEFT: LEFT_KEYS[0], RIGHT: RIGHT_KEYS[0]}
 
 ACTION_KEYS = (pygame.K_SPACE, pygame.K_e, pygame.K_RETURN, pygame.K_x)
+ACTION_BUTTON = 2
 RESTART_KEYS = (pygame.K_r,)
 UNDO_KEYS = (pygame.K_u, pygame.K_z)
 CHEAT_KEYS = (pygame.K_c,)
 QUIT_KEYS = (pygame.K_q,)
 
 HOLDABLE_KEYS = UP_KEYS + DOWN_KEYS + LEFT_KEYS + RIGHT_KEYS + UNDO_KEYS
+HOLDABLE_BUTTONS = (MOVE_BUTTON,)
 
 
 class Game:
@@ -225,8 +229,11 @@ class Game:
             return False
 
         held_keys = [key for key in HOLDABLE_KEYS if pygame.key.get_pressed()[key]]
+        held_buttons = [button for button in HOLDABLE_BUTTONS if pygame.mouse.get_pressed()[button]]
         if held_keys:
             took_turn = self.keyheld(held_keys)
+        elif held_buttons:
+            took_turn = self.mouseheld(held_buttons)
         if not took_turn:
             for e in pygame.event.get():
                 if e.type == pygame.KEYDOWN:
@@ -271,6 +278,16 @@ class Game:
 
         return took_turn
 
+    def mouseheld(self, buttons):
+        if len(buttons) == 1 and MOVE_BUTTON in buttons:
+            # To move with the mouse, just pretend a key is being held
+            dir = self.get_mouse_direction()
+            if dir is not None:
+                key = I_DIR_MAP[dir]
+                return self.keyheld((key,))
+
+        return False
+
     def keypressed(self, e):
         took_turn = False
         if self.state == STATE_PICK:
@@ -301,6 +318,21 @@ class Game:
 
         return took_turn
 
+    def clicked(self, e):
+        button = e.button - 1
+        if self.state == STATE_PICK:
+            # Pick state can be entered only with the keyboard; use movement key to pick direction
+            dir = self.get_mouse_direction()
+            if button == MOVE_BUTTON and dir:
+                return self.pick_direction_done(dir)
+            else:
+                self.sound.cancel()
+                self.state = STATE_NORMAL
+        elif self.state == STATE_NORMAL:
+            if button == ACTION_BUTTON:
+                return self.action(self.get_mouse_direction())
+        return False
+
     def pick_direction(self, handler):
         """Enter targeting mode"""
         self.state = STATE_PICK
@@ -311,11 +343,23 @@ class Game:
         self.state = STATE_NORMAL
         return self.pick_handler(direction)
 
-    def clicked(self, e):
-        if e.button == 1:
-            pass
+    def get_mouse_direction(self):
+        if not self.player.location:
+            return None
 
-        return False
+        mouse_x, mouse_y = self.loc_from_screen_coords(*(pygame.mouse.get_pos()))
+        x, y = self.player.location
+        dx, dy = mouse_x - x, mouse_y - y
+        if abs(dx) <= 0.5 and abs(dy) <= 0.5:
+            return None
+        elif dy < 0 and -dy > abs(dx):
+            return UP
+        elif dy > 0 and dy > abs(dx):
+            return DOWN
+        elif dx < 0 and -dx >= abs(dy):
+            return LEFT
+        elif dx > 0 and dx >= abs(dy):
+            return RIGHT
 
     def block(self):
         self.state = STATE_LOCKED
