@@ -34,10 +34,11 @@ class SaveGame(object):
         except KeyError:
             return None
 
-    def set_stats(self, world, id, turns):
+    def set_stats(self, world, id, turns, uses):
         self.load()
         turns = min(self.data['stats'].get(world, {}).get(str(id), {}).get('turns', turns), turns)
-        self.update({'stats' : {world : {str(id) : {'turns': turns}}}})
+        doors = min(self.data['stats'].get(world, {}).get(str(id), {}).get('uses', uses), uses)
+        self.update({'stats' : {world : {str(id) : {'turns': turns, 'uses': uses}}}})
         self.save()
 
     def available(self, levelset, id):

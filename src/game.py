@@ -106,6 +106,9 @@ class Game:
             loc[1] += dist
         return tuple(loc)
 
+    def used_doors(self):
+        return sum([obj.used for obj in self.level.objects if obj.flag('door')])
+
     def failed_move(self, location):
         pass
 

@@ -356,13 +356,14 @@ class Door(GameObject):
 
         self.tileindex = (0,0)
         self.locked = False
+        self.used = 0
         self.solid = True
         self.block_flags = ['door']
         self.state = 'default'
         self.char = '+'
         self.z = 5
 
-        self.track_properties += ('locked',)
+        self.track_properties += ('locked', 'used')
 
         self.special = True
         self.flags['door'] = True
@@ -385,6 +386,8 @@ class Door(GameObject):
         self.solid = False
         self.char = 'o'
         self.state = 'open'
+        if not self.used:
+            self.used = True
         self.game.sound.open()
 
     def on_added(self):
@@ -411,6 +414,8 @@ class Door(GameObject):
 
     def arrived(self, other):
         # Don't allow lower objects to be arrived upon
+        if other.flag('door') or other.flag('player'):
+            self.used += 1
         return True
 
     def destroy(self):

@@ -36,6 +36,7 @@ class Renderer:
         main_surface.blit(self.level_surf, (0, 0))
         main_surface.blit(self.title_font.render(str(game.turn), True, (255,255,255)),
                           (1, 1))
+        main_surface.blit(self.title_font.render(str(game.used_doors()), True, (255,255,255)), (1, 32))
 
     def render_level(self, game):
         # Calculate viewport

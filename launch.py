@@ -159,7 +159,7 @@ class Launcher(object):
                     if self.game.won:
                         self.mode = MODE_SELECT_WORLD
                         self.save.set_completed(self.current_world, self.level_id)
-                        self.save.set_stats(self.current_world, self.level_id, self.game.turn)
+                        self.save.set_stats(self.current_world, self.level_id, self.game.turn, self.game.used_doors())
                         next_level = self.level_id + 1
                         if next_level < len(self.worlds[self.current_world].levels):
                             self.level_id = next_level
@@ -250,7 +250,12 @@ class Launcher(object):
                 turns_pos = turns_text.get_rect()
                 turns_pos.bottom = id_pos.bottom + margin/2
                 turns_pos.centerx = x + w/2
+                doors_text = self.small_font.render('Door uses: %d' % stats.get('uses', 0), False, (64, 64, 64))
+                doors_pos = doors_text.get_rect()
+                doors_pos.top = turns_pos.bottom
+                doors_pos.centerx = x + w/2
                 self.screen.blit(turns_text, turns_pos)
+                self.screen.blit(doors_text, doors_pos)
 
             self.screen.blit(id_text, id_pos)
             self.screen.blit(name_text, name_pos)
