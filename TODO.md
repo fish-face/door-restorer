@@ -13,7 +13,7 @@ Features
 * More characters, switching?
 * ~~Hints for tutorial levels/~~ introducing new features
 * Track stats
-	* Turns taken
+	* ~~Turns taken~~
 	* Time taken
 	* Doors used?
 
@@ -42,6 +42,9 @@ Usability
 
 * Help
 * Mouse support?
+	* ~~In game~~
+	* In menus
+	* Reticle thing?
 * Sound for "can't walk here" and "can't pick up here"
 * ~~Rework hints so that there is a key to dismiss them~~
 * ~~Advance to the next world~~
@@ -51,6 +54,8 @@ Appeal
 
 * Menu graphics
 	* Much better but need more detail in floor and wall
+	* Pictures on levels somehow
+	* Medals for completed levels
 * Win screen
 * ~~Auto-tiling walls and pits~~
 * ~~More varied/better tiles~~
