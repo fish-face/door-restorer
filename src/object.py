@@ -386,13 +386,12 @@ class Door(GameObject):
         self.solid = False
         self.char = 'o'
         self.state = 'open'
-        if not self.used:
-            self.used = True
         self.game.sound.open()
 
     def on_added(self):
         GameObject.on_added(self)
         if self.container.flag('player'):
+            self.used += 1
             # Place the player at his location to trigger terrain effects
             self.container.location = self.container.location
 
@@ -414,8 +413,6 @@ class Door(GameObject):
 
     def arrived(self, other):
         # Don't allow lower objects to be arrived upon
-        if other.flag('door') or other.flag('player'):
-            self.used += 1
         return True
 
     def destroy(self):
@@ -431,7 +428,7 @@ class BigDoor(Door):
         self.block_flags = ['door']
         self.flags['big'] = True
 
-        self.mass = 3
+        self.mass = 1.5
 
     def close(self, play_sound=True):
         Door.close(self, play_sound)
