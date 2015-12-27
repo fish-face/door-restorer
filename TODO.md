@@ -15,7 +15,8 @@ Features
 * Track stats
 	* ~~Turns taken~~
 	* Time taken
-	* Doors used?
+	* ~~Doors used?~~
+		* Tracks how many times objects have passed through doors.
 
 Misc
 ---
