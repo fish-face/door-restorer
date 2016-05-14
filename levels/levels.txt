@@ -11,3 +11,4 @@ Level 8	test_level-8.tmx
 Level 9	test_level-9.tmx
 Level 10	test_level-10.tmx
 Level 11	test_level-11.tmx
+Level 12	test_level-12.tmx

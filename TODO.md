@@ -57,7 +57,8 @@ Appeal
 	* Much better but need more detail in floor and wall
 	* Pictures on levels somehow
 	* Medals for completed levels
-* Win screen
+* ~~Win screen~~
+	* Could be improved: sound, animating the text
 * ~~Auto-tiling walls and pits~~
 * ~~More varied/better tiles~~
 	* Detailing in the form of alcoves, patterns, cracks done but need multiple tilesets

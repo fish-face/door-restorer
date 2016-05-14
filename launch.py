@@ -21,6 +21,7 @@ from tutorial import TutorialOne, TutorialTwo
 from save import SaveGame
 from sound import SoundPlayer
 from levelset import LevelSet, LevelDescription
+from animation import Animation
 
 PROFILE = False
 WINDOW_W, WINDOW_H = 600, 600
@@ -30,6 +31,7 @@ MODE_MAIN_MENU = 1
 MODE_SELECT_WORLD = 2
 MODE_SELECT_LEVEL = 3
 MODE_PLAYING = 4
+MODE_WON = 5
 
 INTRO_DELAY = 25
 INTRO_FRAMES = 100
@@ -53,6 +55,11 @@ class Launcher(object):
         self.intro_graphic = pygame.image.load('graphics/background_intro.png').convert()
         self.background = pygame.image.load('graphics/background.png').convert()
         self.background_menu = pygame.image.load('graphics/background_menu.png').convert()
+        #self.overlay_won = pygame.image.load('graphics/overlay_background.png').convert()
+        self.overlay_won = pygame.Surface(screen.get_size())
+        self.overlay_won.fill((0, 0, 0))
+        self.overlay_won.set_alpha(128)
+        self.won_animation = Animation('graphics/victory.json')
         self.quitting = False
         self.clock = pygame.time.Clock()
         self.menu_options = (Label('Play'),
@@ -157,19 +164,8 @@ class Launcher(object):
 
                 if self.game.stopping:
                     if self.game.won:
-                        self.mode = MODE_SELECT_WORLD
-                        self.save.set_completed(self.current_world, self.level_id)
-                        self.save.set_stats(self.current_world, self.level_id, self.game.turn, self.game.used_doors())
-                        next_level = self.level_id + 1
-                        if next_level < len(self.worlds[self.current_world].levels):
-                            self.level_id = next_level
-                            self.play()
-                        elif self.worlds[self.current_world].next:
-                            self.current_world = self.worlds[self.current_world].next
-                            self.level_id = 0
-                            self.play()
-
-                        self.draw()
+                        self.mode = MODE_WON
+                        self.won_animation.start()
                         continue
 
                     self.mode = MODE_MAIN_MENU
@@ -203,7 +199,29 @@ class Launcher(object):
             self.draw_level_list()
         elif self.mode == MODE_PLAYING:
             self.renderer.render(self.game, self.screen)
+        elif self.mode == MODE_WON:
+            self.renderer.render(self.game, self.screen)
+            self.draw_won_overlay()
         pygame.display.flip()
+
+    def draw_won_overlay(self):
+        self.screen.blit(self.overlay_won, (0, 0))
+        frame = self.won_animation.get_frame()
+        if not frame:
+            frame = self.won_animation.images[-1]
+
+        w, h = frame.get_rect().size
+        x = WINDOW_W / 2 - w / 2
+        y = WINDOW_H / 2 - h / 2
+        self.screen.blit(frame, (x, y))
+
+        margin = 12
+        text = self.menu_font.render('Level complete! Yay!', True, (255, 255, 255))
+        text_pos = text.get_rect()
+        text_pos.x = WINDOW_W / 2 - text_pos.width / 2
+        text_pos.y = y - text_pos.height - margin
+        self.screen.blit(text, text_pos)
+
 
     def draw_main_menu(self):
         self.screen.blit(self.background_menu, (0, 0))
@@ -316,6 +334,24 @@ class Launcher(object):
             for e in pygame.event.get():
                 if e.type == pygame.KEYDOWN:
                     self.intro_frame = INTRO_FRAMES
+
+            return True
+
+        if self.mode == MODE_WON:
+            for e in pygame.event.get():
+                if e.type == pygame.KEYDOWN:
+                    self.mode = MODE_SELECT_WORLD
+                    self.save.set_completed(self.current_world, self.level_id)
+                    self.save.set_stats(self.current_world, self.level_id, self.game.turn, self.game.used_doors())
+                    next_level = self.level_id + 1
+                    if next_level < len(self.worlds[self.current_world].levels):
+                        self.level_id = next_level
+                        self.play()
+                    elif self.worlds[self.current_world].next:
+                        self.current_world = self.worlds[self.current_world].next
+                        self.level_id = 0
+                        self.play()
+                    break
 
             return True
 
