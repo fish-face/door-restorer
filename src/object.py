@@ -427,6 +427,7 @@ class BigDoor(Door):
         self.name = 'bigdoor'
         self.block_flags = ['door']
         self.flags['big'] = True
+        self.z = 4
 
         self.mass = 1.5
 
