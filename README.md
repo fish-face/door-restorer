@@ -18,7 +18,7 @@ Gameplay
 ---
 Reach the stairs down by cunningly placing doors to move through the level. Be careful, because in some locations devices prevent you from retrieving doors you've placed. You can throw doors up to three tiles away, and sometimes you'll need to throw doors over pits in order to proceed. If you get stuck, you can always undo or restart.
 
-Keys
+Controls
 ---
 
 **Movement**: Arrow keys/WASD/HJKL.
@@ -26,9 +26,11 @@ Walking into a door on a wall will open the door, but if the door is not on a wa
 
 **Interact**: Space/Return/E, followed by direction.
 When you are holding a door, this throws the door.
-When used on an open door, this closes the door.
-When used on a closed door, this picks up the door.
+When used on a door, this tries to pick up the door.
 
 **Undo**: U. Useful if you fall into a pit, or get stuck.
 
 **Reset**: R.
+
+**Mouse**: *Left Click* to move in the direction of the mouse pointer, *Right click* to pick up/throw a door in the direction of the mouse pointer.
+
