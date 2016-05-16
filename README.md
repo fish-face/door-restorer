@@ -5,8 +5,14 @@ A puzzle game where you pick up doors to make paths through walls. Try and reach
 
 Requirements
 ---
-This game requires [python2](http://www.python.org) and [pygame](http://www.pygame.org) to run.
-On windows this may be annoying, in which case you may want to try out the [pre-built binary](http://fishface.org.uk/static/stuff/dora.zip) which should work without python or pygame, but will generally not be up to date.
+
+### Linux
+
+The game requires [python2](http://www.python.org) and [pygame](http://www.pygame.org) to run - you probably already have python, and pygame should be available through your package manager.
+
+### Windows
+
+On Windows this may be annoying - the game works with python and pygame installed, but if you don't want to install that stuff, you may want to try out the [pre-built binary](http://fishface.org.uk/uploads/stuff/Dora.zip) which should work without python or pygame, but may not be up-to-date.
 
 Gameplay
 ---
